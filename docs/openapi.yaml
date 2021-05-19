@@ -132,7 +132,11 @@ components:
           format: date-time
         parameters:          
           type: object          
-          additionalProperties: true
+          oneOf:
+            - $ref: '#/components/schemas/SlackParams'
+            - $ref: '#/components/schemas/GithubIntegratedParams'
+            - $ref: '#/components/schemas/PipelineParams'
+            - $ref: '#/components/schemas/PagerDutyParams'
         status:
           type: object
           properties:
@@ -171,4 +175,62 @@ components:
           type: string
         type:
           type: string
-    
+    SlackParams:
+      type: object
+      properties:
+        api_token:
+          type: string
+        channel_name:
+          type: string
+        team_url:
+          type: string
+    GithubIntegratedParams:
+      type: object
+      properties:
+        label:
+          type: string
+        type:
+          type: string
+        repo_name: 
+          type: string
+        repo_url:
+          type: string
+        private_repo:
+          type: boolean
+        has_issues:
+          type: boolean
+    PipelineParams:
+      type: object
+      properties:
+        label:
+          type: string
+        type:
+          type: string
+        services:
+          type: string
+        name:
+          type: string        
+        configuration:
+          type: string
+        ui_pipeline:
+          x-alternate-name: "ui-pipeline-flag"
+          type: boolean
+    PagerDutyParams:
+      type: object
+      properties:        
+        key_type:
+          type: string
+        api_key:
+          type: string
+        service_name:
+          type: string
+        user_email:
+          type: string
+        user_phone:
+          type: string
+        service_url:
+          type: string
+        service_key:
+          type: string
+      
+      
