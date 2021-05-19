@@ -1,0 +1,219 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Open Toolchain
+servers:
+  - url: 'https://cloud.ibm.com'
+paths:
+  /devops/toolchains:
+    get:
+      security:
+        - iamToken: []
+      summary: 'Returns details about a particular toolchain'
+      operationId: getToolchain
+      tags:
+        - toolchain
+      parameters:
+        - name: guid
+          in: path
+          description: GUID of the toolchain
+          required: true
+          schema:
+            type: string
+        - name: env_id
+          in: query
+          description: Environment ID
+          required: true
+          schema:
+            type: string
+          example: "ibm:yp:us-south"            
+      responses:
+        '200':
+          description: 'Details about a toolchain'          
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Toolchain'
+        default:
+          description: 'Unknown error'
+          content:
+            application/json:
+              schema:
+                type: string          
+components:
+  securitySchemes:
+    iamToken:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: A Cloud IAM access token is required to access the OpenToolchain APIs.
+        The token should be provided in the following format "Bearer [token]",
+        for example "Bearer
+        eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkdW1teSJ9.J2qaJ4pTWnidXQ3XbMmpAllL2ZiCCNkSoh0k1d7_ct1"
+  schemas:
+    Toolchain:
+      type: object
+      required:
+        - toolchain_guid
+        - name
+      properties:
+        toolchain_guid:
+          type: string          
+        name:
+          type: string        
+        description:
+          type: string
+        key:
+          type: string
+        container:
+          $ref: '#/components/schemas/Container'
+        crn:
+          type: string
+        created:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        creator:
+          type: string
+        generator:
+          type: string
+        template:
+          type: object
+          properties:
+            getting_started:
+              type: string
+            services_total:
+              type: integer
+            name:
+              type: string
+            type:
+              type: string
+            url:
+              type: string
+            source:
+              type: string
+            locale:
+              type: string
+        tags:
+          type: array
+          items:
+            type: string
+        lifecycle_messaging_webhook_id:
+          type: string
+        region_id:
+          type: string
+        services:
+          type: array
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/SlackService'
+              - $ref: '#/components/schemas/GithubService'
+    SlackService:
+      type: object
+      required:
+        - "service_id"
+      properties:
+        broker_id:
+          type: string
+        service_id:
+          type: string
+        container:
+          $ref: '#/components/schemas/Container'
+        updated_at:
+          type: string
+          format: date-time
+        parameters:
+          type: object
+          properties:
+            api_token:
+              type: string
+            channel_name: 
+              type: string
+            team_url:
+              type: string
+        status:
+          type: object
+          properties:
+            state:
+              type: string
+        region_id:
+          type: string
+        instance_id:
+          type: string
+        description:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        url:
+          type: string
+        toolchain_binding:
+          type: object
+          properties:
+            status:
+              type: object
+              properties:
+                state:
+                  type: string
+            name:
+              type: string          
+    GithubService:
+      type: object
+      required:
+        - "service_id"
+      properties:
+        broker_id:
+          type: string
+        service_id:
+          type: string
+        container:
+          $ref: "#/components/schemas/Container"
+        updated_at:
+          type: string
+          format: date-time
+        parameters:
+          type: object
+          properties:
+            label:
+              type: string
+            type:
+              type: string
+            repo_name:
+              type: string
+            repo_url:
+              type: string
+            private_repo:
+              type: boolean
+            has_issues:
+              type: boolean
+            enable_traceability:
+              type: boolean
+            legal:
+              type: boolean
+            legal_label:
+              type: string
+            namespace_table:
+              type: string
+            owner_id:
+              type: string
+            source_repo_url:
+              type: string
+            integration_owner:
+              type: string
+            git_id:
+              type: string
+            api_root_url:
+              type: string
+            token_url:
+              type: string
+    Container:
+      type: object
+      properties:
+        guid:
+          type: string
+        type:
+          type: string
+    
