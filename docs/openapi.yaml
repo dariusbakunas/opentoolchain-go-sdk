@@ -2,10 +2,18 @@ openapi: 3.0.0
 info:
   version: 1.0.0
   title: Open Toolchain
+  x-codegen-config:
+    python:
+      apiPackage: ibm_opentoolchain
+    go:
+      improvedNameFormattingV2: true
+      apiPackage: github.ibm.com/dbakuna/opentoolchain-go-sdk
+  x-acronyms:
+    - guid    
 servers:
   - url: 'https://cloud.ibm.com'
 paths:
-  /devops/toolchains:
+  /devops/toolchains/{guid}:
     get:
       security:
         - iamToken: []
@@ -106,11 +114,9 @@ components:
           type: string
         services:
           type: array
-          items:
-            oneOf:
-              - $ref: '#/components/schemas/SlackService'
-              - $ref: '#/components/schemas/GithubService'
-    SlackService:
+          items:            
+            $ref: '#/components/schemas/Service'             
+    Service:
       type: object
       required:
         - "service_id"
@@ -124,20 +130,16 @@ components:
         updated_at:
           type: string
           format: date-time
-        parameters:
-          type: object
-          properties:
-            api_token:
-              type: string
-            channel_name: 
-              type: string
-            team_url:
-              type: string
+        parameters:          
+          type: object          
+          additionalProperties: true
         status:
           type: object
           properties:
             state:
               type: string
+        dashboard_url:
+          type: string
         region_id:
           type: string
         instance_id:
@@ -159,56 +161,9 @@ components:
                 state:
                   type: string
             name:
+              type: string    
+            webhook_id:
               type: string          
-    GithubService:
-      type: object
-      required:
-        - "service_id"
-      properties:
-        broker_id:
-          type: string
-        service_id:
-          type: string
-        container:
-          $ref: "#/components/schemas/Container"
-        updated_at:
-          type: string
-          format: date-time
-        parameters:
-          type: object
-          properties:
-            label:
-              type: string
-            type:
-              type: string
-            repo_name:
-              type: string
-            repo_url:
-              type: string
-            private_repo:
-              type: boolean
-            has_issues:
-              type: boolean
-            enable_traceability:
-              type: boolean
-            legal:
-              type: boolean
-            legal_label:
-              type: string
-            namespace_table:
-              type: string
-            owner_id:
-              type: string
-            source_repo_url:
-              type: string
-            integration_owner:
-              type: string
-            git_id:
-              type: string
-            api_root_url:
-              type: string
-            token_url:
-              type: string
     Container:
       type: object
       properties:
