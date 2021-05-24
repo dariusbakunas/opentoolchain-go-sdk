@@ -20,17 +20,19 @@ Changes might occur which impact applications that use this SDK.
 
 <!-- toc -->
 
-- [Overview](#overview)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-  * [Go modules](#go-modules)
-  * [`go get` command](#go-get-command)
-- [Using the SDK](#using-the-sdk)
-- [Questions](#questions)
-- [Issues](#issues)
-- [Open source @ IBM](#open-source--ibm)
-- [Contributing](#contributing)
-- [License](#license)
+- [IBM Cloud Open Toolchain Go SDK 0.0.1](#ibm-cloud-open-toolchain-go-sdk-001)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+    - [Go modules](#go-modules)
+    - [`go get` command](#go-get-command)
+  - [Using the SDK](#using-the-sdk)
+  - [Questions](#questions)
+  - [Issues](#issues)
+  - [Open source @ IBM](#open-source--ibm)
+  - [Contributing](#contributing)
+  - [License](#license)
 
 <!-- tocstop -->
 
@@ -60,7 +62,7 @@ Here is an example:
 
 ```go
 import (
-	"github.ibm.com/dbakuna/opentoolchain-go-sdk/exampleservicev1"
+	"github.com/dariusbakunas/opentoolchain-go-sdk/opentoolchainv1"
 )
 ```
 Next, run `go build` or `go mod tidy` to download and install the new dependencies and update your application's
@@ -73,7 +75,7 @@ See the service table above to find the approprate package name for the services
 ### `go get` command  
 Alternatively, you can use the `go get` command to download and install the appropriate packages needed by your application:
 ```
-go get -u github.ibm.com/dbakuna/opentoolchain-go-sdk/exampleservicev1
+go get -u github.com/dariusbakunas/opentoolchain-go-sdk/opentoolchainv1
 ```
 Be sure to use the appropriate package name from the service table above for the services used by your application.
 
@@ -88,7 +90,7 @@ please ask a question at
 
 ## Issues
 If you encounter an issue with the project, you are welcome to submit a
-[bug report](github.ibm.com/dbakuna/opentoolchain-go-sdk/issues).
+[bug report](github.com/dariusbakunas/opentoolchain-go-sdk/issues).
 Before that, please search for similar issues. It's possible that someone has already reported the problem.
 
 ## Open source @ IBM
