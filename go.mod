@@ -1,4 +1,4 @@
-module github.ibm.com/dbakuna/opentoolchain-go-sdk
+module github.com/dariusbakunas/opentoolchain-go-sdk
 
 go 1.15
 

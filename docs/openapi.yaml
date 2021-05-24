@@ -7,7 +7,7 @@ info:
       apiPackage: ibm_opentoolchain
     go:
       improvedNameFormattingV2: true
-      apiPackage: github.ibm.com/dbakuna/opentoolchain-go-sdk
+      apiPackage: github.com/dariusbakunas/opentoolchain-go-sdk
   x-acronyms:
     - guid    
 servers:

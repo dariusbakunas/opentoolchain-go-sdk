@@ -23,9 +23,9 @@ import (
 	"os"
 
 	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/dariusbakunas/opentoolchain-go-sdk/opentoolchainv1"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.ibm.com/dbakuna/opentoolchain-go-sdk/opentoolchainv1"
 )
 
 /**
