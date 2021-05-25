@@ -41,10 +41,10 @@ var _ = Describe(`OpenToolchainV1 Integration Tests`, func() {
 	const externalConfigFile = "../open_toolchain_v1.env"
 
 	var (
-		err          error
+		err                  error
 		openToolchainService *opentoolchainv1.OpenToolchainV1
-		serviceURL   string
-		config       map[string]string
+		serviceURL           string
+		config               map[string]string
 	)
 
 	var shouldSkipTest = func() {
@@ -96,7 +96,7 @@ var _ = Describe(`OpenToolchainV1 Integration Tests`, func() {
 		It(`GetToolchain(getToolchainOptions *GetToolchainOptions)`, func() {
 
 			getToolchainOptions := &opentoolchainv1.GetToolchainOptions{
-				GUID: core.StringPtr("testString"),
+				GUID:  core.StringPtr("testString"),
 				EnvID: core.StringPtr("ibm:yp:us-south"),
 			}
 

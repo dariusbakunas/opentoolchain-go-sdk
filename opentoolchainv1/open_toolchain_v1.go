@@ -161,6 +161,133 @@ func (openToolchain *OpenToolchainV1) DisableRetries() {
 	openToolchain.Service.DisableRetries()
 }
 
+// DeleteToolchain : The DeleteToolchain operation.
+// Delete existing toolchain.
+func (openToolchain *OpenToolchainV1) DeleteToolchain(deleteToolchainOptions *DeleteToolchainOptions) (response *core.DetailedResponse, err error) {
+	return openToolchain.DeleteToolchainWithContext(context.Background(), deleteToolchainOptions)
+}
+
+// DeleteToolchainWithContext is an alternate form of the DeleteToolchain method which supports a Context parameter
+func (openToolchain *OpenToolchainV1) DeleteToolchainWithContext(ctx context.Context, deleteToolchainOptions *DeleteToolchainOptions) (response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(deleteToolchainOptions, "deleteToolchainOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(deleteToolchainOptions, "deleteToolchainOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"guid": *deleteToolchainOptions.GUID,
+	}
+
+	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = openToolchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/devops/toolchains/{guid}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range deleteToolchainOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("open_toolchain", "V1", "DeleteToolchain")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	builder.AddQuery("env_id", fmt.Sprint(*deleteToolchainOptions.EnvID))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	response, err = openToolchain.Service.Request(request, nil)
+
+	return
+}
+
+// CreateToolchain : Headless Toolchain Creation/Update using POST
+// This info is from the document:-
+//   https://github.com/open-toolchain/sdk/wiki/Toolchain-Creation-page-parameters.
+func (openToolchain *OpenToolchainV1) CreateToolchain(createToolchainOptions *CreateToolchainOptions) (response *core.DetailedResponse, err error) {
+	return openToolchain.CreateToolchainWithContext(context.Background(), createToolchainOptions)
+}
+
+// CreateToolchainWithContext is an alternate form of the CreateToolchain method which supports a Context parameter
+func (openToolchain *OpenToolchainV1) CreateToolchainWithContext(ctx context.Context, createToolchainOptions *CreateToolchainOptions) (response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(createToolchainOptions, "createToolchainOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(createToolchainOptions, "createToolchainOptions")
+	if err != nil {
+		return
+	}
+
+	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = openToolchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/devops/setup/deploy`, nil)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range createToolchainOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("open_toolchain", "V1", "CreateToolchain")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	builder.AddHeader("Content-Type", "application/x-www-form-urlencoded")
+
+	builder.AddQuery("env_id", fmt.Sprint(*createToolchainOptions.EnvID))
+
+	builder.AddFormData("repository", "", "", fmt.Sprint(*createToolchainOptions.Repository))
+	if createToolchainOptions.Autocreate != nil {
+		builder.AddFormData("autocreate", "", "", fmt.Sprint(*createToolchainOptions.Autocreate))
+	}
+	if createToolchainOptions.ResourceGroupID != nil {
+		builder.AddFormData("resourceGroupId", "", "", fmt.Sprint(*createToolchainOptions.ResourceGroupID))
+	}
+	if createToolchainOptions.RepositoryToken != nil {
+		builder.AddFormData("repository_token", "", "", fmt.Sprint(*createToolchainOptions.RepositoryToken))
+	}
+	if createToolchainOptions.Branch != nil {
+		builder.AddFormData("branch", "", "", fmt.Sprint(*createToolchainOptions.Branch))
+	}
+
+	additionalProps := createToolchainOptions.GetProperties()
+
+	if len(additionalProps) > 0 {
+		for k, v := range additionalProps {
+			builder.AddFormData(k, "", "", v)
+		}
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	// buf, dumpErr := httputil.DumpRequestOut(request, request.Body != nil)
+
+	// if dumpErr == nil {
+	// 	log.Printf("[DEBUG] request: %s", string(buf))
+	// }
+
+	response, err = openToolchain.Service.Request(request, nil)
+
+	return
+}
+
 // GetToolchain : Returns details about a particular toolchain
 func (openToolchain *OpenToolchainV1) GetToolchain(getToolchainOptions *GetToolchainOptions) (result *Toolchain, response *core.DetailedResponse, err error) {
 	return openToolchain.GetToolchainWithContext(context.Background(), getToolchainOptions)
@@ -244,6 +371,136 @@ func UnmarshalContainer(m map[string]json.RawMessage, result interface{}) (err e
 	return
 }
 
+// CreateToolchainOptions : The CreateToolchain options.
+type CreateToolchainOptions struct {
+	// Environment ID.
+	EnvID *string `validate:"required"`
+
+	// The URL of the Git repository containing the template.
+	// (For example:- https://github.com/open-toolchain/simple-toolchain).
+	Repository *string `validate:"required"`
+
+	// If this param is not provided, then the creation will be ignored  and it will just load the toolchain creation page.
+	Autocreate *bool
+
+	// The GUID of resource group where toolchain will be created.  Pass this parameter, if you want to create the
+	// toolchain inside the resource group instead of an org.
+	ResourceGroupID *string
+
+	// Optional git api token to access template repository.
+	RepositoryToken *string
+
+	// The Git branch name that the template will be read from.  Optional. Defaults to `master`.
+	Branch *string
+
+	// Allows users to set arbitrary properties
+	additionalProperties map[string]interface{}
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// SetProperty allows the user to set an arbitrary property on an instance of CreateToolchainParams
+func (o *CreateToolchainOptions) SetProperty(key string, value interface{}) {
+	if o.additionalProperties == nil {
+		o.additionalProperties = make(map[string]interface{})
+	}
+	o.additionalProperties[key] = value
+}
+
+// GetProperties allows the user to retrieve the map of arbitrary properties from an instance of CreateToolchainParams
+func (o *CreateToolchainOptions) GetProperties() map[string]interface{} {
+	return o.additionalProperties
+}
+
+// NewCreateToolchainOptions : Instantiate CreateToolchainOptions
+func (*OpenToolchainV1) NewCreateToolchainOptions(envID string, repository string) *CreateToolchainOptions {
+	return &CreateToolchainOptions{
+		EnvID:      core.StringPtr(envID),
+		Repository: core.StringPtr(repository),
+	}
+}
+
+// SetEnvID : Allow user to set EnvID
+func (options *CreateToolchainOptions) SetEnvID(envID string) *CreateToolchainOptions {
+	options.EnvID = core.StringPtr(envID)
+	return options
+}
+
+// SetRepository : Allow user to set Repository
+func (options *CreateToolchainOptions) SetRepository(repository string) *CreateToolchainOptions {
+	options.Repository = core.StringPtr(repository)
+	return options
+}
+
+// SetAutocreate : Allow user to set Autocreate
+func (options *CreateToolchainOptions) SetAutocreate(autocreate bool) *CreateToolchainOptions {
+	options.Autocreate = core.BoolPtr(autocreate)
+	return options
+}
+
+// SetResourceGroupID : Allow user to set ResourceGroupID
+func (options *CreateToolchainOptions) SetResourceGroupID(resourceGroupID string) *CreateToolchainOptions {
+	options.ResourceGroupID = core.StringPtr(resourceGroupID)
+	return options
+}
+
+// SetRepositoryToken : Allow user to set RepositoryToken
+func (options *CreateToolchainOptions) SetRepositoryToken(repositoryToken string) *CreateToolchainOptions {
+	options.RepositoryToken = core.StringPtr(repositoryToken)
+	return options
+}
+
+// SetBranch : Allow user to set Branch
+func (options *CreateToolchainOptions) SetBranch(branch string) *CreateToolchainOptions {
+	options.Branch = core.StringPtr(branch)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *CreateToolchainOptions) SetHeaders(param map[string]string) *CreateToolchainOptions {
+	options.Headers = param
+	return options
+}
+
+// DeleteToolchainOptions : The DeleteToolchain options.
+type DeleteToolchainOptions struct {
+	// GUID of the toolchain.
+	GUID *string `validate:"required,ne="`
+
+	// Environment ID.
+	EnvID *string `validate:"required"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewDeleteToolchainOptions : Instantiate DeleteToolchainOptions
+func (*OpenToolchainV1) NewDeleteToolchainOptions(guid string, envID string) *DeleteToolchainOptions {
+	return &DeleteToolchainOptions{
+		GUID:  core.StringPtr(guid),
+		EnvID: core.StringPtr(envID),
+	}
+}
+
+// SetGUID : Allow user to set GUID
+func (options *DeleteToolchainOptions) SetGUID(guid string) *DeleteToolchainOptions {
+	options.GUID = core.StringPtr(guid)
+	return options
+}
+
+// SetEnvID : Allow user to set EnvID
+func (options *DeleteToolchainOptions) SetEnvID(envID string) *DeleteToolchainOptions {
+	options.EnvID = core.StringPtr(envID)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *DeleteToolchainOptions) SetHeaders(param map[string]string) *DeleteToolchainOptions {
+	options.Headers = param
+	return options
+}
+
 // GetToolchainOptions : The GetToolchain options.
 type GetToolchainOptions struct {
 	// GUID of the toolchain.
@@ -259,7 +516,7 @@ type GetToolchainOptions struct {
 // NewGetToolchainOptions : Instantiate GetToolchainOptions
 func (*OpenToolchainV1) NewGetToolchainOptions(guid string, envID string) *GetToolchainOptions {
 	return &GetToolchainOptions{
-		GUID: core.StringPtr(guid),
+		GUID:  core.StringPtr(guid),
 		EnvID: core.StringPtr(envID),
 	}
 }
@@ -417,6 +674,7 @@ type ServiceParameters struct {
 
 	ServiceKey *string `json:"service_key,omitempty"`
 }
+
 func (*ServiceParameters) isaServiceParameters() bool {
 	return true
 }

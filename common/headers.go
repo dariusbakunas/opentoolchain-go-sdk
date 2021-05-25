@@ -22,7 +22,7 @@ import (
 )
 
 const (
-	sdkName = "opentoolchain-go-sdk"
+	sdkName             = "opentoolchain-go-sdk"
 	headerNameUserAgent = "User-Agent"
 )
 

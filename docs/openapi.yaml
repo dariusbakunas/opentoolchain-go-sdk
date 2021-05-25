@@ -43,11 +43,82 @@ paths:
               schema:
                 $ref: '#/components/schemas/Toolchain'
         default:
-          description: 'Unknown error'
+          description: Internal error occurred.
           content:
             application/json:
               schema:
-                type: string          
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      operationId: deleteToolchain
+      security:
+        - iamToken: []
+      description: Delete existing toolchain
+      parameters:
+        - name: guid
+          in: path
+          description: GUID of the toolchain
+          required: true
+          schema:
+            type: string
+        - name: env_id
+          in: query
+          description: Environment ID
+          required: true
+          schema:
+            type: string
+          example: "ibm:yp:us-south" 
+      responses:
+        '200':
+          description: OK
+        '204':
+          description: OK
+        default:
+          description: Internal error occurred.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /devops/setup/deploy:
+    post:
+      security:
+        - iamToken: []
+      summary: Headless Toolchain Creation/Update using POST
+      operationId: createToolchain
+      description: |
+        This info is from the document:-
+          https://github.com/open-toolchain/sdk/wiki/Toolchain-Creation-page-parameters
+      parameters:        
+        - name: env_id
+          in: query
+          description: Environment ID
+          required: true
+          schema:
+            type: string
+          example: "ibm:yp:us-south" 
+      requestBody:
+        content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateToolchainParams"
+            multipart/form-data:
+              schema:
+                $ref: "#/components/schemas/CreateToolchainParams"
+      responses:
+        201:
+          description: Toolchain was created successfully.
+          headers:
+            Location:
+              description: The URL of the created toolchain.
+              schema:
+                type: string
+                format: uri                
+        default:
+          description: Internal error occurred.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'          
 components:
   securitySchemes:
     iamToken:
@@ -59,6 +130,18 @@ components:
         for example "Bearer
         eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkdW1teSJ9.J2qaJ4pTWnidXQ3XbMmpAllL2ZiCCNkSoh0k1d7_ct1"
   schemas:
+    Error:
+      type: object
+      required: [description, status]
+      properties:
+        description:
+          type: string
+        details:
+          description: Provides additional information about the error.
+          type: object
+        status:
+          type: string
+          enum: [error, warning]
     Toolchain:
       type: object
       required:
@@ -199,6 +282,35 @@ components:
           type: boolean
         has_issues:
           type: boolean
+    CreateToolchainParams:
+      type: object
+      required: [repository]
+      additionalProperties: true
+      properties:         
+        repository:
+          type: string
+          description: |
+            The URL of the Git repository containing the template. 
+            (For example:- https://github.com/open-toolchain/simple-toolchain)
+        autocreate:
+          type: boolean
+          description: |
+             If this param is not provided, then the creation will be ignored 
+             and it will just load the toolchain creation page.
+        resourceGroupId:
+          type: string
+          description: |
+            The GUID of resource group where toolchain will be created. 
+            Pass this parameter, if you want to create the toolchain inside the resource group instead of an org.
+        repository_token:          
+          type: string
+          description: |
+            Optional git api token to access template repository
+        branch:
+          type: string
+          description: |
+            The Git branch name that the template will be read from. 
+            Optional. Defaults to `master`
     PipelineParams:
       type: object
       properties:

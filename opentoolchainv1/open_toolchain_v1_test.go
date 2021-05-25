@@ -67,14 +67,13 @@ var _ = Describe(`OpenToolchainV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"OPEN_TOOLCHAIN_URL": "https://opentoolchainv1/api",
+				"OPEN_TOOLCHAIN_URL":       "https://opentoolchainv1/api",
 				"OPEN_TOOLCHAIN_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1UsingExternalConfig(&opentoolchainv1.OpenToolchainV1Options{
-				})
+				openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1UsingExternalConfig(&opentoolchainv1.OpenToolchainV1Options{})
 				Expect(openToolchainService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
@@ -103,8 +102,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1UsingExternalConfig(&opentoolchainv1.OpenToolchainV1Options{
-				})
+				openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1UsingExternalConfig(&opentoolchainv1.OpenToolchainV1Options{})
 				err := openToolchainService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
 				Expect(openToolchainService).ToNot(BeNil())
@@ -122,13 +120,12 @@ var _ = Describe(`OpenToolchainV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"OPEN_TOOLCHAIN_URL": "https://opentoolchainv1/api",
+				"OPEN_TOOLCHAIN_URL":       "https://opentoolchainv1/api",
 				"OPEN_TOOLCHAIN_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
-			openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1UsingExternalConfig(&opentoolchainv1.OpenToolchainV1Options{
-			})
+			openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1UsingExternalConfig(&opentoolchainv1.OpenToolchainV1Options{})
 
 			It(`Instantiate service client with error`, func() {
 				Expect(openToolchainService).To(BeNil())
@@ -139,7 +136,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"OPEN_TOOLCHAIN_AUTH_TYPE":   "NOAuth",
+				"OPEN_TOOLCHAIN_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
@@ -162,6 +159,156 @@ var _ = Describe(`OpenToolchainV1`, func() {
 			Expect(url).To(BeEmpty())
 			Expect(err).ToNot(BeNil())
 			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
+		})
+	})
+	Describe(`DeleteToolchain(deleteToolchainOptions *DeleteToolchainOptions)`, func() {
+		deleteToolchainPath := "/devops/toolchains/testString"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(deleteToolchainPath))
+					Expect(req.Method).To(Equal("DELETE"))
+
+					Expect(req.URL.Query()["env_id"]).To(Equal([]string{"ibm:yp:us-south"}))
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke DeleteToolchain successfully`, func() {
+				openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1(&opentoolchainv1.OpenToolchainV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(openToolchainService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				response, operationErr := openToolchainService.DeleteToolchain(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+
+				// Construct an instance of the DeleteToolchainOptions model
+				deleteToolchainOptionsModel := new(opentoolchainv1.DeleteToolchainOptions)
+				deleteToolchainOptionsModel.GUID = core.StringPtr("testString")
+				deleteToolchainOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				deleteToolchainOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				response, operationErr = openToolchainService.DeleteToolchain(deleteToolchainOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+			})
+			It(`Invoke DeleteToolchain with error: Operation validation and request error`, func() {
+				openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1(&opentoolchainv1.OpenToolchainV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(openToolchainService).ToNot(BeNil())
+
+				// Construct an instance of the DeleteToolchainOptions model
+				deleteToolchainOptionsModel := new(opentoolchainv1.DeleteToolchainOptions)
+				deleteToolchainOptionsModel.GUID = core.StringPtr("testString")
+				deleteToolchainOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				deleteToolchainOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := openToolchainService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				response, operationErr := openToolchainService.DeleteToolchain(deleteToolchainOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				// Construct a second instance of the DeleteToolchainOptions model with no property values
+				deleteToolchainOptionsModelNew := new(opentoolchainv1.DeleteToolchainOptions)
+				// Invoke operation with invalid model (negative test)
+				response, operationErr = openToolchainService.DeleteToolchain(deleteToolchainOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`CreateToolchain(createToolchainOptions *CreateToolchainOptions)`, func() {
+		createToolchainPath := "/devops/setup/deploy"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createToolchainPath))
+					Expect(req.Method).To(Equal("POST"))
+
+					Expect(req.URL.Query()["env_id"]).To(Equal([]string{"ibm:yp:us-south"}))
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateToolchain successfully`, func() {
+				openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1(&opentoolchainv1.OpenToolchainV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(openToolchainService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				response, operationErr := openToolchainService.CreateToolchain(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+
+				// Construct an instance of the CreateToolchainOptions model
+				createToolchainOptionsModel := new(opentoolchainv1.CreateToolchainOptions)
+				createToolchainOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				createToolchainOptionsModel.Repository = core.StringPtr("testString")
+				createToolchainOptionsModel.Autocreate = core.BoolPtr(true)
+				createToolchainOptionsModel.ResourceGroupID = core.StringPtr("testString")
+				createToolchainOptionsModel.RepositoryToken = core.StringPtr("testString")
+				createToolchainOptionsModel.Branch = core.StringPtr("testString")
+				createToolchainOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				response, operationErr = openToolchainService.CreateToolchain(createToolchainOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+			})
+			It(`Invoke CreateToolchain with error: Operation validation and request error`, func() {
+				openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1(&opentoolchainv1.OpenToolchainV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(openToolchainService).ToNot(BeNil())
+
+				// Construct an instance of the CreateToolchainOptions model
+				createToolchainOptionsModel := new(opentoolchainv1.CreateToolchainOptions)
+				createToolchainOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				createToolchainOptionsModel.Repository = core.StringPtr("testString")
+				createToolchainOptionsModel.Autocreate = core.BoolPtr(true)
+				createToolchainOptionsModel.ResourceGroupID = core.StringPtr("testString")
+				createToolchainOptionsModel.RepositoryToken = core.StringPtr("testString")
+				createToolchainOptionsModel.Branch = core.StringPtr("testString")
+				createToolchainOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := openToolchainService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				response, operationErr := openToolchainService.CreateToolchain(createToolchainOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				// Construct a second instance of the CreateToolchainOptions model with no property values
+				createToolchainOptionsModelNew := new(opentoolchainv1.CreateToolchainOptions)
+				// Invoke operation with invalid model (negative test)
+				response, operationErr = openToolchainService.CreateToolchain(createToolchainOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
 		})
 	})
 	Describe(`GetToolchain(getToolchainOptions *GetToolchainOptions) - Operation response error`, func() {
@@ -389,6 +536,40 @@ var _ = Describe(`OpenToolchainV1`, func() {
 			openToolchainService, _ := opentoolchainv1.NewOpenToolchainV1(&opentoolchainv1.OpenToolchainV1Options{
 				URL:           "http://opentoolchainv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
+			})
+			It(`Invoke NewCreateToolchainOptions successfully`, func() {
+				// Construct an instance of the CreateToolchainOptions model
+				envID := "ibm:yp:us-south"
+				repository := "testString"
+				createToolchainOptionsModel := openToolchainService.NewCreateToolchainOptions(envID, repository)
+				createToolchainOptionsModel.SetEnvID("ibm:yp:us-south")
+				createToolchainOptionsModel.SetRepository("testString")
+				createToolchainOptionsModel.SetAutocreate(true)
+				createToolchainOptionsModel.SetResourceGroupID("testString")
+				createToolchainOptionsModel.SetRepositoryToken("testString")
+				createToolchainOptionsModel.SetBranch("testString")
+				createToolchainOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(createToolchainOptionsModel).ToNot(BeNil())
+				Expect(createToolchainOptionsModel.EnvID).To(Equal(core.StringPtr("ibm:yp:us-south")))
+				Expect(createToolchainOptionsModel.Repository).To(Equal(core.StringPtr("testString")))
+				Expect(createToolchainOptionsModel.Autocreate).To(Equal(core.BoolPtr(true)))
+				Expect(createToolchainOptionsModel.ResourceGroupID).To(Equal(core.StringPtr("testString")))
+				Expect(createToolchainOptionsModel.RepositoryToken).To(Equal(core.StringPtr("testString")))
+				Expect(createToolchainOptionsModel.Branch).To(Equal(core.StringPtr("testString")))
+				Expect(createToolchainOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewDeleteToolchainOptions successfully`, func() {
+				// Construct an instance of the DeleteToolchainOptions model
+				guid := "testString"
+				envID := "ibm:yp:us-south"
+				deleteToolchainOptionsModel := openToolchainService.NewDeleteToolchainOptions(guid, envID)
+				deleteToolchainOptionsModel.SetGUID("testString")
+				deleteToolchainOptionsModel.SetEnvID("ibm:yp:us-south")
+				deleteToolchainOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(deleteToolchainOptionsModel).ToNot(BeNil())
+				Expect(deleteToolchainOptionsModel.GUID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteToolchainOptionsModel.EnvID).To(Equal(core.StringPtr("ibm:yp:us-south")))
+				Expect(deleteToolchainOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetToolchainOptions successfully`, func() {
 				// Construct an instance of the GetToolchainOptions model
