@@ -31,6 +31,7 @@ Changes might occur which impact applications that use this SDK.
   - [Questions](#questions)
   - [Issues](#issues)
   - [Open source @ IBM](#open-source--ibm)
+  - [Known issues](#known-issues)
   - [Contributing](#contributing)
   - [License](#license)
 
@@ -95,6 +96,13 @@ Before that, please search for similar issues. It's possible that someone has al
 
 ## Open source @ IBM
 Find more open source projects on the [IBM Github Page](http://ibm.github.io/)
+
+
+## Known issues
+
+* Current openapi generator does not yet support `application/x-www-form-urlencoded` body type, fix manually by using `multipart/form-data` type in spec and then adding this line to generated request code:
+
+```builder.AddHeader("Content-Type", "application/x-www-form-urlencoded")```
 
 ## Contributing
 See [CONTRIBUTING](CONTRIBUTING.md).
