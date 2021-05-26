@@ -161,6 +161,65 @@ func (openToolchain *OpenToolchainV1) DisableRetries() {
 	openToolchain.Service.DisableRetries()
 }
 
+// PatchToolchain : Update toolchain parameters
+func (openToolchain *OpenToolchainV1) PatchToolchain(patchToolchainOptions *PatchToolchainOptions) (response *core.DetailedResponse, err error) {
+	return openToolchain.PatchToolchainWithContext(context.Background(), patchToolchainOptions)
+}
+
+// PatchToolchainWithContext is an alternate form of the PatchToolchain method which supports a Context parameter
+func (openToolchain *OpenToolchainV1) PatchToolchainWithContext(ctx context.Context, patchToolchainOptions *PatchToolchainOptions) (response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(patchToolchainOptions, "patchToolchainOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(patchToolchainOptions, "patchToolchainOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"guid": *patchToolchainOptions.GUID,
+	}
+
+	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = openToolchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/devops/toolchains/{guid}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range patchToolchainOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("open_toolchain", "V1", "PatchToolchain")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Content-Type", "application/json")
+
+	builder.AddQuery("env_id", fmt.Sprint(*patchToolchainOptions.EnvID))
+
+	body := make(map[string]interface{})
+	if patchToolchainOptions.Name != nil {
+		body["name"] = patchToolchainOptions.Name
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	response, err = openToolchain.Service.Request(request, nil)
+
+	return
+}
+
 // DeleteToolchain : The DeleteToolchain operation.
 // Delete existing toolchain.
 func (openToolchain *OpenToolchainV1) DeleteToolchain(deleteToolchainOptions *DeleteToolchainOptions) (response *core.DetailedResponse, err error) {
@@ -478,6 +537,29 @@ type DeleteToolchainOptions struct {
 // NewDeleteToolchainOptions : Instantiate DeleteToolchainOptions
 func (*OpenToolchainV1) NewDeleteToolchainOptions(guid string, envID string) *DeleteToolchainOptions {
 	return &DeleteToolchainOptions{
+		GUID:  core.StringPtr(guid),
+		EnvID: core.StringPtr(envID),
+	}
+}
+
+// PatchToolchainOptions : The PatchToolchain options.
+type PatchToolchainOptions struct {
+	// GUID of the toolchain.
+	GUID *string `validate:"required,ne="`
+
+	// Environment ID.
+	EnvID *string `validate:"required"`
+
+	// Toolchain name.
+	Name *string
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewPatchToolchainOptions : Instantiate PatchToolchainOptions
+func (*OpenToolchainV1) NewPatchToolchainOptions(guid string, envID string) *PatchToolchainOptions {
+	return &PatchToolchainOptions{
 		GUID:  core.StringPtr(guid),
 		EnvID: core.StringPtr(envID),
 	}

@@ -9,7 +9,7 @@ info:
       improvedNameFormattingV2: true
       apiPackage: github.com/dariusbakunas/opentoolchain-go-sdk
   x-acronyms:
-    - guid    
+    - guid
 servers:
   - url: 'https://cloud.ibm.com'
 paths:
@@ -48,7 +48,39 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-
+    patch:
+      security:
+        - iamToken: []
+      operationId: patchToolchain
+      summary: 'Update toolchain parameters'
+      parameters:
+        - name: guid
+          in: path
+          description: GUID of the toolchain
+          required: true
+          schema:
+            type: string
+        - name: env_id
+          in: query
+          description: Environment ID
+          required: true
+          schema:
+            type: string
+          example: "ibm:yp:us-south"
+      requestBody:
+        content:            
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PatchToolchainParams"
+      responses:
+        204:
+          description: Toolchain was patched successfully.                     
+        default:
+          description: Internal error occurred.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'    
     delete:
       operationId: deleteToolchain
       security:
@@ -97,10 +129,7 @@ paths:
             type: string
           example: "ibm:yp:us-south" 
       requestBody:
-        content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CreateToolchainParams"
+        content:            
             multipart/form-data:
               schema:
                 $ref: "#/components/schemas/CreateToolchainParams"
@@ -282,6 +311,13 @@ components:
           type: boolean
         has_issues:
           type: boolean
+    PatchToolchainParams:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          description: "Toolchain name"
     CreateToolchainParams:
       type: object
       required: [repository]
