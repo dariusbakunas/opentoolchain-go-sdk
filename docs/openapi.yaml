@@ -148,6 +148,41 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'          
+  /devops/pipelines/tekton/api/v1/{guid}:
+    get:
+      security:
+        - iamToken: []
+      summary: 'Returns details about a particular tekton pipeline'
+      operationId: getTektonPipeline
+      tags:
+        - pipeline
+      parameters:
+        - name: guid
+          in: path
+          description: GUID of the pipeline
+          required: true
+          schema:
+            type: string
+        - name: env_id
+          in: query
+          description: Environment ID
+          required: true
+          schema:
+            type: string
+          example: "ibm:yp:us-south"
+      responses:
+        '200':
+          description: 'Details about a pipeline'          
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TektonPipeline'
+        default:
+          description: Internal error occurred.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 components:
   securitySchemes:
     iamToken:
@@ -171,6 +206,63 @@ components:
         status:
           type: string
           enum: [error, warning]
+    TektonPipeline:
+      type: object
+      required:
+        - name
+        - id
+        - toolchainId
+        - envProperties
+      properties:
+        name:
+          type: string
+        id:
+          type: string
+        toolchainId:
+          type: string
+        pipelineOwner:
+          type: string
+        enabled:
+          type: boolean
+        type:
+          type: string
+        created:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        updated_at_timestamp:
+          type: number
+        created_timestamp:
+          type: number
+        envProperties:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnvProperty'
+        status:
+          type: string
+        url:
+          type: string
+        runs_url:
+          type: string
+        toolchainCRN:
+          type: string
+        pipelineDefinitionId:
+          type: string
+    EnvProperty:
+      type: 'object'
+      required:
+        - name
+        - value
+        - type
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+        type:
+          type: string
     Toolchain:
       type: object
       required:
