@@ -336,13 +336,68 @@ func (openToolchain *OpenToolchainV1) CreateToolchainWithContext(ctx context.Con
 		return
 	}
 
-	// buf, dumpErr := httputil.DumpRequestOut(request, request.Body != nil)
-
-	// if dumpErr == nil {
-	// 	log.Printf("[DEBUG] request: %s", string(buf))
-	// }
-
 	response, err = openToolchain.Service.Request(request, nil)
+
+	return
+}
+
+// GetTektonPipeline : Returns details about a particular tekton pipeline
+func (openToolchain *OpenToolchainV1) GetTektonPipeline(getTektonPipelineOptions *GetTektonPipelineOptions) (result *TektonPipeline, response *core.DetailedResponse, err error) {
+	return openToolchain.GetTektonPipelineWithContext(context.Background(), getTektonPipelineOptions)
+}
+
+// GetTektonPipelineWithContext is an alternate form of the GetTektonPipeline method which supports a Context parameter
+func (openToolchain *OpenToolchainV1) GetTektonPipelineWithContext(ctx context.Context, getTektonPipelineOptions *GetTektonPipelineOptions) (result *TektonPipeline, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getTektonPipelineOptions, "getTektonPipelineOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(getTektonPipelineOptions, "getTektonPipelineOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"guid": *getTektonPipelineOptions.GUID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = openToolchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/devops/pipelines/tekton/api/v1/{guid}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range getTektonPipelineOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("open_toolchain", "V1", "GetTektonPipeline")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("env_id", fmt.Sprint(*getTektonPipelineOptions.EnvID))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = openToolchain.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTektonPipeline)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
 
 	return
 }
@@ -542,29 +597,6 @@ func (*OpenToolchainV1) NewDeleteToolchainOptions(guid string, envID string) *De
 	}
 }
 
-// PatchToolchainOptions : The PatchToolchain options.
-type PatchToolchainOptions struct {
-	// GUID of the toolchain.
-	GUID *string `validate:"required,ne="`
-
-	// Environment ID.
-	EnvID *string `validate:"required"`
-
-	// Toolchain name.
-	Name *string
-
-	// Allows users to set headers on API requests
-	Headers map[string]string
-}
-
-// NewPatchToolchainOptions : Instantiate PatchToolchainOptions
-func (*OpenToolchainV1) NewPatchToolchainOptions(guid string, envID string) *PatchToolchainOptions {
-	return &PatchToolchainOptions{
-		GUID:  core.StringPtr(guid),
-		EnvID: core.StringPtr(envID),
-	}
-}
-
 // SetGUID : Allow user to set GUID
 func (options *DeleteToolchainOptions) SetGUID(guid string) *DeleteToolchainOptions {
 	options.GUID = core.StringPtr(guid)
@@ -579,6 +611,72 @@ func (options *DeleteToolchainOptions) SetEnvID(envID string) *DeleteToolchainOp
 
 // SetHeaders : Allow user to set Headers
 func (options *DeleteToolchainOptions) SetHeaders(param map[string]string) *DeleteToolchainOptions {
+	options.Headers = param
+	return options
+}
+
+// EnvProperty : EnvProperty struct
+type EnvProperty struct {
+	Name *string `json:"name" validate:"required"`
+
+	Value *string `json:"value" validate:"required"`
+
+	Type *string `json:"type" validate:"required"`
+}
+
+// UnmarshalEnvProperty unmarshals an instance of EnvProperty from the specified map of raw messages.
+func UnmarshalEnvProperty(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(EnvProperty)
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// GetTektonPipelineOptions : The GetTektonPipeline options.
+type GetTektonPipelineOptions struct {
+	// GUID of the pipeline.
+	GUID *string `validate:"required,ne="`
+
+	// Environment ID.
+	EnvID *string `validate:"required"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewGetTektonPipelineOptions : Instantiate GetTektonPipelineOptions
+func (*OpenToolchainV1) NewGetTektonPipelineOptions(guid string, envID string) *GetTektonPipelineOptions {
+	return &GetTektonPipelineOptions{
+		GUID:  core.StringPtr(guid),
+		EnvID: core.StringPtr(envID),
+	}
+}
+
+// SetGUID : Allow user to set GUID
+func (options *GetTektonPipelineOptions) SetGUID(guid string) *GetTektonPipelineOptions {
+	options.GUID = core.StringPtr(guid)
+	return options
+}
+
+// SetEnvID : Allow user to set EnvID
+func (options *GetTektonPipelineOptions) SetEnvID(envID string) *GetTektonPipelineOptions {
+	options.EnvID = core.StringPtr(envID)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetTektonPipelineOptions) SetHeaders(param map[string]string) *GetTektonPipelineOptions {
 	options.Headers = param
 	return options
 }
@@ -617,6 +715,53 @@ func (options *GetToolchainOptions) SetEnvID(envID string) *GetToolchainOptions 
 
 // SetHeaders : Allow user to set Headers
 func (options *GetToolchainOptions) SetHeaders(param map[string]string) *GetToolchainOptions {
+	options.Headers = param
+	return options
+}
+
+// PatchToolchainOptions : The PatchToolchain options.
+type PatchToolchainOptions struct {
+	// GUID of the toolchain.
+	GUID *string `validate:"required,ne="`
+
+	// Environment ID.
+	EnvID *string `validate:"required"`
+
+	// Toolchain name.
+	Name *string
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewPatchToolchainOptions : Instantiate PatchToolchainOptions
+func (*OpenToolchainV1) NewPatchToolchainOptions(guid string, envID string) *PatchToolchainOptions {
+	return &PatchToolchainOptions{
+		GUID:  core.StringPtr(guid),
+		EnvID: core.StringPtr(envID),
+	}
+}
+
+// SetGUID : Allow user to set GUID
+func (options *PatchToolchainOptions) SetGUID(guid string) *PatchToolchainOptions {
+	options.GUID = core.StringPtr(guid)
+	return options
+}
+
+// SetEnvID : Allow user to set EnvID
+func (options *PatchToolchainOptions) SetEnvID(envID string) *PatchToolchainOptions {
+	options.EnvID = core.StringPtr(envID)
+	return options
+}
+
+// SetName : Allow user to set Name
+func (options *PatchToolchainOptions) SetName(name string) *PatchToolchainOptions {
+	options.Name = core.StringPtr(name)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *PatchToolchainOptions) SetHeaders(param map[string]string) *PatchToolchainOptions {
 	options.Headers = param
 	return options
 }
@@ -905,6 +1050,112 @@ type ServiceToolchainBindingStatus struct {
 func UnmarshalServiceToolchainBindingStatus(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ServiceToolchainBindingStatus)
 	err = core.UnmarshalPrimitive(m, "state", &obj.State)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// TektonPipeline : TektonPipeline struct
+type TektonPipeline struct {
+	Name *string `json:"name" validate:"required"`
+
+	ID *string `json:"id" validate:"required"`
+
+	ToolchainID *string `json:"toolchainId" validate:"required"`
+
+	PipelineOwner *string `json:"pipelineOwner,omitempty"`
+
+	Enabled *bool `json:"enabled,omitempty"`
+
+	Type *string `json:"type,omitempty"`
+
+	Created *strfmt.DateTime `json:"created,omitempty"`
+
+	UpdatedAt *strfmt.DateTime `json:"updated_at,omitempty"`
+
+	UpdatedAtTimestamp *float64 `json:"updated_at_timestamp,omitempty"`
+
+	CreatedTimestamp *float64 `json:"created_timestamp,omitempty"`
+
+	EnvProperties []EnvProperty `json:"envProperties" validate:"required"`
+
+	Status *string `json:"status,omitempty"`
+
+	URL *string `json:"url,omitempty"`
+
+	RunsURL *string `json:"runs_url,omitempty"`
+
+	ToolchainCRN *string `json:"toolchainCRN,omitempty"`
+
+	PipelineDefinitionID *string `json:"pipelineDefinitionId,omitempty"`
+}
+
+// UnmarshalTektonPipeline unmarshals an instance of TektonPipeline from the specified map of raw messages.
+func UnmarshalTektonPipeline(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(TektonPipeline)
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "toolchainId", &obj.ToolchainID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "pipelineOwner", &obj.PipelineOwner)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "enabled", &obj.Enabled)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "created", &obj.Created)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "updated_at_timestamp", &obj.UpdatedAtTimestamp)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "created_timestamp", &obj.CreatedTimestamp)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "envProperties", &obj.EnvProperties, UnmarshalEnvProperty)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "url", &obj.URL)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "runs_url", &obj.RunsURL)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "toolchainCRN", &obj.ToolchainCRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "pipelineDefinitionId", &obj.PipelineDefinitionID)
 	if err != nil {
 		return
 	}
