@@ -620,6 +620,293 @@ var _ = Describe(`OpenToolchainV1`, func() {
 			})
 		})
 	})
+	Describe(`PatchTektonPipeline(patchTektonPipelineOptions *PatchTektonPipelineOptions) - Operation response error`, func() {
+		patchTektonPipelinePath := "/devops/pipelines/tekton/api/v1/testString/config"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(patchTektonPipelinePath))
+					Expect(req.Method).To(Equal("PATCH"))
+					Expect(req.URL.Query()["env_id"]).To(Equal([]string{"ibm:yp:us-south"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke PatchTektonPipeline with error: Operation response processing error`, func() {
+				openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1(&opentoolchainv1.OpenToolchainV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(openToolchainService).ToNot(BeNil())
+
+				// Construct an instance of the EnvProperty model
+				envPropertyModel := new(opentoolchainv1.EnvProperty)
+				envPropertyModel.Name = core.StringPtr("testString")
+				envPropertyModel.Value = core.StringPtr("testString")
+				envPropertyModel.Type = core.StringPtr("testString")
+
+				// Construct an instance of the PatchTektonPipelineOptions model
+				patchTektonPipelineOptionsModel := new(opentoolchainv1.PatchTektonPipelineOptions)
+				patchTektonPipelineOptionsModel.GUID = core.StringPtr("testString")
+				patchTektonPipelineOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				patchTektonPipelineOptionsModel.EnvProperties = []opentoolchainv1.EnvProperty{*envPropertyModel}
+				patchTektonPipelineOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := openToolchainService.PatchTektonPipeline(patchTektonPipelineOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				openToolchainService.EnableRetries(0, 0)
+				result, response, operationErr = openToolchainService.PatchTektonPipeline(patchTektonPipelineOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`PatchTektonPipeline(patchTektonPipelineOptions *PatchTektonPipelineOptions)`, func() {
+		patchTektonPipelinePath := "/devops/pipelines/tekton/api/v1/testString/config"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(patchTektonPipelinePath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.URL.Query()["env_id"]).To(Equal([]string{"ibm:yp:us-south"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"name": "Name", "id": "ID", "toolchainId": "ToolchainID", "pipelineOwner": "PipelineOwner", "enabled": false, "type": "Type", "created": "2019-01-01T12:00:00.000Z", "updated_at": "2019-01-01T12:00:00.000Z", "updated_at_timestamp": 18, "created_timestamp": 16, "envProperties": [{"name": "Name", "value": "Value", "type": "Type"}], "status": "Status", "url": "URL", "runs_url": "RunsURL", "toolchainCRN": "ToolchainCRN", "pipelineDefinitionId": "PipelineDefinitionID"}`)
+				}))
+			})
+			It(`Invoke PatchTektonPipeline successfully with retries`, func() {
+				openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1(&opentoolchainv1.OpenToolchainV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(openToolchainService).ToNot(BeNil())
+				openToolchainService.EnableRetries(0, 0)
+
+				// Construct an instance of the EnvProperty model
+				envPropertyModel := new(opentoolchainv1.EnvProperty)
+				envPropertyModel.Name = core.StringPtr("testString")
+				envPropertyModel.Value = core.StringPtr("testString")
+				envPropertyModel.Type = core.StringPtr("testString")
+
+				// Construct an instance of the PatchTektonPipelineOptions model
+				patchTektonPipelineOptionsModel := new(opentoolchainv1.PatchTektonPipelineOptions)
+				patchTektonPipelineOptionsModel.GUID = core.StringPtr("testString")
+				patchTektonPipelineOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				patchTektonPipelineOptionsModel.EnvProperties = []opentoolchainv1.EnvProperty{*envPropertyModel}
+				patchTektonPipelineOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := openToolchainService.PatchTektonPipelineWithContext(ctx, patchTektonPipelineOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				openToolchainService.DisableRetries()
+				result, response, operationErr := openToolchainService.PatchTektonPipeline(patchTektonPipelineOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = openToolchainService.PatchTektonPipelineWithContext(ctx, patchTektonPipelineOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(patchTektonPipelinePath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.URL.Query()["env_id"]).To(Equal([]string{"ibm:yp:us-south"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"name": "Name", "id": "ID", "toolchainId": "ToolchainID", "pipelineOwner": "PipelineOwner", "enabled": false, "type": "Type", "created": "2019-01-01T12:00:00.000Z", "updated_at": "2019-01-01T12:00:00.000Z", "updated_at_timestamp": 18, "created_timestamp": 16, "envProperties": [{"name": "Name", "value": "Value", "type": "Type"}], "status": "Status", "url": "URL", "runs_url": "RunsURL", "toolchainCRN": "ToolchainCRN", "pipelineDefinitionId": "PipelineDefinitionID"}`)
+				}))
+			})
+			It(`Invoke PatchTektonPipeline successfully`, func() {
+				openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1(&opentoolchainv1.OpenToolchainV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(openToolchainService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := openToolchainService.PatchTektonPipeline(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the EnvProperty model
+				envPropertyModel := new(opentoolchainv1.EnvProperty)
+				envPropertyModel.Name = core.StringPtr("testString")
+				envPropertyModel.Value = core.StringPtr("testString")
+				envPropertyModel.Type = core.StringPtr("testString")
+
+				// Construct an instance of the PatchTektonPipelineOptions model
+				patchTektonPipelineOptionsModel := new(opentoolchainv1.PatchTektonPipelineOptions)
+				patchTektonPipelineOptionsModel.GUID = core.StringPtr("testString")
+				patchTektonPipelineOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				patchTektonPipelineOptionsModel.EnvProperties = []opentoolchainv1.EnvProperty{*envPropertyModel}
+				patchTektonPipelineOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = openToolchainService.PatchTektonPipeline(patchTektonPipelineOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke PatchTektonPipeline with error: Operation validation and request error`, func() {
+				openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1(&opentoolchainv1.OpenToolchainV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(openToolchainService).ToNot(BeNil())
+
+				// Construct an instance of the EnvProperty model
+				envPropertyModel := new(opentoolchainv1.EnvProperty)
+				envPropertyModel.Name = core.StringPtr("testString")
+				envPropertyModel.Value = core.StringPtr("testString")
+				envPropertyModel.Type = core.StringPtr("testString")
+
+				// Construct an instance of the PatchTektonPipelineOptions model
+				patchTektonPipelineOptionsModel := new(opentoolchainv1.PatchTektonPipelineOptions)
+				patchTektonPipelineOptionsModel.GUID = core.StringPtr("testString")
+				patchTektonPipelineOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				patchTektonPipelineOptionsModel.EnvProperties = []opentoolchainv1.EnvProperty{*envPropertyModel}
+				patchTektonPipelineOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := openToolchainService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := openToolchainService.PatchTektonPipeline(patchTektonPipelineOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the PatchTektonPipelineOptions model with no property values
+				patchTektonPipelineOptionsModelNew := new(opentoolchainv1.PatchTektonPipelineOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = openToolchainService.PatchTektonPipeline(patchTektonPipelineOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke PatchTektonPipeline successfully`, func() {
+				openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1(&opentoolchainv1.OpenToolchainV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(openToolchainService).ToNot(BeNil())
+
+				// Construct an instance of the EnvProperty model
+				envPropertyModel := new(opentoolchainv1.EnvProperty)
+				envPropertyModel.Name = core.StringPtr("testString")
+				envPropertyModel.Value = core.StringPtr("testString")
+				envPropertyModel.Type = core.StringPtr("testString")
+
+				// Construct an instance of the PatchTektonPipelineOptions model
+				patchTektonPipelineOptionsModel := new(opentoolchainv1.PatchTektonPipelineOptions)
+				patchTektonPipelineOptionsModel.GUID = core.StringPtr("testString")
+				patchTektonPipelineOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				patchTektonPipelineOptionsModel.EnvProperties = []opentoolchainv1.EnvProperty{*envPropertyModel}
+				patchTektonPipelineOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := openToolchainService.PatchTektonPipeline(patchTektonPipelineOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`GetToolchain(getToolchainOptions *GetToolchainOptions) - Operation response error`, func() {
 		getToolchainPath := "/devops/toolchains/testString"
 		Context(`Using mock server endpoint with invalid JSON response`, func() {
@@ -880,6 +1167,14 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				Expect(deleteToolchainOptionsModel.EnvID).To(Equal(core.StringPtr("ibm:yp:us-south")))
 				Expect(deleteToolchainOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewEnvProperty successfully`, func() {
+				name := "testString"
+				value := "testString"
+				typeVar := "testString"
+				model, err := openToolchainService.NewEnvProperty(name, value, typeVar)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
 			It(`Invoke NewGetTektonPipelineOptions successfully`, func() {
 				// Construct an instance of the GetTektonPipelineOptions model
 				guid := "testString"
@@ -905,6 +1200,31 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				Expect(getToolchainOptionsModel.GUID).To(Equal(core.StringPtr("testString")))
 				Expect(getToolchainOptionsModel.EnvID).To(Equal(core.StringPtr("ibm:yp:us-south")))
 				Expect(getToolchainOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewPatchTektonPipelineOptions successfully`, func() {
+				// Construct an instance of the EnvProperty model
+				envPropertyModel := new(opentoolchainv1.EnvProperty)
+				Expect(envPropertyModel).ToNot(BeNil())
+				envPropertyModel.Name = core.StringPtr("testString")
+				envPropertyModel.Value = core.StringPtr("testString")
+				envPropertyModel.Type = core.StringPtr("testString")
+				Expect(envPropertyModel.Name).To(Equal(core.StringPtr("testString")))
+				Expect(envPropertyModel.Value).To(Equal(core.StringPtr("testString")))
+				Expect(envPropertyModel.Type).To(Equal(core.StringPtr("testString")))
+
+				// Construct an instance of the PatchTektonPipelineOptions model
+				guid := "testString"
+				envID := "ibm:yp:us-south"
+				patchTektonPipelineOptionsModel := openToolchainService.NewPatchTektonPipelineOptions(guid, envID)
+				patchTektonPipelineOptionsModel.SetGUID("testString")
+				patchTektonPipelineOptionsModel.SetEnvID("ibm:yp:us-south")
+				patchTektonPipelineOptionsModel.SetEnvProperties([]opentoolchainv1.EnvProperty{*envPropertyModel})
+				patchTektonPipelineOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(patchTektonPipelineOptionsModel).ToNot(BeNil())
+				Expect(patchTektonPipelineOptionsModel.GUID).To(Equal(core.StringPtr("testString")))
+				Expect(patchTektonPipelineOptionsModel.EnvID).To(Equal(core.StringPtr("ibm:yp:us-south")))
+				Expect(patchTektonPipelineOptionsModel.EnvProperties).To(Equal([]opentoolchainv1.EnvProperty{*envPropertyModel}))
+				Expect(patchTektonPipelineOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewPatchToolchainOptions successfully`, func() {
 				// Construct an instance of the PatchToolchainOptions model

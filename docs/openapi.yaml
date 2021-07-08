@@ -129,7 +129,7 @@ paths:
             type: string
           example: "ibm:yp:us-south" 
       requestBody:
-        content:            
+        content:
             multipart/form-data:
               schema:
                 $ref: "#/components/schemas/CreateToolchainParams"
@@ -183,6 +183,46 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /devops/pipelines/tekton/api/v1/{guid}/config:
+    patch:
+      security:
+        - iamToken: []
+      summary: 'Update tekton pipeline parameters'
+      operationId: patchTektonPipeline
+      tags:
+        - pipeline
+      parameters:
+        - name: guid
+          in: path
+          description: GUID of the pipeline
+          required: true
+          schema:
+            type: string
+        - name: env_id
+          in: query
+          description: Environment ID
+          required: true
+          schema:
+            type: string
+          example: "ibm:yp:us-south"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchTektonPipelineParams'
+      responses:
+          '200':
+            description: 'Details about a pipeline'          
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/TektonPipeline'
+          default:
+            description: Internal error occurred.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
 components:
   securitySchemes:
     iamToken:
@@ -382,6 +422,13 @@ components:
         name:
           type: string
           description: "Toolchain name"
+    PatchTektonPipelineParams:
+      type: object
+      properties:
+        envProperties:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnvProperty'
     CreateToolchainParams:
       type: object
       required: [repository]

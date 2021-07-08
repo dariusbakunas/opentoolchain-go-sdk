@@ -402,6 +402,77 @@ func (openToolchain *OpenToolchainV1) GetTektonPipelineWithContext(ctx context.C
 	return
 }
 
+// PatchTektonPipeline : Update tekton pipeline parameters
+func (openToolchain *OpenToolchainV1) PatchTektonPipeline(patchTektonPipelineOptions *PatchTektonPipelineOptions) (result *TektonPipeline, response *core.DetailedResponse, err error) {
+	return openToolchain.PatchTektonPipelineWithContext(context.Background(), patchTektonPipelineOptions)
+}
+
+// PatchTektonPipelineWithContext is an alternate form of the PatchTektonPipeline method which supports a Context parameter
+func (openToolchain *OpenToolchainV1) PatchTektonPipelineWithContext(ctx context.Context, patchTektonPipelineOptions *PatchTektonPipelineOptions) (result *TektonPipeline, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(patchTektonPipelineOptions, "patchTektonPipelineOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(patchTektonPipelineOptions, "patchTektonPipelineOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"guid": *patchTektonPipelineOptions.GUID,
+	}
+
+	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = openToolchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/devops/pipelines/tekton/api/v1/{guid}/config`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range patchTektonPipelineOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("open_toolchain", "V1", "PatchTektonPipeline")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+
+	builder.AddQuery("env_id", fmt.Sprint(*patchTektonPipelineOptions.EnvID))
+
+	body := make(map[string]interface{})
+	if patchTektonPipelineOptions.EnvProperties != nil {
+		body["envProperties"] = patchTektonPipelineOptions.EnvProperties
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = openToolchain.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTektonPipeline)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
 // GetToolchain : Returns details about a particular toolchain
 func (openToolchain *OpenToolchainV1) GetToolchain(getToolchainOptions *GetToolchainOptions) (result *Toolchain, response *core.DetailedResponse, err error) {
 	return openToolchain.GetToolchainWithContext(context.Background(), getToolchainOptions)
@@ -624,6 +695,17 @@ type EnvProperty struct {
 	Type *string `json:"type" validate:"required"`
 }
 
+// NewEnvProperty : Instantiate EnvProperty (Generic Model Constructor)
+func (*OpenToolchainV1) NewEnvProperty(name string, value string, typeVar string) (model *EnvProperty, err error) {
+	model = &EnvProperty{
+		Name:  core.StringPtr(name),
+		Value: core.StringPtr(value),
+		Type:  core.StringPtr(typeVar),
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
 // UnmarshalEnvProperty unmarshals an instance of EnvProperty from the specified map of raw messages.
 func UnmarshalEnvProperty(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(EnvProperty)
@@ -715,6 +797,52 @@ func (options *GetToolchainOptions) SetEnvID(envID string) *GetToolchainOptions 
 
 // SetHeaders : Allow user to set Headers
 func (options *GetToolchainOptions) SetHeaders(param map[string]string) *GetToolchainOptions {
+	options.Headers = param
+	return options
+}
+
+// PatchTektonPipelineOptions : The PatchTektonPipeline options.
+type PatchTektonPipelineOptions struct {
+	// GUID of the pipeline.
+	GUID *string `validate:"required,ne="`
+
+	// Environment ID.
+	EnvID *string `validate:"required"`
+
+	EnvProperties []EnvProperty
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewPatchTektonPipelineOptions : Instantiate PatchTektonPipelineOptions
+func (*OpenToolchainV1) NewPatchTektonPipelineOptions(guid string, envID string) *PatchTektonPipelineOptions {
+	return &PatchTektonPipelineOptions{
+		GUID:  core.StringPtr(guid),
+		EnvID: core.StringPtr(envID),
+	}
+}
+
+// SetGUID : Allow user to set GUID
+func (options *PatchTektonPipelineOptions) SetGUID(guid string) *PatchTektonPipelineOptions {
+	options.GUID = core.StringPtr(guid)
+	return options
+}
+
+// SetEnvID : Allow user to set EnvID
+func (options *PatchTektonPipelineOptions) SetEnvID(envID string) *PatchTektonPipelineOptions {
+	options.EnvID = core.StringPtr(envID)
+	return options
+}
+
+// SetEnvProperties : Allow user to set EnvProperties
+func (options *PatchTektonPipelineOptions) SetEnvProperties(envProperties []EnvProperty) *PatchTektonPipelineOptions {
+	options.EnvProperties = envProperties
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *PatchTektonPipelineOptions) SetHeaders(param map[string]string) *PatchTektonPipelineOptions {
 	options.Headers = param
 	return options
 }
