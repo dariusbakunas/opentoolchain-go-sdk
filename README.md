@@ -100,9 +100,11 @@ Find more open source projects on the [IBM Github Page](http://ibm.github.io/)
 
 ## Known issues
 
-* Current openapi generator does not yet support `application/x-www-form-urlencoded` body type, fix manually by using `multipart/form-data` type in spec and then adding this line to generated request code:
+* Current openapi generator does not yet support `application/x-www-form-urlencoded` body type, fix by applying `patch` file in opentoolchainv1 folder:
 
-```builder.AddHeader("Content-Type", "application/x-www-form-urlencoded")```
+```bash
+patch open_toolchain_v1.go < patch
+```
 
 ## Contributing
 See [CONTRIBUTING](CONTRIBUTING.md).

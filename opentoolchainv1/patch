@@ -1,0 +1,53 @@
+--- open_toolchain_v1.go	2021-07-08 10:48:10.000000000 -0400
++++ open_toolchain_v1_orig.go	2021-07-08 10:38:31.000000000 -0400
+@@ -305,6 +305,8 @@
+ 		builder.AddHeader(headerName, headerValue)
+ 	}
+ 
++	builder.AddHeader("Content-Type", "application/x-www-form-urlencoded")
++
+ 	builder.AddQuery("env_id", fmt.Sprint(*createToolchainOptions.EnvID))
+ 
+ 	builder.AddFormData("repository", "", "", fmt.Sprint(*createToolchainOptions.Repository))
+@@ -321,6 +323,14 @@
+ 		builder.AddFormData("branch", "", "", fmt.Sprint(*createToolchainOptions.Branch))
+ 	}
+ 
++	additionalProps := createToolchainOptions.GetProperties()
++
++	if len(additionalProps) > 0 {
++		for k, v := range additionalProps {
++			builder.AddFormData(k, "", "", v)
++		}
++	}
++
+ 	request, err := builder.Build()
+ 	if err != nil {
+ 		return
+@@ -436,10 +446,26 @@
+ 	// The Git branch name that the template will be read from.  Optional. Defaults to `master`.
+ 	Branch *string
+ 
++	// Allows users to set arbitrary properties
++	additionalProperties map[string]interface{}
++
+ 	// Allows users to set headers on API requests
+ 	Headers map[string]string
+ }
+ 
++// SetProperty allows the user to set an arbitrary property on an instance of CreateToolchainParams
++func (o *CreateToolchainOptions) SetProperty(key string, value interface{}) {
++	if o.additionalProperties == nil {
++		o.additionalProperties = make(map[string]interface{})
++	}
++	o.additionalProperties[key] = value
++}
++
++// GetProperties allows the user to retrieve the map of arbitrary properties from an instance of CreateToolchainParams
++func (o *CreateToolchainOptions) GetProperties() map[string]interface{} {
++	return o.additionalProperties
++}
++
+ // NewCreateToolchainOptions : Instantiate CreateToolchainOptions
+ func (*OpenToolchainV1) NewCreateToolchainOptions(envID string, repository string) *CreateToolchainOptions {
+ 	return &CreateToolchainOptions{
