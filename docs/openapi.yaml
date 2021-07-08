@@ -328,14 +328,15 @@ components:
         broker_id:
           type: string
         service_id:
-          type: string
+          type: string        
         container:
           $ref: '#/components/schemas/Container'
         updated_at:
           type: string
           format: date-time
-        parameters:          
-          $ref: '#/components/schemas/ServiceParams'
+        parameters:
+          type: object          
+          additionalProperties: true        
         status:
           type: object
           properties:
@@ -416,43 +417,9 @@ components:
         label:
           type: string
         type:
-          type: string
-        services:
-          type: string
+          type: string        
         name:
           type: string        
-        configuration:
-          type: string
-        ui_pipeline:
-          x-alternate-name: "ui-pipeline-flag"
-          type: boolean
-        key_type:
-          type: string
-        api_key:
-          type: string
-        service_name:
-          type: string
-        user_email:
-          type: string
-        user_phone:
-          type: string
-        service_url:
-          type: string
-        service_key:
-          type: string        
-        repo_name: 
-          type: string
-        repo_url:
-          type: string
-        private_repo:
-          type: boolean
-        has_issues:
-          type: boolean
-        api_token:
-          type: string
-        channel_name:
-          type: string
-        team_url:
-          type: string    
+ 
       
       
