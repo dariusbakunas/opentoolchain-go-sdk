@@ -642,6 +642,9 @@ func (openToolchain *OpenToolchainV1) PatchTektonPipelineWithContext(ctx context
 	builder.AddQuery("env_id", fmt.Sprint(*patchTektonPipelineOptions.EnvID))
 
 	body := make(map[string]interface{})
+	if patchTektonPipelineOptions.Worker != nil {
+		body["worker"] = patchTektonPipelineOptions.Worker
+	}
 	if patchTektonPipelineOptions.EnvProperties != nil {
 		body["envProperties"] = patchTektonPipelineOptions.EnvProperties
 	}
@@ -1257,6 +1260,8 @@ type PatchTektonPipelineOptions struct {
 	// Environment ID.
 	EnvID *string `validate:"required"`
 
+	Worker *PatchTektonPipelineParamsWorker
+
 	EnvProperties []EnvProperty
 
 	// Allows users to set headers on API requests
@@ -1283,6 +1288,12 @@ func (options *PatchTektonPipelineOptions) SetEnvID(envID string) *PatchTektonPi
 	return options
 }
 
+// SetWorker : Allow user to set Worker
+func (options *PatchTektonPipelineOptions) SetWorker(worker *PatchTektonPipelineParamsWorker) *PatchTektonPipelineOptions {
+	options.Worker = worker
+	return options
+}
+
 // SetEnvProperties : Allow user to set EnvProperties
 func (options *PatchTektonPipelineOptions) SetEnvProperties(envProperties []EnvProperty) *PatchTektonPipelineOptions {
 	options.EnvProperties = envProperties
@@ -1293,6 +1304,34 @@ func (options *PatchTektonPipelineOptions) SetEnvProperties(envProperties []EnvP
 func (options *PatchTektonPipelineOptions) SetHeaders(param map[string]string) *PatchTektonPipelineOptions {
 	options.Headers = param
 	return options
+}
+
+// PatchTektonPipelineParamsWorker : PatchTektonPipelineParamsWorker struct
+type PatchTektonPipelineParamsWorker struct {
+	WorkerID *string `json:"workerId,omitempty"`
+
+	WorkerName *string `json:"workerName,omitempty"`
+
+	WorkerType *string `json:"workerType,omitempty"`
+}
+
+// UnmarshalPatchTektonPipelineParamsWorker unmarshals an instance of PatchTektonPipelineParamsWorker from the specified map of raw messages.
+func UnmarshalPatchTektonPipelineParamsWorker(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(PatchTektonPipelineParamsWorker)
+	err = core.UnmarshalPrimitive(m, "workerId", &obj.WorkerID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "workerName", &obj.WorkerName)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "workerType", &obj.WorkerType)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
 }
 
 // PatchToolchainOptions : The PatchToolchain options.
@@ -1494,6 +1533,10 @@ func UnmarshalServiceToolchainBindingStatus(m map[string]json.RawMessage, result
 type TektonPipeline struct {
 	Name *string `json:"name" validate:"required"`
 
+	DashboardURL *string `json:"dashboard_url,omitempty"`
+
+	ResourceGroupID *string `json:"resourceGroupId,omitempty"`
+
 	ID *string `json:"id" validate:"required"`
 
 	ToolchainID *string `json:"toolchainId" validate:"required"`
@@ -1529,6 +1572,14 @@ type TektonPipeline struct {
 func UnmarshalTektonPipeline(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(TektonPipeline)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "dashboard_url", &obj.DashboardURL)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resourceGroupId", &obj.ResourceGroupID)
 	if err != nil {
 		return
 	}

@@ -369,6 +369,10 @@ components:
       properties:
         name:
           type: string
+        dashboard_url:
+          type: string
+        resourceGroupId:
+          type: string
         id:
           type: string
         toolchainId:
@@ -538,6 +542,15 @@ components:
     PatchTektonPipelineParams:
       type: object
       properties:
+        worker:
+          type: object
+          properties:
+            workerId:
+              type: string
+            workerName:
+              type: string
+            workerType:
+              type: string
         envProperties:
           type: array
           items:

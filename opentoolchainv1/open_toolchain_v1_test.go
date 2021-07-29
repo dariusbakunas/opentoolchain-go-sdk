@@ -951,7 +951,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "Name", "id": "ID", "toolchainId": "ToolchainID", "pipelineOwner": "PipelineOwner", "enabled": false, "type": "Type", "created": "2019-01-01T12:00:00.000Z", "updated_at": "2019-01-01T12:00:00.000Z", "updated_at_timestamp": 18, "created_timestamp": 16, "envProperties": [{"name": "Name", "value": "Value", "type": "Type"}], "status": "Status", "url": "URL", "runs_url": "RunsURL", "toolchainCRN": "ToolchainCRN", "pipelineDefinitionId": "PipelineDefinitionID"}`)
+					fmt.Fprintf(res, "%s", `{"name": "Name", "dashboard_url": "DashboardURL", "resourceGroupId": "ResourceGroupID", "id": "ID", "toolchainId": "ToolchainID", "pipelineOwner": "PipelineOwner", "enabled": false, "type": "Type", "created": "2019-01-01T12:00:00.000Z", "updated_at": "2019-01-01T12:00:00.000Z", "updated_at_timestamp": 18, "created_timestamp": 16, "envProperties": [{"name": "Name", "value": "Value", "type": "Type"}], "status": "Status", "url": "URL", "runs_url": "RunsURL", "toolchainCRN": "ToolchainCRN", "pipelineDefinitionId": "PipelineDefinitionID"}`)
 				}))
 			})
 			It(`Invoke GetTektonPipeline successfully with retries`, func() {
@@ -1007,7 +1007,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "Name", "id": "ID", "toolchainId": "ToolchainID", "pipelineOwner": "PipelineOwner", "enabled": false, "type": "Type", "created": "2019-01-01T12:00:00.000Z", "updated_at": "2019-01-01T12:00:00.000Z", "updated_at_timestamp": 18, "created_timestamp": 16, "envProperties": [{"name": "Name", "value": "Value", "type": "Type"}], "status": "Status", "url": "URL", "runs_url": "RunsURL", "toolchainCRN": "ToolchainCRN", "pipelineDefinitionId": "PipelineDefinitionID"}`)
+					fmt.Fprintf(res, "%s", `{"name": "Name", "dashboard_url": "DashboardURL", "resourceGroupId": "ResourceGroupID", "id": "ID", "toolchainId": "ToolchainID", "pipelineOwner": "PipelineOwner", "enabled": false, "type": "Type", "created": "2019-01-01T12:00:00.000Z", "updated_at": "2019-01-01T12:00:00.000Z", "updated_at_timestamp": 18, "created_timestamp": 16, "envProperties": [{"name": "Name", "value": "Value", "type": "Type"}], "status": "Status", "url": "URL", "runs_url": "RunsURL", "toolchainCRN": "ToolchainCRN", "pipelineDefinitionId": "PipelineDefinitionID"}`)
 				}))
 			})
 			It(`Invoke GetTektonPipeline successfully`, func() {
@@ -1130,6 +1130,12 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(openToolchainService).ToNot(BeNil())
 
+				// Construct an instance of the PatchTektonPipelineParamsWorker model
+				patchTektonPipelineParamsWorkerModel := new(opentoolchainv1.PatchTektonPipelineParamsWorker)
+				patchTektonPipelineParamsWorkerModel.WorkerID = core.StringPtr("testString")
+				patchTektonPipelineParamsWorkerModel.WorkerName = core.StringPtr("testString")
+				patchTektonPipelineParamsWorkerModel.WorkerType = core.StringPtr("testString")
+
 				// Construct an instance of the EnvProperty model
 				envPropertyModel := new(opentoolchainv1.EnvProperty)
 				envPropertyModel.Name = core.StringPtr("testString")
@@ -1140,6 +1146,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				patchTektonPipelineOptionsModel := new(opentoolchainv1.PatchTektonPipelineOptions)
 				patchTektonPipelineOptionsModel.GUID = core.StringPtr("testString")
 				patchTektonPipelineOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				patchTektonPipelineOptionsModel.Worker = patchTektonPipelineParamsWorkerModel
 				patchTektonPipelineOptionsModel.EnvProperties = []opentoolchainv1.EnvProperty{*envPropertyModel}
 				patchTektonPipelineOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -1194,7 +1201,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "Name", "id": "ID", "toolchainId": "ToolchainID", "pipelineOwner": "PipelineOwner", "enabled": false, "type": "Type", "created": "2019-01-01T12:00:00.000Z", "updated_at": "2019-01-01T12:00:00.000Z", "updated_at_timestamp": 18, "created_timestamp": 16, "envProperties": [{"name": "Name", "value": "Value", "type": "Type"}], "status": "Status", "url": "URL", "runs_url": "RunsURL", "toolchainCRN": "ToolchainCRN", "pipelineDefinitionId": "PipelineDefinitionID"}`)
+					fmt.Fprintf(res, "%s", `{"name": "Name", "dashboard_url": "DashboardURL", "resourceGroupId": "ResourceGroupID", "id": "ID", "toolchainId": "ToolchainID", "pipelineOwner": "PipelineOwner", "enabled": false, "type": "Type", "created": "2019-01-01T12:00:00.000Z", "updated_at": "2019-01-01T12:00:00.000Z", "updated_at_timestamp": 18, "created_timestamp": 16, "envProperties": [{"name": "Name", "value": "Value", "type": "Type"}], "status": "Status", "url": "URL", "runs_url": "RunsURL", "toolchainCRN": "ToolchainCRN", "pipelineDefinitionId": "PipelineDefinitionID"}`)
 				}))
 			})
 			It(`Invoke PatchTektonPipeline successfully with retries`, func() {
@@ -1206,6 +1213,12 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				Expect(openToolchainService).ToNot(BeNil())
 				openToolchainService.EnableRetries(0, 0)
 
+				// Construct an instance of the PatchTektonPipelineParamsWorker model
+				patchTektonPipelineParamsWorkerModel := new(opentoolchainv1.PatchTektonPipelineParamsWorker)
+				patchTektonPipelineParamsWorkerModel.WorkerID = core.StringPtr("testString")
+				patchTektonPipelineParamsWorkerModel.WorkerName = core.StringPtr("testString")
+				patchTektonPipelineParamsWorkerModel.WorkerType = core.StringPtr("testString")
+
 				// Construct an instance of the EnvProperty model
 				envPropertyModel := new(opentoolchainv1.EnvProperty)
 				envPropertyModel.Name = core.StringPtr("testString")
@@ -1216,6 +1229,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				patchTektonPipelineOptionsModel := new(opentoolchainv1.PatchTektonPipelineOptions)
 				patchTektonPipelineOptionsModel.GUID = core.StringPtr("testString")
 				patchTektonPipelineOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				patchTektonPipelineOptionsModel.Worker = patchTektonPipelineParamsWorkerModel
 				patchTektonPipelineOptionsModel.EnvProperties = []opentoolchainv1.EnvProperty{*envPropertyModel}
 				patchTektonPipelineOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -1273,7 +1287,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "Name", "id": "ID", "toolchainId": "ToolchainID", "pipelineOwner": "PipelineOwner", "enabled": false, "type": "Type", "created": "2019-01-01T12:00:00.000Z", "updated_at": "2019-01-01T12:00:00.000Z", "updated_at_timestamp": 18, "created_timestamp": 16, "envProperties": [{"name": "Name", "value": "Value", "type": "Type"}], "status": "Status", "url": "URL", "runs_url": "RunsURL", "toolchainCRN": "ToolchainCRN", "pipelineDefinitionId": "PipelineDefinitionID"}`)
+					fmt.Fprintf(res, "%s", `{"name": "Name", "dashboard_url": "DashboardURL", "resourceGroupId": "ResourceGroupID", "id": "ID", "toolchainId": "ToolchainID", "pipelineOwner": "PipelineOwner", "enabled": false, "type": "Type", "created": "2019-01-01T12:00:00.000Z", "updated_at": "2019-01-01T12:00:00.000Z", "updated_at_timestamp": 18, "created_timestamp": 16, "envProperties": [{"name": "Name", "value": "Value", "type": "Type"}], "status": "Status", "url": "URL", "runs_url": "RunsURL", "toolchainCRN": "ToolchainCRN", "pipelineDefinitionId": "PipelineDefinitionID"}`)
 				}))
 			})
 			It(`Invoke PatchTektonPipeline successfully`, func() {
@@ -1290,6 +1304,12 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the PatchTektonPipelineParamsWorker model
+				patchTektonPipelineParamsWorkerModel := new(opentoolchainv1.PatchTektonPipelineParamsWorker)
+				patchTektonPipelineParamsWorkerModel.WorkerID = core.StringPtr("testString")
+				patchTektonPipelineParamsWorkerModel.WorkerName = core.StringPtr("testString")
+				patchTektonPipelineParamsWorkerModel.WorkerType = core.StringPtr("testString")
+
 				// Construct an instance of the EnvProperty model
 				envPropertyModel := new(opentoolchainv1.EnvProperty)
 				envPropertyModel.Name = core.StringPtr("testString")
@@ -1300,6 +1320,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				patchTektonPipelineOptionsModel := new(opentoolchainv1.PatchTektonPipelineOptions)
 				patchTektonPipelineOptionsModel.GUID = core.StringPtr("testString")
 				patchTektonPipelineOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				patchTektonPipelineOptionsModel.Worker = patchTektonPipelineParamsWorkerModel
 				patchTektonPipelineOptionsModel.EnvProperties = []opentoolchainv1.EnvProperty{*envPropertyModel}
 				patchTektonPipelineOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -1318,6 +1339,12 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(openToolchainService).ToNot(BeNil())
 
+				// Construct an instance of the PatchTektonPipelineParamsWorker model
+				patchTektonPipelineParamsWorkerModel := new(opentoolchainv1.PatchTektonPipelineParamsWorker)
+				patchTektonPipelineParamsWorkerModel.WorkerID = core.StringPtr("testString")
+				patchTektonPipelineParamsWorkerModel.WorkerName = core.StringPtr("testString")
+				patchTektonPipelineParamsWorkerModel.WorkerType = core.StringPtr("testString")
+
 				// Construct an instance of the EnvProperty model
 				envPropertyModel := new(opentoolchainv1.EnvProperty)
 				envPropertyModel.Name = core.StringPtr("testString")
@@ -1328,6 +1355,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				patchTektonPipelineOptionsModel := new(opentoolchainv1.PatchTektonPipelineOptions)
 				patchTektonPipelineOptionsModel.GUID = core.StringPtr("testString")
 				patchTektonPipelineOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				patchTektonPipelineOptionsModel.Worker = patchTektonPipelineParamsWorkerModel
 				patchTektonPipelineOptionsModel.EnvProperties = []opentoolchainv1.EnvProperty{*envPropertyModel}
 				patchTektonPipelineOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -1367,6 +1395,12 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(openToolchainService).ToNot(BeNil())
 
+				// Construct an instance of the PatchTektonPipelineParamsWorker model
+				patchTektonPipelineParamsWorkerModel := new(opentoolchainv1.PatchTektonPipelineParamsWorker)
+				patchTektonPipelineParamsWorkerModel.WorkerID = core.StringPtr("testString")
+				patchTektonPipelineParamsWorkerModel.WorkerName = core.StringPtr("testString")
+				patchTektonPipelineParamsWorkerModel.WorkerType = core.StringPtr("testString")
+
 				// Construct an instance of the EnvProperty model
 				envPropertyModel := new(opentoolchainv1.EnvProperty)
 				envPropertyModel.Name = core.StringPtr("testString")
@@ -1377,6 +1411,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				patchTektonPipelineOptionsModel := new(opentoolchainv1.PatchTektonPipelineOptions)
 				patchTektonPipelineOptionsModel.GUID = core.StringPtr("testString")
 				patchTektonPipelineOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				patchTektonPipelineOptionsModel.Worker = patchTektonPipelineParamsWorkerModel
 				patchTektonPipelineOptionsModel.EnvProperties = []opentoolchainv1.EnvProperty{*envPropertyModel}
 				patchTektonPipelineOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -1770,6 +1805,16 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewPatchTektonPipelineOptions successfully`, func() {
+				// Construct an instance of the PatchTektonPipelineParamsWorker model
+				patchTektonPipelineParamsWorkerModel := new(opentoolchainv1.PatchTektonPipelineParamsWorker)
+				Expect(patchTektonPipelineParamsWorkerModel).ToNot(BeNil())
+				patchTektonPipelineParamsWorkerModel.WorkerID = core.StringPtr("testString")
+				patchTektonPipelineParamsWorkerModel.WorkerName = core.StringPtr("testString")
+				patchTektonPipelineParamsWorkerModel.WorkerType = core.StringPtr("testString")
+				Expect(patchTektonPipelineParamsWorkerModel.WorkerID).To(Equal(core.StringPtr("testString")))
+				Expect(patchTektonPipelineParamsWorkerModel.WorkerName).To(Equal(core.StringPtr("testString")))
+				Expect(patchTektonPipelineParamsWorkerModel.WorkerType).To(Equal(core.StringPtr("testString")))
+
 				// Construct an instance of the EnvProperty model
 				envPropertyModel := new(opentoolchainv1.EnvProperty)
 				Expect(envPropertyModel).ToNot(BeNil())
@@ -1786,11 +1831,13 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				patchTektonPipelineOptionsModel := openToolchainService.NewPatchTektonPipelineOptions(guid, envID)
 				patchTektonPipelineOptionsModel.SetGUID("testString")
 				patchTektonPipelineOptionsModel.SetEnvID("ibm:yp:us-south")
+				patchTektonPipelineOptionsModel.SetWorker(patchTektonPipelineParamsWorkerModel)
 				patchTektonPipelineOptionsModel.SetEnvProperties([]opentoolchainv1.EnvProperty{*envPropertyModel})
 				patchTektonPipelineOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(patchTektonPipelineOptionsModel).ToNot(BeNil())
 				Expect(patchTektonPipelineOptionsModel.GUID).To(Equal(core.StringPtr("testString")))
 				Expect(patchTektonPipelineOptionsModel.EnvID).To(Equal(core.StringPtr("ibm:yp:us-south")))
+				Expect(patchTektonPipelineOptionsModel.Worker).To(Equal(patchTektonPipelineParamsWorkerModel))
 				Expect(patchTektonPipelineOptionsModel.EnvProperties).To(Equal([]opentoolchainv1.EnvProperty{*envPropertyModel}))
 				Expect(patchTektonPipelineOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
