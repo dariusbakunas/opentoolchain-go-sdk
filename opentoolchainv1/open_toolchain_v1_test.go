@@ -692,6 +692,95 @@ var _ = Describe(`OpenToolchainV1`, func() {
 			})
 		})
 	})
+	Describe(`DeleteServiceInstance(deleteServiceInstanceOptions *DeleteServiceInstanceOptions)`, func() {
+		deleteServiceInstancePath := "/devops/service_instances"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(deleteServiceInstancePath))
+					Expect(req.Method).To(Equal("DELETE"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.URL.Query()["env_id"]).To(Equal([]string{"ibm:yp:us-south"}))
+					res.WriteHeader(204)
+				}))
+			})
+			It(`Invoke DeleteServiceInstance successfully`, func() {
+				openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1(&opentoolchainv1.OpenToolchainV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(openToolchainService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				response, operationErr := openToolchainService.DeleteServiceInstance(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+
+				// Construct an instance of the DeleteServiceInstanceOptions model
+				deleteServiceInstanceOptionsModel := new(opentoolchainv1.DeleteServiceInstanceOptions)
+				deleteServiceInstanceOptionsModel.GUID = core.StringPtr("testString")
+				deleteServiceInstanceOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				deleteServiceInstanceOptionsModel.ToolchainID = core.StringPtr("testString")
+				deleteServiceInstanceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				response, operationErr = openToolchainService.DeleteServiceInstance(deleteServiceInstanceOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+			})
+			It(`Invoke DeleteServiceInstance with error: Operation validation and request error`, func() {
+				openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1(&opentoolchainv1.OpenToolchainV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(openToolchainService).ToNot(BeNil())
+
+				// Construct an instance of the DeleteServiceInstanceOptions model
+				deleteServiceInstanceOptionsModel := new(opentoolchainv1.DeleteServiceInstanceOptions)
+				deleteServiceInstanceOptionsModel.GUID = core.StringPtr("testString")
+				deleteServiceInstanceOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				deleteServiceInstanceOptionsModel.ToolchainID = core.StringPtr("testString")
+				deleteServiceInstanceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := openToolchainService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				response, operationErr := openToolchainService.DeleteServiceInstance(deleteServiceInstanceOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				// Construct a second instance of the DeleteServiceInstanceOptions model with no property values
+				deleteServiceInstanceOptionsModelNew := new(opentoolchainv1.DeleteServiceInstanceOptions)
+				// Invoke operation with invalid model (negative test)
+				response, operationErr = openToolchainService.DeleteServiceInstance(deleteServiceInstanceOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`GetTektonPipeline(getTektonPipelineOptions *GetTektonPipelineOptions) - Operation response error`, func() {
 		getTektonPipelinePath := "/devops/pipelines/tekton/api/v1/testString"
 		Context(`Using mock server endpoint with invalid JSON response`, func() {
@@ -1477,6 +1566,21 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				Expect(createToolchainOptionsModel.RepositoryToken).To(Equal(core.StringPtr("testString")))
 				Expect(createToolchainOptionsModel.Branch).To(Equal(core.StringPtr("testString")))
 				Expect(createToolchainOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewDeleteServiceInstanceOptions successfully`, func() {
+				// Construct an instance of the DeleteServiceInstanceOptions model
+				guid := "testString"
+				envID := "ibm:yp:us-south"
+				deleteServiceInstanceOptionsModel := openToolchainService.NewDeleteServiceInstanceOptions(guid, envID)
+				deleteServiceInstanceOptionsModel.SetGUID("testString")
+				deleteServiceInstanceOptionsModel.SetEnvID("ibm:yp:us-south")
+				deleteServiceInstanceOptionsModel.SetToolchainID("testString")
+				deleteServiceInstanceOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(deleteServiceInstanceOptionsModel).ToNot(BeNil())
+				Expect(deleteServiceInstanceOptionsModel.GUID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteServiceInstanceOptionsModel.EnvID).To(Equal(core.StringPtr("ibm:yp:us-south")))
+				Expect(deleteServiceInstanceOptionsModel.ToolchainID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteServiceInstanceOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewDeleteToolchainOptions successfully`, func() {
 				// Construct an instance of the DeleteToolchainOptions model

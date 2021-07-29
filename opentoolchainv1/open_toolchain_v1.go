@@ -414,6 +414,66 @@ func (openToolchain *OpenToolchainV1) CreateServiceInstanceWithContext(ctx conte
 	return
 }
 
+// DeleteServiceInstance : The DeleteServiceInstance operation.
+// Delete service instance.
+func (openToolchain *OpenToolchainV1) DeleteServiceInstance(deleteServiceInstanceOptions *DeleteServiceInstanceOptions) (response *core.DetailedResponse, err error) {
+	return openToolchain.DeleteServiceInstanceWithContext(context.Background(), deleteServiceInstanceOptions)
+}
+
+// DeleteServiceInstanceWithContext is an alternate form of the DeleteServiceInstance method which supports a Context parameter
+func (openToolchain *OpenToolchainV1) DeleteServiceInstanceWithContext(ctx context.Context, deleteServiceInstanceOptions *DeleteServiceInstanceOptions) (response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(deleteServiceInstanceOptions, "deleteServiceInstanceOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(deleteServiceInstanceOptions, "deleteServiceInstanceOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"guid": *deleteServiceInstanceOptions.GUID,
+	}
+
+	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = openToolchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/devops/service_instances`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range deleteServiceInstanceOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("open_toolchain", "V1", "DeleteServiceInstance")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Content-Type", "application/json")
+
+	builder.AddQuery("env_id", fmt.Sprint(*deleteServiceInstanceOptions.EnvID))
+
+	body := make(map[string]interface{})
+	if deleteServiceInstanceOptions.ToolchainID != nil {
+		body["toolchainId"] = deleteServiceInstanceOptions.ToolchainID
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	response, err = openToolchain.Service.Request(request, nil)
+
+	return
+}
+
 // GetTektonPipeline : Returns details about a particular tekton pipeline
 func (openToolchain *OpenToolchainV1) GetTektonPipeline(getTektonPipelineOptions *GetTektonPipelineOptions) (result *TektonPipeline, response *core.DetailedResponse, err error) {
 	return openToolchain.GetTektonPipelineWithContext(context.Background(), getTektonPipelineOptions)
@@ -822,6 +882,52 @@ func (options *CreateToolchainOptions) SetBranch(branch string) *CreateToolchain
 
 // SetHeaders : Allow user to set Headers
 func (options *CreateToolchainOptions) SetHeaders(param map[string]string) *CreateToolchainOptions {
+	options.Headers = param
+	return options
+}
+
+// DeleteServiceInstanceOptions : The DeleteServiceInstance options.
+type DeleteServiceInstanceOptions struct {
+	// GUID of the service instance.
+	GUID *string `validate:"required,ne="`
+
+	// Environment ID.
+	EnvID *string `validate:"required"`
+
+	ToolchainID *string
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewDeleteServiceInstanceOptions : Instantiate DeleteServiceInstanceOptions
+func (*OpenToolchainV1) NewDeleteServiceInstanceOptions(guid string, envID string) *DeleteServiceInstanceOptions {
+	return &DeleteServiceInstanceOptions{
+		GUID:  core.StringPtr(guid),
+		EnvID: core.StringPtr(envID),
+	}
+}
+
+// SetGUID : Allow user to set GUID
+func (options *DeleteServiceInstanceOptions) SetGUID(guid string) *DeleteServiceInstanceOptions {
+	options.GUID = core.StringPtr(guid)
+	return options
+}
+
+// SetEnvID : Allow user to set EnvID
+func (options *DeleteServiceInstanceOptions) SetEnvID(envID string) *DeleteServiceInstanceOptions {
+	options.EnvID = core.StringPtr(envID)
+	return options
+}
+
+// SetToolchainID : Allow user to set ToolchainID
+func (options *DeleteServiceInstanceOptions) SetToolchainID(toolchainID string) *DeleteServiceInstanceOptions {
+	options.ToolchainID = core.StringPtr(toolchainID)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *DeleteServiceInstanceOptions) SetHeaders(param map[string]string) *DeleteServiceInstanceOptions {
 	options.Headers = param
 	return options
 }

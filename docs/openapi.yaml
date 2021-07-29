@@ -183,6 +183,43 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceInstanceError'
+    delete:
+      operationId: deleteServiceInstance
+      security:
+        - iamToken: [ ]
+      description: Delete service instance
+      parameters:
+        - name: guid
+          in: path
+          description: GUID of the service instance
+          required: true
+          schema:
+            type: string
+        - name: env_id
+          in: query
+          description: Environment ID
+          required: true
+          schema:
+            type: string
+          example: "ibm:yp:us-south"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: ["toolchainId"]
+              properties:
+                toolchainId:
+                  type: string
+      responses:
+        204:
+          description: Service instance was deleted successfully.
+        default:
+          description: Internal error occurred.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceInstanceError'
   /devops/pipelines/tekton/api/v1/{guid}:
     get:
       security:
