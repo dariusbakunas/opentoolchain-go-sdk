@@ -34,10 +34,10 @@ paths:
           required: true
           schema:
             type: string
-          example: "ibm:yp:us-south"            
+          example: "ibm:yp:us-south"
       responses:
         '200':
-          description: 'Details about a toolchain'          
+          description: 'Details about a toolchain'
           content:
             application/json:
               schema:
@@ -68,19 +68,19 @@ paths:
             type: string
           example: "ibm:yp:us-south"
       requestBody:
-        content:            
+        content:
             application/json:
               schema:
                 $ref: "#/components/schemas/PatchToolchainParams"
       responses:
         204:
-          description: Toolchain was patched successfully.                     
+          description: Toolchain was patched successfully.
         default:
           description: Internal error occurred.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'    
+                $ref: '#/components/schemas/Error'
     delete:
       operationId: deleteToolchain
       security:
@@ -99,7 +99,7 @@ paths:
           required: true
           schema:
             type: string
-          example: "ibm:yp:us-south" 
+          example: "ibm:yp:us-south"
       responses:
         '200':
           description: OK
@@ -120,14 +120,14 @@ paths:
       description: |
         This info is from the document:-
           https://github.com/open-toolchain/sdk/wiki/Toolchain-Creation-page-parameters
-      parameters:        
+      parameters:
         - name: env_id
           in: query
           description: Environment ID
           required: true
           schema:
             type: string
-          example: "ibm:yp:us-south" 
+          example: "ibm:yp:us-south"
       requestBody:
         content:
             multipart/form-data:
@@ -141,13 +141,48 @@ paths:
               description: The URL of the created toolchain.
               schema:
                 type: string
-                format: uri                
+                format: uri
         default:
           description: Internal error occurred.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'          
+                $ref: '#/components/schemas/Error'
+  /devops/service_instances:
+    post:
+      security:
+        - iamToken: [ ]
+      summary: Service Instance Creation using POST
+      operationId: createServiceInstance
+      parameters:
+        - name: env_id
+          in: query
+          description: Environment ID
+          required: true
+          schema:
+            type: string
+          example: "ibm:yp:us-south"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateServiceInstanceParams'
+      responses:
+        200:
+          description: Service instance was created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+        default:
+          description: Internal error occurred.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceInstanceError'
   /devops/pipelines/tekton/api/v1/{guid}:
     get:
       security:
@@ -172,7 +207,7 @@ paths:
           example: "ibm:yp:us-south"
       responses:
         '200':
-          description: 'Details about a pipeline'          
+          description: 'Details about a pipeline'
           content:
             application/json:
               schema:
@@ -212,7 +247,7 @@ paths:
               $ref: '#/components/schemas/PatchTektonPipelineParams'
       responses:
           '200':
-            description: 'Details about a pipeline'          
+            description: 'Details about a pipeline'
             content:
               application/json:
                 schema:
@@ -234,6 +269,13 @@ components:
         for example "Bearer
         eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkdW1teSJ9.J2qaJ4pTWnidXQ3XbMmpAllL2ZiCCNkSoh0k1d7_ct1"
   schemas:
+    ServiceInstanceError:
+      type: object
+      properties:
+        message:
+          type: string
+        description:
+          type: string
     Error:
       type: object
       required: [description, status]
@@ -310,9 +352,9 @@ components:
         - name
       properties:
         toolchain_guid:
-          type: string          
+          type: string
         name:
-          type: string        
+          type: string
         description:
           type: string
         key:
@@ -358,8 +400,8 @@ components:
           type: string
         services:
           type: array
-          items:            
-            $ref: '#/components/schemas/Service'             
+          items:
+            $ref: '#/components/schemas/Service'
     Service:
       type: object
       required:
@@ -368,15 +410,15 @@ components:
         broker_id:
           type: string
         service_id:
-          type: string        
+          type: string
         container:
           $ref: '#/components/schemas/Container'
         updated_at:
           type: string
           format: date-time
         parameters:
-          type: object          
-          additionalProperties: true        
+          type: object
+          additionalProperties: true
         status:
           type: object
           properties:
@@ -405,16 +447,16 @@ components:
                 state:
                   type: string
             name:
-              type: string    
+              type: string
             webhook_id:
-              type: string          
+              type: string
     Container:
       type: object
       properties:
         guid:
           type: string
         type:
-          type: string    
+          type: string
     PatchToolchainParams:
       type: object
       required: [name]
@@ -429,34 +471,52 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/EnvProperty'
+    CreateServiceInstanceParams:
+      type: object
+      required: [toolchainId, serviceId]
+      properties:
+        toolchainId:
+          type: string
+        serviceId:
+          type: string
+        parameters:
+          type: object
+          required: [name]
+          properties:
+            name:
+              type: string
+            type:
+              type: string
+            ui_pipeline:
+              type: boolean
     CreateToolchainParams:
       type: object
       required: [repository]
       additionalProperties: true
-      properties:         
+      properties:
         repository:
           type: string
           description: |
-            The URL of the Git repository containing the template. 
+            The URL of the Git repository containing the template.
             (For example:- https://github.com/open-toolchain/simple-toolchain)
         autocreate:
           type: boolean
           description: |
-             If this param is not provided, then the creation will be ignored 
+             If this param is not provided, then the creation will be ignored
              and it will just load the toolchain creation page.
         resourceGroupId:
           type: string
           description: |
-            The GUID of resource group where toolchain will be created. 
+            The GUID of resource group where toolchain will be created.
             Pass this parameter, if you want to create the toolchain inside the resource group instead of an org.
-        repository_token:          
+        repository_token:
           type: string
           description: |
             Optional git api token to access template repository
         branch:
           type: string
           description: |
-            The Git branch name that the template will be read from. 
+            The Git branch name that the template will be read from.
             Optional. Defaults to `master`
     ServiceParams:
       type: object
@@ -464,9 +524,8 @@ components:
         label:
           type: string
         type:
-          type: string        
+          type: string
         name:
-          type: string        
- 
-      
-      
+          type: string
+
+

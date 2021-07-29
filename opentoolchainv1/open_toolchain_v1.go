@@ -341,6 +341,79 @@ func (openToolchain *OpenToolchainV1) CreateToolchainWithContext(ctx context.Con
 	return
 }
 
+// CreateServiceInstance : Service Instance Creation using POST
+func (openToolchain *OpenToolchainV1) CreateServiceInstance(createServiceInstanceOptions *CreateServiceInstanceOptions) (result *CreateServiceInstanceResponse, response *core.DetailedResponse, err error) {
+	return openToolchain.CreateServiceInstanceWithContext(context.Background(), createServiceInstanceOptions)
+}
+
+// CreateServiceInstanceWithContext is an alternate form of the CreateServiceInstance method which supports a Context parameter
+func (openToolchain *OpenToolchainV1) CreateServiceInstanceWithContext(ctx context.Context, createServiceInstanceOptions *CreateServiceInstanceOptions) (result *CreateServiceInstanceResponse, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(createServiceInstanceOptions, "createServiceInstanceOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(createServiceInstanceOptions, "createServiceInstanceOptions")
+	if err != nil {
+		return
+	}
+
+	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = openToolchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/devops/service_instances`, nil)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range createServiceInstanceOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("open_toolchain", "V1", "CreateServiceInstance")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+
+	builder.AddQuery("env_id", fmt.Sprint(*createServiceInstanceOptions.EnvID))
+
+	body := make(map[string]interface{})
+	if createServiceInstanceOptions.ToolchainID != nil {
+		body["toolchainId"] = createServiceInstanceOptions.ToolchainID
+	}
+	if createServiceInstanceOptions.ServiceID != nil {
+		body["serviceId"] = createServiceInstanceOptions.ServiceID
+	}
+	if createServiceInstanceOptions.Parameters != nil {
+		body["parameters"] = createServiceInstanceOptions.Parameters
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = openToolchain.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalCreateServiceInstanceResponse)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
 // GetTektonPipeline : Returns details about a particular tekton pipeline
 func (openToolchain *OpenToolchainV1) GetTektonPipeline(getTektonPipelineOptions *GetTektonPipelineOptions) (result *TektonPipeline, response *core.DetailedResponse, err error) {
 	return openToolchain.GetTektonPipelineWithContext(context.Background(), getTektonPipelineOptions)
@@ -556,6 +629,111 @@ func UnmarshalContainer(m map[string]json.RawMessage, result interface{}) (err e
 	return
 }
 
+// CreateServiceInstanceOptions : The CreateServiceInstance options.
+type CreateServiceInstanceOptions struct {
+	// Environment ID.
+	EnvID *string `validate:"required"`
+
+	ToolchainID *string
+
+	ServiceID *string
+
+	Parameters *CreateServiceInstanceParamsParameters
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewCreateServiceInstanceOptions : Instantiate CreateServiceInstanceOptions
+func (*OpenToolchainV1) NewCreateServiceInstanceOptions(envID string) *CreateServiceInstanceOptions {
+	return &CreateServiceInstanceOptions{
+		EnvID: core.StringPtr(envID),
+	}
+}
+
+// SetEnvID : Allow user to set EnvID
+func (options *CreateServiceInstanceOptions) SetEnvID(envID string) *CreateServiceInstanceOptions {
+	options.EnvID = core.StringPtr(envID)
+	return options
+}
+
+// SetToolchainID : Allow user to set ToolchainID
+func (options *CreateServiceInstanceOptions) SetToolchainID(toolchainID string) *CreateServiceInstanceOptions {
+	options.ToolchainID = core.StringPtr(toolchainID)
+	return options
+}
+
+// SetServiceID : Allow user to set ServiceID
+func (options *CreateServiceInstanceOptions) SetServiceID(serviceID string) *CreateServiceInstanceOptions {
+	options.ServiceID = core.StringPtr(serviceID)
+	return options
+}
+
+// SetParameters : Allow user to set Parameters
+func (options *CreateServiceInstanceOptions) SetParameters(parameters *CreateServiceInstanceParamsParameters) *CreateServiceInstanceOptions {
+	options.Parameters = parameters
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *CreateServiceInstanceOptions) SetHeaders(param map[string]string) *CreateServiceInstanceOptions {
+	options.Headers = param
+	return options
+}
+
+// CreateServiceInstanceParamsParameters : CreateServiceInstanceParamsParameters struct
+type CreateServiceInstanceParamsParameters struct {
+	Name *string `json:"name" validate:"required"`
+
+	Type *string `json:"type,omitempty"`
+
+	UIPipeline *bool `json:"ui_pipeline,omitempty"`
+}
+
+// NewCreateServiceInstanceParamsParameters : Instantiate CreateServiceInstanceParamsParameters (Generic Model Constructor)
+func (*OpenToolchainV1) NewCreateServiceInstanceParamsParameters(name string) (model *CreateServiceInstanceParamsParameters, err error) {
+	model = &CreateServiceInstanceParamsParameters{
+		Name: core.StringPtr(name),
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+// UnmarshalCreateServiceInstanceParamsParameters unmarshals an instance of CreateServiceInstanceParamsParameters from the specified map of raw messages.
+func UnmarshalCreateServiceInstanceParamsParameters(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(CreateServiceInstanceParamsParameters)
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "ui_pipeline", &obj.UIPipeline)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// CreateServiceInstanceResponse : CreateServiceInstanceResponse struct
+type CreateServiceInstanceResponse struct {
+	Status *string `json:"status,omitempty"`
+}
+
+// UnmarshalCreateServiceInstanceResponse unmarshals an instance of CreateServiceInstanceResponse from the specified map of raw messages.
+func UnmarshalCreateServiceInstanceResponse(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(CreateServiceInstanceResponse)
+	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // CreateToolchainOptions : The CreateToolchain options.
 type CreateToolchainOptions struct {
 	// Environment ID.
@@ -565,17 +743,17 @@ type CreateToolchainOptions struct {
 	// (For example:- https://github.com/open-toolchain/simple-toolchain).
 	Repository *string `validate:"required"`
 
-	// If this param is not provided, then the creation will be ignored  and it will just load the toolchain creation page.
+	// If this param is not provided, then the creation will be ignored and it will just load the toolchain creation page.
 	Autocreate *bool
 
-	// The GUID of resource group where toolchain will be created.  Pass this parameter, if you want to create the
-	// toolchain inside the resource group instead of an org.
+	// The GUID of resource group where toolchain will be created. Pass this parameter, if you want to create the toolchain
+	// inside the resource group instead of an org.
 	ResourceGroupID *string
 
 	// Optional git api token to access template repository.
 	RepositoryToken *string
 
-	// The Git branch name that the template will be read from.  Optional. Defaults to `master`.
+	// The Git branch name that the template will be read from. Optional. Defaults to `master`.
 	Branch *string
 
 	// Allows users to set arbitrary properties

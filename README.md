@@ -83,6 +83,14 @@ Be sure to use the appropriate package name from the service table above for the
 ## Using the SDK
 For general SDK usage information, please see [this link](https://github.com/IBM/ibm-cloud-sdk-common/blob/main/README.md)
 
+## Generating SDK
+
+```bash
+$ openapi-sdkgen.sh generate -g ibm-go -i docs/openapi.yaml -o .
+$ go fmt ./...
+$ patch opentoolchainv1/open_toolchain_v1.go < opentoolchainv1/patch
+```
+
 ## Questions
 
 If you are having difficulties using this SDK or have a question about the IBM Cloud services,

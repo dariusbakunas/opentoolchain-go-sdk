@@ -400,6 +400,298 @@ var _ = Describe(`OpenToolchainV1`, func() {
 			})
 		})
 	})
+	Describe(`CreateServiceInstance(createServiceInstanceOptions *CreateServiceInstanceOptions) - Operation response error`, func() {
+		createServiceInstancePath := "/devops/service_instances"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createServiceInstancePath))
+					Expect(req.Method).To(Equal("POST"))
+					Expect(req.URL.Query()["env_id"]).To(Equal([]string{"ibm:yp:us-south"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke CreateServiceInstance with error: Operation response processing error`, func() {
+				openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1(&opentoolchainv1.OpenToolchainV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(openToolchainService).ToNot(BeNil())
+
+				// Construct an instance of the CreateServiceInstanceParamsParameters model
+				createServiceInstanceParamsParametersModel := new(opentoolchainv1.CreateServiceInstanceParamsParameters)
+				createServiceInstanceParamsParametersModel.Name = core.StringPtr("testString")
+				createServiceInstanceParamsParametersModel.Type = core.StringPtr("testString")
+				createServiceInstanceParamsParametersModel.UIPipeline = core.BoolPtr(true)
+
+				// Construct an instance of the CreateServiceInstanceOptions model
+				createServiceInstanceOptionsModel := new(opentoolchainv1.CreateServiceInstanceOptions)
+				createServiceInstanceOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				createServiceInstanceOptionsModel.ToolchainID = core.StringPtr("testString")
+				createServiceInstanceOptionsModel.ServiceID = core.StringPtr("testString")
+				createServiceInstanceOptionsModel.Parameters = createServiceInstanceParamsParametersModel
+				createServiceInstanceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := openToolchainService.CreateServiceInstance(createServiceInstanceOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				openToolchainService.EnableRetries(0, 0)
+				result, response, operationErr = openToolchainService.CreateServiceInstance(createServiceInstanceOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`CreateServiceInstance(createServiceInstanceOptions *CreateServiceInstanceOptions)`, func() {
+		createServiceInstancePath := "/devops/service_instances"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createServiceInstancePath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.URL.Query()["env_id"]).To(Equal([]string{"ibm:yp:us-south"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"status": "Status"}`)
+				}))
+			})
+			It(`Invoke CreateServiceInstance successfully with retries`, func() {
+				openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1(&opentoolchainv1.OpenToolchainV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(openToolchainService).ToNot(BeNil())
+				openToolchainService.EnableRetries(0, 0)
+
+				// Construct an instance of the CreateServiceInstanceParamsParameters model
+				createServiceInstanceParamsParametersModel := new(opentoolchainv1.CreateServiceInstanceParamsParameters)
+				createServiceInstanceParamsParametersModel.Name = core.StringPtr("testString")
+				createServiceInstanceParamsParametersModel.Type = core.StringPtr("testString")
+				createServiceInstanceParamsParametersModel.UIPipeline = core.BoolPtr(true)
+
+				// Construct an instance of the CreateServiceInstanceOptions model
+				createServiceInstanceOptionsModel := new(opentoolchainv1.CreateServiceInstanceOptions)
+				createServiceInstanceOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				createServiceInstanceOptionsModel.ToolchainID = core.StringPtr("testString")
+				createServiceInstanceOptionsModel.ServiceID = core.StringPtr("testString")
+				createServiceInstanceOptionsModel.Parameters = createServiceInstanceParamsParametersModel
+				createServiceInstanceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := openToolchainService.CreateServiceInstanceWithContext(ctx, createServiceInstanceOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				openToolchainService.DisableRetries()
+				result, response, operationErr := openToolchainService.CreateServiceInstance(createServiceInstanceOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = openToolchainService.CreateServiceInstanceWithContext(ctx, createServiceInstanceOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createServiceInstancePath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.URL.Query()["env_id"]).To(Equal([]string{"ibm:yp:us-south"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"status": "Status"}`)
+				}))
+			})
+			It(`Invoke CreateServiceInstance successfully`, func() {
+				openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1(&opentoolchainv1.OpenToolchainV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(openToolchainService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := openToolchainService.CreateServiceInstance(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the CreateServiceInstanceParamsParameters model
+				createServiceInstanceParamsParametersModel := new(opentoolchainv1.CreateServiceInstanceParamsParameters)
+				createServiceInstanceParamsParametersModel.Name = core.StringPtr("testString")
+				createServiceInstanceParamsParametersModel.Type = core.StringPtr("testString")
+				createServiceInstanceParamsParametersModel.UIPipeline = core.BoolPtr(true)
+
+				// Construct an instance of the CreateServiceInstanceOptions model
+				createServiceInstanceOptionsModel := new(opentoolchainv1.CreateServiceInstanceOptions)
+				createServiceInstanceOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				createServiceInstanceOptionsModel.ToolchainID = core.StringPtr("testString")
+				createServiceInstanceOptionsModel.ServiceID = core.StringPtr("testString")
+				createServiceInstanceOptionsModel.Parameters = createServiceInstanceParamsParametersModel
+				createServiceInstanceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = openToolchainService.CreateServiceInstance(createServiceInstanceOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke CreateServiceInstance with error: Operation validation and request error`, func() {
+				openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1(&opentoolchainv1.OpenToolchainV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(openToolchainService).ToNot(BeNil())
+
+				// Construct an instance of the CreateServiceInstanceParamsParameters model
+				createServiceInstanceParamsParametersModel := new(opentoolchainv1.CreateServiceInstanceParamsParameters)
+				createServiceInstanceParamsParametersModel.Name = core.StringPtr("testString")
+				createServiceInstanceParamsParametersModel.Type = core.StringPtr("testString")
+				createServiceInstanceParamsParametersModel.UIPipeline = core.BoolPtr(true)
+
+				// Construct an instance of the CreateServiceInstanceOptions model
+				createServiceInstanceOptionsModel := new(opentoolchainv1.CreateServiceInstanceOptions)
+				createServiceInstanceOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				createServiceInstanceOptionsModel.ToolchainID = core.StringPtr("testString")
+				createServiceInstanceOptionsModel.ServiceID = core.StringPtr("testString")
+				createServiceInstanceOptionsModel.Parameters = createServiceInstanceParamsParametersModel
+				createServiceInstanceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := openToolchainService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := openToolchainService.CreateServiceInstance(createServiceInstanceOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the CreateServiceInstanceOptions model with no property values
+				createServiceInstanceOptionsModelNew := new(opentoolchainv1.CreateServiceInstanceOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = openToolchainService.CreateServiceInstance(createServiceInstanceOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke CreateServiceInstance successfully`, func() {
+				openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1(&opentoolchainv1.OpenToolchainV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(openToolchainService).ToNot(BeNil())
+
+				// Construct an instance of the CreateServiceInstanceParamsParameters model
+				createServiceInstanceParamsParametersModel := new(opentoolchainv1.CreateServiceInstanceParamsParameters)
+				createServiceInstanceParamsParametersModel.Name = core.StringPtr("testString")
+				createServiceInstanceParamsParametersModel.Type = core.StringPtr("testString")
+				createServiceInstanceParamsParametersModel.UIPipeline = core.BoolPtr(true)
+
+				// Construct an instance of the CreateServiceInstanceOptions model
+				createServiceInstanceOptionsModel := new(opentoolchainv1.CreateServiceInstanceOptions)
+				createServiceInstanceOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				createServiceInstanceOptionsModel.ToolchainID = core.StringPtr("testString")
+				createServiceInstanceOptionsModel.ServiceID = core.StringPtr("testString")
+				createServiceInstanceOptionsModel.Parameters = createServiceInstanceParamsParametersModel
+				createServiceInstanceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := openToolchainService.CreateServiceInstance(createServiceInstanceOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`GetTektonPipeline(getTektonPipelineOptions *GetTektonPipelineOptions) - Operation response error`, func() {
 		getTektonPipelinePath := "/devops/pipelines/tekton/api/v1/testString"
 		Context(`Using mock server endpoint with invalid JSON response`, func() {
@@ -1132,6 +1424,38 @@ var _ = Describe(`OpenToolchainV1`, func() {
 			openToolchainService, _ := opentoolchainv1.NewOpenToolchainV1(&opentoolchainv1.OpenToolchainV1Options{
 				URL:           "http://opentoolchainv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
+			})
+			It(`Invoke NewCreateServiceInstanceOptions successfully`, func() {
+				// Construct an instance of the CreateServiceInstanceParamsParameters model
+				createServiceInstanceParamsParametersModel := new(opentoolchainv1.CreateServiceInstanceParamsParameters)
+				Expect(createServiceInstanceParamsParametersModel).ToNot(BeNil())
+				createServiceInstanceParamsParametersModel.Name = core.StringPtr("testString")
+				createServiceInstanceParamsParametersModel.Type = core.StringPtr("testString")
+				createServiceInstanceParamsParametersModel.UIPipeline = core.BoolPtr(true)
+				Expect(createServiceInstanceParamsParametersModel.Name).To(Equal(core.StringPtr("testString")))
+				Expect(createServiceInstanceParamsParametersModel.Type).To(Equal(core.StringPtr("testString")))
+				Expect(createServiceInstanceParamsParametersModel.UIPipeline).To(Equal(core.BoolPtr(true)))
+
+				// Construct an instance of the CreateServiceInstanceOptions model
+				envID := "ibm:yp:us-south"
+				createServiceInstanceOptionsModel := openToolchainService.NewCreateServiceInstanceOptions(envID)
+				createServiceInstanceOptionsModel.SetEnvID("ibm:yp:us-south")
+				createServiceInstanceOptionsModel.SetToolchainID("testString")
+				createServiceInstanceOptionsModel.SetServiceID("testString")
+				createServiceInstanceOptionsModel.SetParameters(createServiceInstanceParamsParametersModel)
+				createServiceInstanceOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(createServiceInstanceOptionsModel).ToNot(BeNil())
+				Expect(createServiceInstanceOptionsModel.EnvID).To(Equal(core.StringPtr("ibm:yp:us-south")))
+				Expect(createServiceInstanceOptionsModel.ToolchainID).To(Equal(core.StringPtr("testString")))
+				Expect(createServiceInstanceOptionsModel.ServiceID).To(Equal(core.StringPtr("testString")))
+				Expect(createServiceInstanceOptionsModel.Parameters).To(Equal(createServiceInstanceParamsParametersModel))
+				Expect(createServiceInstanceOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewCreateServiceInstanceParamsParameters successfully`, func() {
+				name := "testString"
+				model, err := openToolchainService.NewCreateServiceInstanceParamsParameters(name)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewCreateToolchainOptions successfully`, func() {
 				// Construct an instance of the CreateToolchainOptions model
