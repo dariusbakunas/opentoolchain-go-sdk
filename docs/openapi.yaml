@@ -221,6 +221,39 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceInstanceError'
+    patch:
+      security:
+        - iamToken: [ ]
+      operationId: patchServiceInstance
+      summary: 'Patch service instance'
+      parameters:
+        - name: guid
+          in: path
+          description: GUID of the instance
+          required: true
+          schema:
+            type: string
+        - name: env_id
+          in: query
+          description: Environment ID
+          required: true
+          schema:
+            type: string
+          example: "ibm:yp:us-south"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateServiceInstanceParams'
+      responses:
+        200:
+          description: Service instance was patched successfully.
+        default:
+          description: Internal error occurred.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceInstanceError'
   /devops/pipelines/tekton/api/v1/{guid}:
     get:
       security:

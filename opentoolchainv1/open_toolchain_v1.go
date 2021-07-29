@@ -474,6 +474,71 @@ func (openToolchain *OpenToolchainV1) DeleteServiceInstanceWithContext(ctx conte
 	return
 }
 
+// PatchServiceInstance : Patch service instance
+func (openToolchain *OpenToolchainV1) PatchServiceInstance(patchServiceInstanceOptions *PatchServiceInstanceOptions) (response *core.DetailedResponse, err error) {
+	return openToolchain.PatchServiceInstanceWithContext(context.Background(), patchServiceInstanceOptions)
+}
+
+// PatchServiceInstanceWithContext is an alternate form of the PatchServiceInstance method which supports a Context parameter
+func (openToolchain *OpenToolchainV1) PatchServiceInstanceWithContext(ctx context.Context, patchServiceInstanceOptions *PatchServiceInstanceOptions) (response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(patchServiceInstanceOptions, "patchServiceInstanceOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(patchServiceInstanceOptions, "patchServiceInstanceOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"guid": *patchServiceInstanceOptions.GUID,
+	}
+
+	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = openToolchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/devops/service_instances/{guid}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range patchServiceInstanceOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("open_toolchain", "V1", "PatchServiceInstance")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Content-Type", "application/json")
+
+	builder.AddQuery("env_id", fmt.Sprint(*patchServiceInstanceOptions.EnvID))
+
+	body := make(map[string]interface{})
+	if patchServiceInstanceOptions.ToolchainID != nil {
+		body["toolchainId"] = patchServiceInstanceOptions.ToolchainID
+	}
+	if patchServiceInstanceOptions.ServiceID != nil {
+		body["serviceId"] = patchServiceInstanceOptions.ServiceID
+	}
+	if patchServiceInstanceOptions.Parameters != nil {
+		body["parameters"] = patchServiceInstanceOptions.Parameters
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	response, err = openToolchain.Service.Request(request, nil)
+
+	return
+}
+
 // GetTektonPipeline : Returns details about a particular tekton pipeline
 func (openToolchain *OpenToolchainV1) GetTektonPipeline(getTektonPipelineOptions *GetTektonPipelineOptions) (result *TektonPipeline, response *core.DetailedResponse, err error) {
 	return openToolchain.GetTektonPipelineWithContext(context.Background(), getTektonPipelineOptions)
@@ -1081,6 +1146,68 @@ func (options *GetToolchainOptions) SetEnvID(envID string) *GetToolchainOptions 
 
 // SetHeaders : Allow user to set Headers
 func (options *GetToolchainOptions) SetHeaders(param map[string]string) *GetToolchainOptions {
+	options.Headers = param
+	return options
+}
+
+// PatchServiceInstanceOptions : The PatchServiceInstance options.
+type PatchServiceInstanceOptions struct {
+	// GUID of the instance.
+	GUID *string `validate:"required,ne="`
+
+	// Environment ID.
+	EnvID *string `validate:"required"`
+
+	ToolchainID *string
+
+	ServiceID *string
+
+	Parameters *CreateServiceInstanceParamsParameters
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewPatchServiceInstanceOptions : Instantiate PatchServiceInstanceOptions
+func (*OpenToolchainV1) NewPatchServiceInstanceOptions(guid string, envID string) *PatchServiceInstanceOptions {
+	return &PatchServiceInstanceOptions{
+		GUID:  core.StringPtr(guid),
+		EnvID: core.StringPtr(envID),
+	}
+}
+
+// SetGUID : Allow user to set GUID
+func (options *PatchServiceInstanceOptions) SetGUID(guid string) *PatchServiceInstanceOptions {
+	options.GUID = core.StringPtr(guid)
+	return options
+}
+
+// SetEnvID : Allow user to set EnvID
+func (options *PatchServiceInstanceOptions) SetEnvID(envID string) *PatchServiceInstanceOptions {
+	options.EnvID = core.StringPtr(envID)
+	return options
+}
+
+// SetToolchainID : Allow user to set ToolchainID
+func (options *PatchServiceInstanceOptions) SetToolchainID(toolchainID string) *PatchServiceInstanceOptions {
+	options.ToolchainID = core.StringPtr(toolchainID)
+	return options
+}
+
+// SetServiceID : Allow user to set ServiceID
+func (options *PatchServiceInstanceOptions) SetServiceID(serviceID string) *PatchServiceInstanceOptions {
+	options.ServiceID = core.StringPtr(serviceID)
+	return options
+}
+
+// SetParameters : Allow user to set Parameters
+func (options *PatchServiceInstanceOptions) SetParameters(parameters *CreateServiceInstanceParamsParameters) *PatchServiceInstanceOptions {
+	options.Parameters = parameters
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *PatchServiceInstanceOptions) SetHeaders(param map[string]string) *PatchServiceInstanceOptions {
 	options.Headers = param
 	return options
 }
