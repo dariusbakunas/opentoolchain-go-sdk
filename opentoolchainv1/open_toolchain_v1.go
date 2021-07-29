@@ -519,7 +519,7 @@ func (openToolchain *OpenToolchainV1) PatchServiceInstanceWithContext(ctx contex
 		body["toolchainId"] = patchServiceInstanceOptions.ToolchainID
 	}
 	if patchServiceInstanceOptions.ServiceID != nil {
-		body["serviceId"] = patchServiceInstanceOptions.ServiceID
+		body["service_id"] = patchServiceInstanceOptions.ServiceID
 	}
 	if patchServiceInstanceOptions.Parameters != nil {
 		body["parameters"] = patchServiceInstanceOptions.Parameters
@@ -1162,7 +1162,7 @@ type PatchServiceInstanceOptions struct {
 
 	ServiceID *string
 
-	Parameters *CreateServiceInstanceParamsParameters
+	Parameters *PatchServiceInstanceParamsParameters
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -1201,7 +1201,7 @@ func (options *PatchServiceInstanceOptions) SetServiceID(serviceID string) *Patc
 }
 
 // SetParameters : Allow user to set Parameters
-func (options *PatchServiceInstanceOptions) SetParameters(parameters *CreateServiceInstanceParamsParameters) *PatchServiceInstanceOptions {
+func (options *PatchServiceInstanceOptions) SetParameters(parameters *PatchServiceInstanceParamsParameters) *PatchServiceInstanceOptions {
 	options.Parameters = parameters
 	return options
 }
@@ -1210,6 +1210,43 @@ func (options *PatchServiceInstanceOptions) SetParameters(parameters *CreateServ
 func (options *PatchServiceInstanceOptions) SetHeaders(param map[string]string) *PatchServiceInstanceOptions {
 	options.Headers = param
 	return options
+}
+
+// PatchServiceInstanceParamsParameters : PatchServiceInstanceParamsParameters struct
+type PatchServiceInstanceParamsParameters struct {
+	Name *string `json:"name" validate:"required"`
+
+	Type *string `json:"type,omitempty"`
+
+	UIPipeline *bool `json:"ui_pipeline,omitempty"`
+}
+
+// NewPatchServiceInstanceParamsParameters : Instantiate PatchServiceInstanceParamsParameters (Generic Model Constructor)
+func (*OpenToolchainV1) NewPatchServiceInstanceParamsParameters(name string) (model *PatchServiceInstanceParamsParameters, err error) {
+	model = &PatchServiceInstanceParamsParameters{
+		Name: core.StringPtr(name),
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+// UnmarshalPatchServiceInstanceParamsParameters unmarshals an instance of PatchServiceInstanceParamsParameters from the specified map of raw messages.
+func UnmarshalPatchServiceInstanceParamsParameters(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(PatchServiceInstanceParamsParameters)
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "ui_pipeline", &obj.UIPipeline)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
 }
 
 // PatchTektonPipelineOptions : The PatchTektonPipeline options.

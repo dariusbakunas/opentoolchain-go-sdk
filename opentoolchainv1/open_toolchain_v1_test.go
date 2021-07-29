@@ -825,11 +825,11 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 
-				// Construct an instance of the CreateServiceInstanceParamsParameters model
-				createServiceInstanceParamsParametersModel := new(opentoolchainv1.CreateServiceInstanceParamsParameters)
-				createServiceInstanceParamsParametersModel.Name = core.StringPtr("testString")
-				createServiceInstanceParamsParametersModel.Type = core.StringPtr("testString")
-				createServiceInstanceParamsParametersModel.UIPipeline = core.BoolPtr(true)
+				// Construct an instance of the PatchServiceInstanceParamsParameters model
+				patchServiceInstanceParamsParametersModel := new(opentoolchainv1.PatchServiceInstanceParamsParameters)
+				patchServiceInstanceParamsParametersModel.Name = core.StringPtr("testString")
+				patchServiceInstanceParamsParametersModel.Type = core.StringPtr("testString")
+				patchServiceInstanceParamsParametersModel.UIPipeline = core.BoolPtr(true)
 
 				// Construct an instance of the PatchServiceInstanceOptions model
 				patchServiceInstanceOptionsModel := new(opentoolchainv1.PatchServiceInstanceOptions)
@@ -837,7 +837,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				patchServiceInstanceOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
 				patchServiceInstanceOptionsModel.ToolchainID = core.StringPtr("testString")
 				patchServiceInstanceOptionsModel.ServiceID = core.StringPtr("testString")
-				patchServiceInstanceOptionsModel.Parameters = createServiceInstanceParamsParametersModel
+				patchServiceInstanceOptionsModel.Parameters = patchServiceInstanceParamsParametersModel
 				patchServiceInstanceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -853,11 +853,11 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(openToolchainService).ToNot(BeNil())
 
-				// Construct an instance of the CreateServiceInstanceParamsParameters model
-				createServiceInstanceParamsParametersModel := new(opentoolchainv1.CreateServiceInstanceParamsParameters)
-				createServiceInstanceParamsParametersModel.Name = core.StringPtr("testString")
-				createServiceInstanceParamsParametersModel.Type = core.StringPtr("testString")
-				createServiceInstanceParamsParametersModel.UIPipeline = core.BoolPtr(true)
+				// Construct an instance of the PatchServiceInstanceParamsParameters model
+				patchServiceInstanceParamsParametersModel := new(opentoolchainv1.PatchServiceInstanceParamsParameters)
+				patchServiceInstanceParamsParametersModel.Name = core.StringPtr("testString")
+				patchServiceInstanceParamsParametersModel.Type = core.StringPtr("testString")
+				patchServiceInstanceParamsParametersModel.UIPipeline = core.BoolPtr(true)
 
 				// Construct an instance of the PatchServiceInstanceOptions model
 				patchServiceInstanceOptionsModel := new(opentoolchainv1.PatchServiceInstanceOptions)
@@ -865,7 +865,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				patchServiceInstanceOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
 				patchServiceInstanceOptionsModel.ToolchainID = core.StringPtr("testString")
 				patchServiceInstanceOptionsModel.ServiceID = core.StringPtr("testString")
-				patchServiceInstanceOptionsModel.Parameters = createServiceInstanceParamsParametersModel
+				patchServiceInstanceOptionsModel.Parameters = patchServiceInstanceParamsParametersModel
 				patchServiceInstanceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := openToolchainService.SetServiceURL("")
@@ -1735,15 +1735,15 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				Expect(getToolchainOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewPatchServiceInstanceOptions successfully`, func() {
-				// Construct an instance of the CreateServiceInstanceParamsParameters model
-				createServiceInstanceParamsParametersModel := new(opentoolchainv1.CreateServiceInstanceParamsParameters)
-				Expect(createServiceInstanceParamsParametersModel).ToNot(BeNil())
-				createServiceInstanceParamsParametersModel.Name = core.StringPtr("testString")
-				createServiceInstanceParamsParametersModel.Type = core.StringPtr("testString")
-				createServiceInstanceParamsParametersModel.UIPipeline = core.BoolPtr(true)
-				Expect(createServiceInstanceParamsParametersModel.Name).To(Equal(core.StringPtr("testString")))
-				Expect(createServiceInstanceParamsParametersModel.Type).To(Equal(core.StringPtr("testString")))
-				Expect(createServiceInstanceParamsParametersModel.UIPipeline).To(Equal(core.BoolPtr(true)))
+				// Construct an instance of the PatchServiceInstanceParamsParameters model
+				patchServiceInstanceParamsParametersModel := new(opentoolchainv1.PatchServiceInstanceParamsParameters)
+				Expect(patchServiceInstanceParamsParametersModel).ToNot(BeNil())
+				patchServiceInstanceParamsParametersModel.Name = core.StringPtr("testString")
+				patchServiceInstanceParamsParametersModel.Type = core.StringPtr("testString")
+				patchServiceInstanceParamsParametersModel.UIPipeline = core.BoolPtr(true)
+				Expect(patchServiceInstanceParamsParametersModel.Name).To(Equal(core.StringPtr("testString")))
+				Expect(patchServiceInstanceParamsParametersModel.Type).To(Equal(core.StringPtr("testString")))
+				Expect(patchServiceInstanceParamsParametersModel.UIPipeline).To(Equal(core.BoolPtr(true)))
 
 				// Construct an instance of the PatchServiceInstanceOptions model
 				guid := "testString"
@@ -1753,15 +1753,21 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				patchServiceInstanceOptionsModel.SetEnvID("ibm:yp:us-south")
 				patchServiceInstanceOptionsModel.SetToolchainID("testString")
 				patchServiceInstanceOptionsModel.SetServiceID("testString")
-				patchServiceInstanceOptionsModel.SetParameters(createServiceInstanceParamsParametersModel)
+				patchServiceInstanceOptionsModel.SetParameters(patchServiceInstanceParamsParametersModel)
 				patchServiceInstanceOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(patchServiceInstanceOptionsModel).ToNot(BeNil())
 				Expect(patchServiceInstanceOptionsModel.GUID).To(Equal(core.StringPtr("testString")))
 				Expect(patchServiceInstanceOptionsModel.EnvID).To(Equal(core.StringPtr("ibm:yp:us-south")))
 				Expect(patchServiceInstanceOptionsModel.ToolchainID).To(Equal(core.StringPtr("testString")))
 				Expect(patchServiceInstanceOptionsModel.ServiceID).To(Equal(core.StringPtr("testString")))
-				Expect(patchServiceInstanceOptionsModel.Parameters).To(Equal(createServiceInstanceParamsParametersModel))
+				Expect(patchServiceInstanceOptionsModel.Parameters).To(Equal(patchServiceInstanceParamsParametersModel))
 				Expect(patchServiceInstanceOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewPatchServiceInstanceParamsParameters successfully`, func() {
+				name := "testString"
+				model, err := openToolchainService.NewPatchServiceInstanceParamsParameters(name)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewPatchTektonPipelineOptions successfully`, func() {
 				// Construct an instance of the EnvProperty model

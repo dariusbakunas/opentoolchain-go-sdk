@@ -244,7 +244,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateServiceInstanceParams'
+              $ref: '#/components/schemas/PatchServiceInstanceParams'
       responses:
         200:
           description: Service instance was patched successfully.
@@ -553,6 +553,24 @@ components:
         parameters:
           type: object
           required: [name]
+          properties:
+            name:
+              type: string
+            type:
+              type: string
+            ui_pipeline:
+              type: boolean
+    PatchServiceInstanceParams:
+      type: object
+      required: [ toolchainId, serviceId ]
+      properties:
+        toolchainId:
+          type: string
+        service_id:
+          type: string
+        parameters:
+          type: object
+          required: [ name ]
           properties:
             name:
               type: string
