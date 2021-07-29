@@ -693,7 +693,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 		})
 	})
 	Describe(`DeleteServiceInstance(deleteServiceInstanceOptions *DeleteServiceInstanceOptions)`, func() {
-		deleteServiceInstancePath := "/devops/service_instances"
+		deleteServiceInstancePath := "/devops/service_instances/testString"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {

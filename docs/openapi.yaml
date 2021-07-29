@@ -183,6 +183,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceInstanceError'
+  /devops/service_instances/{guid}:
     delete:
       operationId: deleteServiceInstance
       security:

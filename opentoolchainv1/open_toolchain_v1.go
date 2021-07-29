@@ -438,7 +438,7 @@ func (openToolchain *OpenToolchainV1) DeleteServiceInstanceWithContext(ctx conte
 	builder := core.NewRequestBuilder(core.DELETE)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = openToolchain.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/devops/service_instances`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/devops/service_instances/{guid}`, pathParamsMap)
 	if err != nil {
 		return
 	}
