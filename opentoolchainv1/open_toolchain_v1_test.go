@@ -875,6 +875,10 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				patchServiceInstanceParamsParametersModel.Name = core.StringPtr("testString")
 				patchServiceInstanceParamsParametersModel.Type = core.StringPtr("testString")
 				patchServiceInstanceParamsParametersModel.UIPipeline = core.BoolPtr(true)
+				patchServiceInstanceParamsParametersModel.RepoURL = core.StringPtr("testString")
+				patchServiceInstanceParamsParametersModel.PrivateRepo = core.BoolPtr(true)
+				patchServiceInstanceParamsParametersModel.HasIssues = core.BoolPtr(true)
+				patchServiceInstanceParamsParametersModel.EnableTraceability = core.BoolPtr(true)
 
 				// Construct an instance of the PatchServiceInstanceOptions model
 				patchServiceInstanceOptionsModel := new(opentoolchainv1.PatchServiceInstanceOptions)
@@ -903,6 +907,10 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				patchServiceInstanceParamsParametersModel.Name = core.StringPtr("testString")
 				patchServiceInstanceParamsParametersModel.Type = core.StringPtr("testString")
 				patchServiceInstanceParamsParametersModel.UIPipeline = core.BoolPtr(true)
+				patchServiceInstanceParamsParametersModel.RepoURL = core.StringPtr("testString")
+				patchServiceInstanceParamsParametersModel.PrivateRepo = core.BoolPtr(true)
+				patchServiceInstanceParamsParametersModel.HasIssues = core.BoolPtr(true)
+				patchServiceInstanceParamsParametersModel.EnableTraceability = core.BoolPtr(true)
 
 				// Construct an instance of the PatchServiceInstanceOptions model
 				patchServiceInstanceOptionsModel := new(opentoolchainv1.PatchServiceInstanceOptions)
@@ -1833,9 +1841,17 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				patchServiceInstanceParamsParametersModel.Name = core.StringPtr("testString")
 				patchServiceInstanceParamsParametersModel.Type = core.StringPtr("testString")
 				patchServiceInstanceParamsParametersModel.UIPipeline = core.BoolPtr(true)
+				patchServiceInstanceParamsParametersModel.RepoURL = core.StringPtr("testString")
+				patchServiceInstanceParamsParametersModel.PrivateRepo = core.BoolPtr(true)
+				patchServiceInstanceParamsParametersModel.HasIssues = core.BoolPtr(true)
+				patchServiceInstanceParamsParametersModel.EnableTraceability = core.BoolPtr(true)
 				Expect(patchServiceInstanceParamsParametersModel.Name).To(Equal(core.StringPtr("testString")))
 				Expect(patchServiceInstanceParamsParametersModel.Type).To(Equal(core.StringPtr("testString")))
 				Expect(patchServiceInstanceParamsParametersModel.UIPipeline).To(Equal(core.BoolPtr(true)))
+				Expect(patchServiceInstanceParamsParametersModel.RepoURL).To(Equal(core.StringPtr("testString")))
+				Expect(patchServiceInstanceParamsParametersModel.PrivateRepo).To(Equal(core.BoolPtr(true)))
+				Expect(patchServiceInstanceParamsParametersModel.HasIssues).To(Equal(core.BoolPtr(true)))
+				Expect(patchServiceInstanceParamsParametersModel.EnableTraceability).To(Equal(core.BoolPtr(true)))
 
 				// Construct an instance of the PatchServiceInstanceOptions model
 				guid := "testString"
@@ -1854,12 +1870,6 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				Expect(patchServiceInstanceOptionsModel.ServiceID).To(Equal(core.StringPtr("testString")))
 				Expect(patchServiceInstanceOptionsModel.Parameters).To(Equal(patchServiceInstanceParamsParametersModel))
 				Expect(patchServiceInstanceOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
-			})
-			It(`Invoke NewPatchServiceInstanceParamsParameters successfully`, func() {
-				name := "testString"
-				model, err := openToolchainService.NewPatchServiceInstanceParamsParameters(name)
-				Expect(model).ToNot(BeNil())
-				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewPatchTektonPipelineOptions successfully`, func() {
 				// Construct an instance of the PatchTektonPipelineParamsWorker model

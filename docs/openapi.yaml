@@ -600,13 +600,20 @@ components:
           type: string
         parameters:
           type: object
-          required: [ name ]
           properties:
             name:
               type: string
             type:
               type: string
             ui_pipeline:
+              type: boolean
+            repo_url:
+              type: string
+            private_repo:
+              type: boolean
+            has_issues:
+              type: boolean
+            enable_traceability:
               type: boolean
     CreateToolchainParams:
       type: object

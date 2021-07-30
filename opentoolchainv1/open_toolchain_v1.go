@@ -1262,20 +1262,19 @@ func (options *PatchServiceInstanceOptions) SetHeaders(param map[string]string) 
 
 // PatchServiceInstanceParamsParameters : PatchServiceInstanceParamsParameters struct
 type PatchServiceInstanceParamsParameters struct {
-	Name *string `json:"name" validate:"required"`
+	Name *string `json:"name,omitempty"`
 
 	Type *string `json:"type,omitempty"`
 
 	UIPipeline *bool `json:"ui_pipeline,omitempty"`
-}
 
-// NewPatchServiceInstanceParamsParameters : Instantiate PatchServiceInstanceParamsParameters (Generic Model Constructor)
-func (*OpenToolchainV1) NewPatchServiceInstanceParamsParameters(name string) (model *PatchServiceInstanceParamsParameters, err error) {
-	model = &PatchServiceInstanceParamsParameters{
-		Name: core.StringPtr(name),
-	}
-	err = core.ValidateStruct(model, "required parameters")
-	return
+	RepoURL *string `json:"repo_url,omitempty"`
+
+	PrivateRepo *bool `json:"private_repo,omitempty"`
+
+	HasIssues *bool `json:"has_issues,omitempty"`
+
+	EnableTraceability *bool `json:"enable_traceability,omitempty"`
 }
 
 // UnmarshalPatchServiceInstanceParamsParameters unmarshals an instance of PatchServiceInstanceParamsParameters from the specified map of raw messages.
@@ -1290,6 +1289,22 @@ func UnmarshalPatchServiceInstanceParamsParameters(m map[string]json.RawMessage,
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "ui_pipeline", &obj.UIPipeline)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "repo_url", &obj.RepoURL)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "private_repo", &obj.PrivateRepo)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "has_issues", &obj.HasIssues)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "enable_traceability", &obj.EnableTraceability)
 	if err != nil {
 		return
 	}
