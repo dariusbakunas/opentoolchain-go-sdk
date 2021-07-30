@@ -565,8 +565,25 @@ components:
           type: string
         parameters:
           type: object
-          required: [name]
           properties:
+            authorized:
+              type: string
+            git_id:
+              type: string
+            api_root_url:
+              type: string
+            legal:
+              type: boolean
+            repo_url:
+              type: string
+            token_url:
+              type: string
+            private_repo:
+              type: boolean
+            has_issues:
+              type: boolean
+            enable_traceability:
+              type: boolean
             name:
               type: string
             type:

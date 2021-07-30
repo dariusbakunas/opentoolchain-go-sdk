@@ -811,25 +811,70 @@ func (options *CreateServiceInstanceOptions) SetHeaders(param map[string]string)
 
 // CreateServiceInstanceParamsParameters : CreateServiceInstanceParamsParameters struct
 type CreateServiceInstanceParamsParameters struct {
-	Name *string `json:"name" validate:"required"`
+	Authorized *string `json:"authorized,omitempty"`
+
+	GitID *string `json:"git_id,omitempty"`
+
+	APIRootURL *string `json:"api_root_url,omitempty"`
+
+	Legal *bool `json:"legal,omitempty"`
+
+	RepoURL *string `json:"repo_url,omitempty"`
+
+	TokenURL *string `json:"token_url,omitempty"`
+
+	PrivateRepo *bool `json:"private_repo,omitempty"`
+
+	HasIssues *bool `json:"has_issues,omitempty"`
+
+	EnableTraceability *bool `json:"enable_traceability,omitempty"`
+
+	Name *string `json:"name,omitempty"`
 
 	Type *string `json:"type,omitempty"`
 
 	UIPipeline *bool `json:"ui_pipeline,omitempty"`
 }
 
-// NewCreateServiceInstanceParamsParameters : Instantiate CreateServiceInstanceParamsParameters (Generic Model Constructor)
-func (*OpenToolchainV1) NewCreateServiceInstanceParamsParameters(name string) (model *CreateServiceInstanceParamsParameters, err error) {
-	model = &CreateServiceInstanceParamsParameters{
-		Name: core.StringPtr(name),
-	}
-	err = core.ValidateStruct(model, "required parameters")
-	return
-}
-
 // UnmarshalCreateServiceInstanceParamsParameters unmarshals an instance of CreateServiceInstanceParamsParameters from the specified map of raw messages.
 func UnmarshalCreateServiceInstanceParamsParameters(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(CreateServiceInstanceParamsParameters)
+	err = core.UnmarshalPrimitive(m, "authorized", &obj.Authorized)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "git_id", &obj.GitID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "api_root_url", &obj.APIRootURL)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "legal", &obj.Legal)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "repo_url", &obj.RepoURL)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "token_url", &obj.TokenURL)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "private_repo", &obj.PrivateRepo)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "has_issues", &obj.HasIssues)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "enable_traceability", &obj.EnableTraceability)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
 		return
