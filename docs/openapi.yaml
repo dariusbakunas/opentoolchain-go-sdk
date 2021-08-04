@@ -669,6 +669,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/EnvProperty'
+        triggers:
+          type: array
+          items:
+            $ref: '#/components/schemas/TektonPipelineTrigger'
     CreateServiceInstanceParams:
       type: object
       required: [toolchainId, serviceId]

@@ -1195,12 +1195,37 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				envPropertyModel.Value = core.StringPtr("testString")
 				envPropertyModel.Type = core.StringPtr("testString")
 
+				// Construct an instance of the TektonPipelineTriggerScmSource model
+				tektonPipelineTriggerScmSourceModel := new(opentoolchainv1.TektonPipelineTriggerScmSource)
+				tektonPipelineTriggerScmSourceModel.URL = core.StringPtr("testString")
+				tektonPipelineTriggerScmSourceModel.Type = core.StringPtr("testString")
+				tektonPipelineTriggerScmSourceModel.Branch = core.StringPtr("testString")
+				tektonPipelineTriggerScmSourceModel.HookID = core.StringPtr("testString")
+
+				// Construct an instance of the TektonPipelineTriggerEvents model
+				tektonPipelineTriggerEventsModel := new(opentoolchainv1.TektonPipelineTriggerEvents)
+				tektonPipelineTriggerEventsModel.Push = core.BoolPtr(true)
+				tektonPipelineTriggerEventsModel.PullRequest = core.BoolPtr(true)
+				tektonPipelineTriggerEventsModel.PullRequestClosed = core.BoolPtr(true)
+
+				// Construct an instance of the TektonPipelineTrigger model
+				tektonPipelineTriggerModel := new(opentoolchainv1.TektonPipelineTrigger)
+				tektonPipelineTriggerModel.ID = core.StringPtr("testString")
+				tektonPipelineTriggerModel.Name = core.StringPtr("testString")
+				tektonPipelineTriggerModel.EventListener = core.StringPtr("testString")
+				tektonPipelineTriggerModel.Disabled = core.BoolPtr(true)
+				tektonPipelineTriggerModel.ScmSource = tektonPipelineTriggerScmSourceModel
+				tektonPipelineTriggerModel.Type = core.StringPtr("testString")
+				tektonPipelineTriggerModel.Events = tektonPipelineTriggerEventsModel
+				tektonPipelineTriggerModel.ServiceInstanceID = core.StringPtr("testString")
+
 				// Construct an instance of the PatchTektonPipelineOptions model
 				patchTektonPipelineOptionsModel := new(opentoolchainv1.PatchTektonPipelineOptions)
 				patchTektonPipelineOptionsModel.GUID = core.StringPtr("testString")
 				patchTektonPipelineOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
 				patchTektonPipelineOptionsModel.Worker = patchTektonPipelineParamsWorkerModel
 				patchTektonPipelineOptionsModel.EnvProperties = []opentoolchainv1.EnvProperty{*envPropertyModel}
+				patchTektonPipelineOptionsModel.Triggers = []opentoolchainv1.TektonPipelineTrigger{*tektonPipelineTriggerModel}
 				patchTektonPipelineOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := openToolchainService.PatchTektonPipeline(patchTektonPipelineOptionsModel)
@@ -1278,12 +1303,37 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				envPropertyModel.Value = core.StringPtr("testString")
 				envPropertyModel.Type = core.StringPtr("testString")
 
+				// Construct an instance of the TektonPipelineTriggerScmSource model
+				tektonPipelineTriggerScmSourceModel := new(opentoolchainv1.TektonPipelineTriggerScmSource)
+				tektonPipelineTriggerScmSourceModel.URL = core.StringPtr("testString")
+				tektonPipelineTriggerScmSourceModel.Type = core.StringPtr("testString")
+				tektonPipelineTriggerScmSourceModel.Branch = core.StringPtr("testString")
+				tektonPipelineTriggerScmSourceModel.HookID = core.StringPtr("testString")
+
+				// Construct an instance of the TektonPipelineTriggerEvents model
+				tektonPipelineTriggerEventsModel := new(opentoolchainv1.TektonPipelineTriggerEvents)
+				tektonPipelineTriggerEventsModel.Push = core.BoolPtr(true)
+				tektonPipelineTriggerEventsModel.PullRequest = core.BoolPtr(true)
+				tektonPipelineTriggerEventsModel.PullRequestClosed = core.BoolPtr(true)
+
+				// Construct an instance of the TektonPipelineTrigger model
+				tektonPipelineTriggerModel := new(opentoolchainv1.TektonPipelineTrigger)
+				tektonPipelineTriggerModel.ID = core.StringPtr("testString")
+				tektonPipelineTriggerModel.Name = core.StringPtr("testString")
+				tektonPipelineTriggerModel.EventListener = core.StringPtr("testString")
+				tektonPipelineTriggerModel.Disabled = core.BoolPtr(true)
+				tektonPipelineTriggerModel.ScmSource = tektonPipelineTriggerScmSourceModel
+				tektonPipelineTriggerModel.Type = core.StringPtr("testString")
+				tektonPipelineTriggerModel.Events = tektonPipelineTriggerEventsModel
+				tektonPipelineTriggerModel.ServiceInstanceID = core.StringPtr("testString")
+
 				// Construct an instance of the PatchTektonPipelineOptions model
 				patchTektonPipelineOptionsModel := new(opentoolchainv1.PatchTektonPipelineOptions)
 				patchTektonPipelineOptionsModel.GUID = core.StringPtr("testString")
 				patchTektonPipelineOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
 				patchTektonPipelineOptionsModel.Worker = patchTektonPipelineParamsWorkerModel
 				patchTektonPipelineOptionsModel.EnvProperties = []opentoolchainv1.EnvProperty{*envPropertyModel}
+				patchTektonPipelineOptionsModel.Triggers = []opentoolchainv1.TektonPipelineTrigger{*tektonPipelineTriggerModel}
 				patchTektonPipelineOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -1369,12 +1419,37 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				envPropertyModel.Value = core.StringPtr("testString")
 				envPropertyModel.Type = core.StringPtr("testString")
 
+				// Construct an instance of the TektonPipelineTriggerScmSource model
+				tektonPipelineTriggerScmSourceModel := new(opentoolchainv1.TektonPipelineTriggerScmSource)
+				tektonPipelineTriggerScmSourceModel.URL = core.StringPtr("testString")
+				tektonPipelineTriggerScmSourceModel.Type = core.StringPtr("testString")
+				tektonPipelineTriggerScmSourceModel.Branch = core.StringPtr("testString")
+				tektonPipelineTriggerScmSourceModel.HookID = core.StringPtr("testString")
+
+				// Construct an instance of the TektonPipelineTriggerEvents model
+				tektonPipelineTriggerEventsModel := new(opentoolchainv1.TektonPipelineTriggerEvents)
+				tektonPipelineTriggerEventsModel.Push = core.BoolPtr(true)
+				tektonPipelineTriggerEventsModel.PullRequest = core.BoolPtr(true)
+				tektonPipelineTriggerEventsModel.PullRequestClosed = core.BoolPtr(true)
+
+				// Construct an instance of the TektonPipelineTrigger model
+				tektonPipelineTriggerModel := new(opentoolchainv1.TektonPipelineTrigger)
+				tektonPipelineTriggerModel.ID = core.StringPtr("testString")
+				tektonPipelineTriggerModel.Name = core.StringPtr("testString")
+				tektonPipelineTriggerModel.EventListener = core.StringPtr("testString")
+				tektonPipelineTriggerModel.Disabled = core.BoolPtr(true)
+				tektonPipelineTriggerModel.ScmSource = tektonPipelineTriggerScmSourceModel
+				tektonPipelineTriggerModel.Type = core.StringPtr("testString")
+				tektonPipelineTriggerModel.Events = tektonPipelineTriggerEventsModel
+				tektonPipelineTriggerModel.ServiceInstanceID = core.StringPtr("testString")
+
 				// Construct an instance of the PatchTektonPipelineOptions model
 				patchTektonPipelineOptionsModel := new(opentoolchainv1.PatchTektonPipelineOptions)
 				patchTektonPipelineOptionsModel.GUID = core.StringPtr("testString")
 				patchTektonPipelineOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
 				patchTektonPipelineOptionsModel.Worker = patchTektonPipelineParamsWorkerModel
 				patchTektonPipelineOptionsModel.EnvProperties = []opentoolchainv1.EnvProperty{*envPropertyModel}
+				patchTektonPipelineOptionsModel.Triggers = []opentoolchainv1.TektonPipelineTrigger{*tektonPipelineTriggerModel}
 				patchTektonPipelineOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -1404,12 +1479,37 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				envPropertyModel.Value = core.StringPtr("testString")
 				envPropertyModel.Type = core.StringPtr("testString")
 
+				// Construct an instance of the TektonPipelineTriggerScmSource model
+				tektonPipelineTriggerScmSourceModel := new(opentoolchainv1.TektonPipelineTriggerScmSource)
+				tektonPipelineTriggerScmSourceModel.URL = core.StringPtr("testString")
+				tektonPipelineTriggerScmSourceModel.Type = core.StringPtr("testString")
+				tektonPipelineTriggerScmSourceModel.Branch = core.StringPtr("testString")
+				tektonPipelineTriggerScmSourceModel.HookID = core.StringPtr("testString")
+
+				// Construct an instance of the TektonPipelineTriggerEvents model
+				tektonPipelineTriggerEventsModel := new(opentoolchainv1.TektonPipelineTriggerEvents)
+				tektonPipelineTriggerEventsModel.Push = core.BoolPtr(true)
+				tektonPipelineTriggerEventsModel.PullRequest = core.BoolPtr(true)
+				tektonPipelineTriggerEventsModel.PullRequestClosed = core.BoolPtr(true)
+
+				// Construct an instance of the TektonPipelineTrigger model
+				tektonPipelineTriggerModel := new(opentoolchainv1.TektonPipelineTrigger)
+				tektonPipelineTriggerModel.ID = core.StringPtr("testString")
+				tektonPipelineTriggerModel.Name = core.StringPtr("testString")
+				tektonPipelineTriggerModel.EventListener = core.StringPtr("testString")
+				tektonPipelineTriggerModel.Disabled = core.BoolPtr(true)
+				tektonPipelineTriggerModel.ScmSource = tektonPipelineTriggerScmSourceModel
+				tektonPipelineTriggerModel.Type = core.StringPtr("testString")
+				tektonPipelineTriggerModel.Events = tektonPipelineTriggerEventsModel
+				tektonPipelineTriggerModel.ServiceInstanceID = core.StringPtr("testString")
+
 				// Construct an instance of the PatchTektonPipelineOptions model
 				patchTektonPipelineOptionsModel := new(opentoolchainv1.PatchTektonPipelineOptions)
 				patchTektonPipelineOptionsModel.GUID = core.StringPtr("testString")
 				patchTektonPipelineOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
 				patchTektonPipelineOptionsModel.Worker = patchTektonPipelineParamsWorkerModel
 				patchTektonPipelineOptionsModel.EnvProperties = []opentoolchainv1.EnvProperty{*envPropertyModel}
+				patchTektonPipelineOptionsModel.Triggers = []opentoolchainv1.TektonPipelineTrigger{*tektonPipelineTriggerModel}
 				patchTektonPipelineOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := openToolchainService.SetServiceURL("")
@@ -1460,12 +1560,37 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				envPropertyModel.Value = core.StringPtr("testString")
 				envPropertyModel.Type = core.StringPtr("testString")
 
+				// Construct an instance of the TektonPipelineTriggerScmSource model
+				tektonPipelineTriggerScmSourceModel := new(opentoolchainv1.TektonPipelineTriggerScmSource)
+				tektonPipelineTriggerScmSourceModel.URL = core.StringPtr("testString")
+				tektonPipelineTriggerScmSourceModel.Type = core.StringPtr("testString")
+				tektonPipelineTriggerScmSourceModel.Branch = core.StringPtr("testString")
+				tektonPipelineTriggerScmSourceModel.HookID = core.StringPtr("testString")
+
+				// Construct an instance of the TektonPipelineTriggerEvents model
+				tektonPipelineTriggerEventsModel := new(opentoolchainv1.TektonPipelineTriggerEvents)
+				tektonPipelineTriggerEventsModel.Push = core.BoolPtr(true)
+				tektonPipelineTriggerEventsModel.PullRequest = core.BoolPtr(true)
+				tektonPipelineTriggerEventsModel.PullRequestClosed = core.BoolPtr(true)
+
+				// Construct an instance of the TektonPipelineTrigger model
+				tektonPipelineTriggerModel := new(opentoolchainv1.TektonPipelineTrigger)
+				tektonPipelineTriggerModel.ID = core.StringPtr("testString")
+				tektonPipelineTriggerModel.Name = core.StringPtr("testString")
+				tektonPipelineTriggerModel.EventListener = core.StringPtr("testString")
+				tektonPipelineTriggerModel.Disabled = core.BoolPtr(true)
+				tektonPipelineTriggerModel.ScmSource = tektonPipelineTriggerScmSourceModel
+				tektonPipelineTriggerModel.Type = core.StringPtr("testString")
+				tektonPipelineTriggerModel.Events = tektonPipelineTriggerEventsModel
+				tektonPipelineTriggerModel.ServiceInstanceID = core.StringPtr("testString")
+
 				// Construct an instance of the PatchTektonPipelineOptions model
 				patchTektonPipelineOptionsModel := new(opentoolchainv1.PatchTektonPipelineOptions)
 				patchTektonPipelineOptionsModel.GUID = core.StringPtr("testString")
 				patchTektonPipelineOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
 				patchTektonPipelineOptionsModel.Worker = patchTektonPipelineParamsWorkerModel
 				patchTektonPipelineOptionsModel.EnvProperties = []opentoolchainv1.EnvProperty{*envPropertyModel}
+				patchTektonPipelineOptionsModel.Triggers = []opentoolchainv1.TektonPipelineTrigger{*tektonPipelineTriggerModel}
 				patchTektonPipelineOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -2125,6 +2250,48 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				Expect(envPropertyModel.Value).To(Equal(core.StringPtr("testString")))
 				Expect(envPropertyModel.Type).To(Equal(core.StringPtr("testString")))
 
+				// Construct an instance of the TektonPipelineTriggerScmSource model
+				tektonPipelineTriggerScmSourceModel := new(opentoolchainv1.TektonPipelineTriggerScmSource)
+				Expect(tektonPipelineTriggerScmSourceModel).ToNot(BeNil())
+				tektonPipelineTriggerScmSourceModel.URL = core.StringPtr("testString")
+				tektonPipelineTriggerScmSourceModel.Type = core.StringPtr("testString")
+				tektonPipelineTriggerScmSourceModel.Branch = core.StringPtr("testString")
+				tektonPipelineTriggerScmSourceModel.HookID = core.StringPtr("testString")
+				Expect(tektonPipelineTriggerScmSourceModel.URL).To(Equal(core.StringPtr("testString")))
+				Expect(tektonPipelineTriggerScmSourceModel.Type).To(Equal(core.StringPtr("testString")))
+				Expect(tektonPipelineTriggerScmSourceModel.Branch).To(Equal(core.StringPtr("testString")))
+				Expect(tektonPipelineTriggerScmSourceModel.HookID).To(Equal(core.StringPtr("testString")))
+
+				// Construct an instance of the TektonPipelineTriggerEvents model
+				tektonPipelineTriggerEventsModel := new(opentoolchainv1.TektonPipelineTriggerEvents)
+				Expect(tektonPipelineTriggerEventsModel).ToNot(BeNil())
+				tektonPipelineTriggerEventsModel.Push = core.BoolPtr(true)
+				tektonPipelineTriggerEventsModel.PullRequest = core.BoolPtr(true)
+				tektonPipelineTriggerEventsModel.PullRequestClosed = core.BoolPtr(true)
+				Expect(tektonPipelineTriggerEventsModel.Push).To(Equal(core.BoolPtr(true)))
+				Expect(tektonPipelineTriggerEventsModel.PullRequest).To(Equal(core.BoolPtr(true)))
+				Expect(tektonPipelineTriggerEventsModel.PullRequestClosed).To(Equal(core.BoolPtr(true)))
+
+				// Construct an instance of the TektonPipelineTrigger model
+				tektonPipelineTriggerModel := new(opentoolchainv1.TektonPipelineTrigger)
+				Expect(tektonPipelineTriggerModel).ToNot(BeNil())
+				tektonPipelineTriggerModel.ID = core.StringPtr("testString")
+				tektonPipelineTriggerModel.Name = core.StringPtr("testString")
+				tektonPipelineTriggerModel.EventListener = core.StringPtr("testString")
+				tektonPipelineTriggerModel.Disabled = core.BoolPtr(true)
+				tektonPipelineTriggerModel.ScmSource = tektonPipelineTriggerScmSourceModel
+				tektonPipelineTriggerModel.Type = core.StringPtr("testString")
+				tektonPipelineTriggerModel.Events = tektonPipelineTriggerEventsModel
+				tektonPipelineTriggerModel.ServiceInstanceID = core.StringPtr("testString")
+				Expect(tektonPipelineTriggerModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(tektonPipelineTriggerModel.Name).To(Equal(core.StringPtr("testString")))
+				Expect(tektonPipelineTriggerModel.EventListener).To(Equal(core.StringPtr("testString")))
+				Expect(tektonPipelineTriggerModel.Disabled).To(Equal(core.BoolPtr(true)))
+				Expect(tektonPipelineTriggerModel.ScmSource).To(Equal(tektonPipelineTriggerScmSourceModel))
+				Expect(tektonPipelineTriggerModel.Type).To(Equal(core.StringPtr("testString")))
+				Expect(tektonPipelineTriggerModel.Events).To(Equal(tektonPipelineTriggerEventsModel))
+				Expect(tektonPipelineTriggerModel.ServiceInstanceID).To(Equal(core.StringPtr("testString")))
+
 				// Construct an instance of the PatchTektonPipelineOptions model
 				guid := "testString"
 				envID := "ibm:yp:us-south"
@@ -2133,12 +2300,14 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				patchTektonPipelineOptionsModel.SetEnvID("ibm:yp:us-south")
 				patchTektonPipelineOptionsModel.SetWorker(patchTektonPipelineParamsWorkerModel)
 				patchTektonPipelineOptionsModel.SetEnvProperties([]opentoolchainv1.EnvProperty{*envPropertyModel})
+				patchTektonPipelineOptionsModel.SetTriggers([]opentoolchainv1.TektonPipelineTrigger{*tektonPipelineTriggerModel})
 				patchTektonPipelineOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(patchTektonPipelineOptionsModel).ToNot(BeNil())
 				Expect(patchTektonPipelineOptionsModel.GUID).To(Equal(core.StringPtr("testString")))
 				Expect(patchTektonPipelineOptionsModel.EnvID).To(Equal(core.StringPtr("ibm:yp:us-south")))
 				Expect(patchTektonPipelineOptionsModel.Worker).To(Equal(patchTektonPipelineParamsWorkerModel))
 				Expect(patchTektonPipelineOptionsModel.EnvProperties).To(Equal([]opentoolchainv1.EnvProperty{*envPropertyModel}))
+				Expect(patchTektonPipelineOptionsModel.Triggers).To(Equal([]opentoolchainv1.TektonPipelineTrigger{*tektonPipelineTriggerModel}))
 				Expect(patchTektonPipelineOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewPatchToolchainOptions successfully`, func() {
@@ -2155,6 +2324,14 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				Expect(patchToolchainOptionsModel.EnvID).To(Equal(core.StringPtr("ibm:yp:us-south")))
 				Expect(patchToolchainOptionsModel.Name).To(Equal(core.StringPtr("testString")))
 				Expect(patchToolchainOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewTektonPipelineTrigger successfully`, func() {
+				eventListener := "testString"
+				disabled := true
+				typeVar := "testString"
+				model, err := openToolchainService.NewTektonPipelineTrigger(eventListener, disabled, typeVar)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
 			})
 		})
 	})

@@ -648,6 +648,9 @@ func (openToolchain *OpenToolchainV1) PatchTektonPipelineWithContext(ctx context
 	if patchTektonPipelineOptions.EnvProperties != nil {
 		body["envProperties"] = patchTektonPipelineOptions.EnvProperties
 	}
+	if patchTektonPipelineOptions.Triggers != nil {
+		body["triggers"] = patchTektonPipelineOptions.Triggers
+	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
 		return
@@ -1423,6 +1426,8 @@ type PatchTektonPipelineOptions struct {
 
 	EnvProperties []EnvProperty
 
+	Triggers []TektonPipelineTrigger
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -1456,6 +1461,12 @@ func (options *PatchTektonPipelineOptions) SetWorker(worker *PatchTektonPipeline
 // SetEnvProperties : Allow user to set EnvProperties
 func (options *PatchTektonPipelineOptions) SetEnvProperties(envProperties []EnvProperty) *PatchTektonPipelineOptions {
 	options.EnvProperties = envProperties
+	return options
+}
+
+// SetTriggers : Allow user to set Triggers
+func (options *PatchTektonPipelineOptions) SetTriggers(triggers []TektonPipelineTrigger) *PatchTektonPipelineOptions {
+	options.Triggers = triggers
 	return options
 }
 
@@ -1921,6 +1932,17 @@ type TektonPipelineTrigger struct {
 	Events *TektonPipelineTriggerEvents `json:"events,omitempty"`
 
 	ServiceInstanceID *string `json:"serviceInstanceId,omitempty"`
+}
+
+// NewTektonPipelineTrigger : Instantiate TektonPipelineTrigger (Generic Model Constructor)
+func (*OpenToolchainV1) NewTektonPipelineTrigger(eventListener string, disabled bool, typeVar string) (model *TektonPipelineTrigger, err error) {
+	model = &TektonPipelineTrigger{
+		EventListener: core.StringPtr(eventListener),
+		Disabled:      core.BoolPtr(disabled),
+		Type:          core.StringPtr(typeVar),
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
 }
 
 // UnmarshalTektonPipelineTrigger unmarshals an instance of TektonPipelineTrigger from the specified map of raw messages.
