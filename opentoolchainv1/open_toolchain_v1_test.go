@@ -1004,7 +1004,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "Name", "dashboard_url": "DashboardURL", "resourceGroupId": "ResourceGroupID", "id": "ID", "toolchainId": "ToolchainID", "pipelineOwner": "PipelineOwner", "enabled": false, "type": "Type", "created": "2019-01-01T12:00:00.000Z", "updated_at": "2019-01-01T12:00:00.000Z", "updated_at_timestamp": 18, "created_timestamp": 16, "envProperties": [{"name": "Name", "value": "Value", "type": "Type"}], "triggers": [{"id": "ID", "name": "Name", "eventListener": "EventListener", "disabled": true, "scmSource": {"url": "URL", "type": "Type", "branch": "Branch", "hookId": "HookID"}, "type": "Type", "events": {"push": true, "pull_request": false, "pull_request_closed": false}, "serviceInstanceId": "ServiceInstanceID"}], "status": "Status", "url": "URL", "runs_url": "RunsURL", "toolchainCRN": "ToolchainCRN", "pipelineDefinitionId": "PipelineDefinitionID"}`)
+					fmt.Fprintf(res, "%s", `{"name": "Name", "dashboard_url": "DashboardURL", "resourceGroupId": "ResourceGroupID", "id": "ID", "toolchainId": "ToolchainID", "pipelineOwner": "PipelineOwner", "enabled": false, "type": "Type", "created": "2019-01-01T12:00:00.000Z", "updated_at": "2019-01-01T12:00:00.000Z", "updated_at_timestamp": 18, "created_timestamp": 16, "envProperties": [{"name": "Name", "value": "Value", "type": "Type"}], "triggers": [{"id": "ID", "name": "Name", "eventListener": "EventListener", "disabled": true, "scmSource": {"url": "URL", "type": "Type", "branch": "Branch", "hookId": 6}, "type": "Type", "events": {"push": true, "pull_request": false, "pull_request_closed": false}, "serviceInstanceId": "ServiceInstanceID"}], "status": "Status", "url": "URL", "runs_url": "RunsURL", "toolchainCRN": "ToolchainCRN", "pipelineDefinitionId": "PipelineDefinitionID"}`)
 				}))
 			})
 			It(`Invoke GetTektonPipeline successfully with retries`, func() {
@@ -1060,7 +1060,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "Name", "dashboard_url": "DashboardURL", "resourceGroupId": "ResourceGroupID", "id": "ID", "toolchainId": "ToolchainID", "pipelineOwner": "PipelineOwner", "enabled": false, "type": "Type", "created": "2019-01-01T12:00:00.000Z", "updated_at": "2019-01-01T12:00:00.000Z", "updated_at_timestamp": 18, "created_timestamp": 16, "envProperties": [{"name": "Name", "value": "Value", "type": "Type"}], "triggers": [{"id": "ID", "name": "Name", "eventListener": "EventListener", "disabled": true, "scmSource": {"url": "URL", "type": "Type", "branch": "Branch", "hookId": "HookID"}, "type": "Type", "events": {"push": true, "pull_request": false, "pull_request_closed": false}, "serviceInstanceId": "ServiceInstanceID"}], "status": "Status", "url": "URL", "runs_url": "RunsURL", "toolchainCRN": "ToolchainCRN", "pipelineDefinitionId": "PipelineDefinitionID"}`)
+					fmt.Fprintf(res, "%s", `{"name": "Name", "dashboard_url": "DashboardURL", "resourceGroupId": "ResourceGroupID", "id": "ID", "toolchainId": "ToolchainID", "pipelineOwner": "PipelineOwner", "enabled": false, "type": "Type", "created": "2019-01-01T12:00:00.000Z", "updated_at": "2019-01-01T12:00:00.000Z", "updated_at_timestamp": 18, "created_timestamp": 16, "envProperties": [{"name": "Name", "value": "Value", "type": "Type"}], "triggers": [{"id": "ID", "name": "Name", "eventListener": "EventListener", "disabled": true, "scmSource": {"url": "URL", "type": "Type", "branch": "Branch", "hookId": 6}, "type": "Type", "events": {"push": true, "pull_request": false, "pull_request_closed": false}, "serviceInstanceId": "ServiceInstanceID"}], "status": "Status", "url": "URL", "runs_url": "RunsURL", "toolchainCRN": "ToolchainCRN", "pipelineDefinitionId": "PipelineDefinitionID"}`)
 				}))
 			})
 			It(`Invoke GetTektonPipeline successfully`, func() {
@@ -1200,7 +1200,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				tektonPipelineTriggerScmSourceModel.URL = core.StringPtr("testString")
 				tektonPipelineTriggerScmSourceModel.Type = core.StringPtr("testString")
 				tektonPipelineTriggerScmSourceModel.Branch = core.StringPtr("testString")
-				tektonPipelineTriggerScmSourceModel.HookID = core.StringPtr("testString")
+				tektonPipelineTriggerScmSourceModel.HookID = core.Int64Ptr(int64(38))
 
 				// Construct an instance of the TektonPipelineTriggerEvents model
 				tektonPipelineTriggerEventsModel := new(opentoolchainv1.TektonPipelineTriggerEvents)
@@ -1279,7 +1279,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "Name", "dashboard_url": "DashboardURL", "resourceGroupId": "ResourceGroupID", "id": "ID", "toolchainId": "ToolchainID", "pipelineOwner": "PipelineOwner", "enabled": false, "type": "Type", "created": "2019-01-01T12:00:00.000Z", "updated_at": "2019-01-01T12:00:00.000Z", "updated_at_timestamp": 18, "created_timestamp": 16, "envProperties": [{"name": "Name", "value": "Value", "type": "Type"}], "triggers": [{"id": "ID", "name": "Name", "eventListener": "EventListener", "disabled": true, "scmSource": {"url": "URL", "type": "Type", "branch": "Branch", "hookId": "HookID"}, "type": "Type", "events": {"push": true, "pull_request": false, "pull_request_closed": false}, "serviceInstanceId": "ServiceInstanceID"}], "status": "Status", "url": "URL", "runs_url": "RunsURL", "toolchainCRN": "ToolchainCRN", "pipelineDefinitionId": "PipelineDefinitionID"}`)
+					fmt.Fprintf(res, "%s", `{"name": "Name", "dashboard_url": "DashboardURL", "resourceGroupId": "ResourceGroupID", "id": "ID", "toolchainId": "ToolchainID", "pipelineOwner": "PipelineOwner", "enabled": false, "type": "Type", "created": "2019-01-01T12:00:00.000Z", "updated_at": "2019-01-01T12:00:00.000Z", "updated_at_timestamp": 18, "created_timestamp": 16, "envProperties": [{"name": "Name", "value": "Value", "type": "Type"}], "triggers": [{"id": "ID", "name": "Name", "eventListener": "EventListener", "disabled": true, "scmSource": {"url": "URL", "type": "Type", "branch": "Branch", "hookId": 6}, "type": "Type", "events": {"push": true, "pull_request": false, "pull_request_closed": false}, "serviceInstanceId": "ServiceInstanceID"}], "status": "Status", "url": "URL", "runs_url": "RunsURL", "toolchainCRN": "ToolchainCRN", "pipelineDefinitionId": "PipelineDefinitionID"}`)
 				}))
 			})
 			It(`Invoke PatchTektonPipeline successfully with retries`, func() {
@@ -1308,7 +1308,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				tektonPipelineTriggerScmSourceModel.URL = core.StringPtr("testString")
 				tektonPipelineTriggerScmSourceModel.Type = core.StringPtr("testString")
 				tektonPipelineTriggerScmSourceModel.Branch = core.StringPtr("testString")
-				tektonPipelineTriggerScmSourceModel.HookID = core.StringPtr("testString")
+				tektonPipelineTriggerScmSourceModel.HookID = core.Int64Ptr(int64(38))
 
 				// Construct an instance of the TektonPipelineTriggerEvents model
 				tektonPipelineTriggerEventsModel := new(opentoolchainv1.TektonPipelineTriggerEvents)
@@ -1390,7 +1390,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "Name", "dashboard_url": "DashboardURL", "resourceGroupId": "ResourceGroupID", "id": "ID", "toolchainId": "ToolchainID", "pipelineOwner": "PipelineOwner", "enabled": false, "type": "Type", "created": "2019-01-01T12:00:00.000Z", "updated_at": "2019-01-01T12:00:00.000Z", "updated_at_timestamp": 18, "created_timestamp": 16, "envProperties": [{"name": "Name", "value": "Value", "type": "Type"}], "triggers": [{"id": "ID", "name": "Name", "eventListener": "EventListener", "disabled": true, "scmSource": {"url": "URL", "type": "Type", "branch": "Branch", "hookId": "HookID"}, "type": "Type", "events": {"push": true, "pull_request": false, "pull_request_closed": false}, "serviceInstanceId": "ServiceInstanceID"}], "status": "Status", "url": "URL", "runs_url": "RunsURL", "toolchainCRN": "ToolchainCRN", "pipelineDefinitionId": "PipelineDefinitionID"}`)
+					fmt.Fprintf(res, "%s", `{"name": "Name", "dashboard_url": "DashboardURL", "resourceGroupId": "ResourceGroupID", "id": "ID", "toolchainId": "ToolchainID", "pipelineOwner": "PipelineOwner", "enabled": false, "type": "Type", "created": "2019-01-01T12:00:00.000Z", "updated_at": "2019-01-01T12:00:00.000Z", "updated_at_timestamp": 18, "created_timestamp": 16, "envProperties": [{"name": "Name", "value": "Value", "type": "Type"}], "triggers": [{"id": "ID", "name": "Name", "eventListener": "EventListener", "disabled": true, "scmSource": {"url": "URL", "type": "Type", "branch": "Branch", "hookId": 6}, "type": "Type", "events": {"push": true, "pull_request": false, "pull_request_closed": false}, "serviceInstanceId": "ServiceInstanceID"}], "status": "Status", "url": "URL", "runs_url": "RunsURL", "toolchainCRN": "ToolchainCRN", "pipelineDefinitionId": "PipelineDefinitionID"}`)
 				}))
 			})
 			It(`Invoke PatchTektonPipeline successfully`, func() {
@@ -1424,7 +1424,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				tektonPipelineTriggerScmSourceModel.URL = core.StringPtr("testString")
 				tektonPipelineTriggerScmSourceModel.Type = core.StringPtr("testString")
 				tektonPipelineTriggerScmSourceModel.Branch = core.StringPtr("testString")
-				tektonPipelineTriggerScmSourceModel.HookID = core.StringPtr("testString")
+				tektonPipelineTriggerScmSourceModel.HookID = core.Int64Ptr(int64(38))
 
 				// Construct an instance of the TektonPipelineTriggerEvents model
 				tektonPipelineTriggerEventsModel := new(opentoolchainv1.TektonPipelineTriggerEvents)
@@ -1484,7 +1484,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				tektonPipelineTriggerScmSourceModel.URL = core.StringPtr("testString")
 				tektonPipelineTriggerScmSourceModel.Type = core.StringPtr("testString")
 				tektonPipelineTriggerScmSourceModel.Branch = core.StringPtr("testString")
-				tektonPipelineTriggerScmSourceModel.HookID = core.StringPtr("testString")
+				tektonPipelineTriggerScmSourceModel.HookID = core.Int64Ptr(int64(38))
 
 				// Construct an instance of the TektonPipelineTriggerEvents model
 				tektonPipelineTriggerEventsModel := new(opentoolchainv1.TektonPipelineTriggerEvents)
@@ -1565,7 +1565,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				tektonPipelineTriggerScmSourceModel.URL = core.StringPtr("testString")
 				tektonPipelineTriggerScmSourceModel.Type = core.StringPtr("testString")
 				tektonPipelineTriggerScmSourceModel.Branch = core.StringPtr("testString")
-				tektonPipelineTriggerScmSourceModel.HookID = core.StringPtr("testString")
+				tektonPipelineTriggerScmSourceModel.HookID = core.Int64Ptr(int64(38))
 
 				// Construct an instance of the TektonPipelineTriggerEvents model
 				tektonPipelineTriggerEventsModel := new(opentoolchainv1.TektonPipelineTriggerEvents)
@@ -2256,11 +2256,11 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				tektonPipelineTriggerScmSourceModel.URL = core.StringPtr("testString")
 				tektonPipelineTriggerScmSourceModel.Type = core.StringPtr("testString")
 				tektonPipelineTriggerScmSourceModel.Branch = core.StringPtr("testString")
-				tektonPipelineTriggerScmSourceModel.HookID = core.StringPtr("testString")
+				tektonPipelineTriggerScmSourceModel.HookID = core.Int64Ptr(int64(38))
 				Expect(tektonPipelineTriggerScmSourceModel.URL).To(Equal(core.StringPtr("testString")))
 				Expect(tektonPipelineTriggerScmSourceModel.Type).To(Equal(core.StringPtr("testString")))
 				Expect(tektonPipelineTriggerScmSourceModel.Branch).To(Equal(core.StringPtr("testString")))
-				Expect(tektonPipelineTriggerScmSourceModel.HookID).To(Equal(core.StringPtr("testString")))
+				Expect(tektonPipelineTriggerScmSourceModel.HookID).To(Equal(core.Int64Ptr(int64(38))))
 
 				// Construct an instance of the TektonPipelineTriggerEvents model
 				tektonPipelineTriggerEventsModel := new(opentoolchainv1.TektonPipelineTriggerEvents)

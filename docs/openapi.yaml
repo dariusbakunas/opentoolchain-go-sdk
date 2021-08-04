@@ -507,7 +507,7 @@ components:
             branch:
               type: string
             hookId:
-              type: string
+              type: integer
         type:
           type: string
         events:

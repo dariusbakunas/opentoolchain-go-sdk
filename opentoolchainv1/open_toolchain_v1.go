@@ -2020,7 +2020,7 @@ type TektonPipelineTriggerScmSource struct {
 
 	Branch *string `json:"branch,omitempty"`
 
-	HookID *string `json:"hookId,omitempty"`
+	HookID *int64 `json:"hookId,omitempty"`
 }
 
 // UnmarshalTektonPipelineTriggerScmSource unmarshals an instance of TektonPipelineTriggerScmSource from the specified map of raw messages.
