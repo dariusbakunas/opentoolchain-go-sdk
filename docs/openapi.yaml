@@ -290,6 +290,40 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
   /devops/pipelines/tekton/api/v1/{guid}/config:
+    get:
+      security:
+        - iamToken: [ ]
+      summary: 'Get tekton pipeline parameters'
+      operationId: getTektonPipelineConfig
+      tags:
+        - pipeline
+      parameters:
+        - name: guid
+          in: path
+          description: GUID of the pipeline
+          required: true
+          schema:
+            type: string
+        - name: env_id
+          in: query
+          description: Environment ID
+          required: true
+          schema:
+            type: string
+          example: "ibm:yp:us-south"
+      responses:
+        '200':
+          description: 'Details about a pipeline'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TektonPipeline'
+        default:
+          description: Internal error occurred.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
     patch:
       security:
         - iamToken: []
@@ -329,6 +363,37 @@ paths:
               application/json:
                 schema:
                   $ref: '#/components/schemas/Error'
+  /devops/pipelines/tekton/api/v1/{guid}/definition:
+    get:
+      security:
+        - iamToken: [ ]
+      summary: 'Get tekton pipeline definition'
+      operationId: getTektonPipelineDefinition
+      tags:
+        - pipeline
+      parameters:
+        - name: guid
+          in: path
+          description: GUID of the pipeline
+          required: true
+          schema:
+            type: string
+        - name: env_id
+          in: query
+          description: Environment ID
+          required: true
+          schema:
+            type: string
+          example: "ibm:yp:us-south"
+      responses:
+        '200':
+          description: 'Tekton pipeline definition'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TektonPipelineDefinition'
+        '404':
+          description: 'Pipeline does not have definition set'
 components:
   securitySchemes:
     iamToken:
@@ -397,6 +462,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/EnvProperty'
+        triggers:
+          type: array
+          items:
+            $ref: '#/components/schemas/TektonPipelineTrigger'
         status:
           type: string
         url:
@@ -406,6 +475,85 @@ components:
         toolchainCRN:
           type: string
         pipelineDefinitionId:
+          type: string
+    TektonPipelineDefinition:
+      type: 'object'
+      required:
+        - id
+        - pipelineId
+      properties:
+        pipelineId:
+          type: string
+#       resources: [...]
+#       listenerMap: {...}
+        repoUrl:
+          type: string
+        branch:
+          type: string
+        path:
+          type: string
+        sha:
+          type: string
+        type:
+          type: string
+        id:
+          type: string
+        shardRepos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShardRepo'
+    ShardRepo:
+      type: object
+      required:
+        - repoUrl
+        - shardDefinitionId
+      properties:
+        sha:
+          type: string
+        shardDefinitionId:
+          type: string
+        repoUrl:
+          type: string
+        path:
+          type: string
+    TektonPipelineTrigger:
+      type: 'object'
+      required:
+        - eventListener
+        - disabled
+        - type
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        eventListener:
+          type: string
+        disabled:
+          type: boolean
+        scmSource:
+          type: object
+          properties:
+            url:
+              type: string
+            type:
+              type: string
+            branch:
+              type: string
+            hookId:
+              type: string
+        type:
+          type: string
+        events:
+          type: object
+          properties:
+            push:
+              type: boolean
+            pull_request:
+              type: boolean
+            pull_request_closed:
+              type: boolean
+        serviceInstanceId:
           type: string
     EnvProperty:
       type: 'object'
