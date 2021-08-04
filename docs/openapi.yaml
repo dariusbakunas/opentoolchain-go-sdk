@@ -290,40 +290,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
   /devops/pipelines/tekton/api/v1/{guid}/config:
-    get:
-      security:
-        - iamToken: [ ]
-      summary: 'Get tekton pipeline parameters'
-      operationId: getTektonPipelineConfig
-      tags:
-        - pipeline
-      parameters:
-        - name: guid
-          in: path
-          description: GUID of the pipeline
-          required: true
-          schema:
-            type: string
-        - name: env_id
-          in: query
-          description: Environment ID
-          required: true
-          schema:
-            type: string
-          example: "ibm:yp:us-south"
-      responses:
-        '200':
-          description: 'Details about a pipeline'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TektonPipeline'
-        default:
-          description: Internal error occurred.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
     patch:
       security:
         - iamToken: []

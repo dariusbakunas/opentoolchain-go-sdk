@@ -600,67 +600,6 @@ func (openToolchain *OpenToolchainV1) GetTektonPipelineWithContext(ctx context.C
 	return
 }
 
-// GetTektonPipelineConfig : Get tekton pipeline parameters
-func (openToolchain *OpenToolchainV1) GetTektonPipelineConfig(getTektonPipelineConfigOptions *GetTektonPipelineConfigOptions) (result *TektonPipeline, response *core.DetailedResponse, err error) {
-	return openToolchain.GetTektonPipelineConfigWithContext(context.Background(), getTektonPipelineConfigOptions)
-}
-
-// GetTektonPipelineConfigWithContext is an alternate form of the GetTektonPipelineConfig method which supports a Context parameter
-func (openToolchain *OpenToolchainV1) GetTektonPipelineConfigWithContext(ctx context.Context, getTektonPipelineConfigOptions *GetTektonPipelineConfigOptions) (result *TektonPipeline, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(getTektonPipelineConfigOptions, "getTektonPipelineConfigOptions cannot be nil")
-	if err != nil {
-		return
-	}
-	err = core.ValidateStruct(getTektonPipelineConfigOptions, "getTektonPipelineConfigOptions")
-	if err != nil {
-		return
-	}
-
-	pathParamsMap := map[string]string{
-		"guid": *getTektonPipelineConfigOptions.GUID,
-	}
-
-	builder := core.NewRequestBuilder(core.GET)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = openToolchain.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/devops/pipelines/tekton/api/v1/{guid}/config`, pathParamsMap)
-	if err != nil {
-		return
-	}
-
-	for headerName, headerValue := range getTektonPipelineConfigOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("open_toolchain", "V1", "GetTektonPipelineConfig")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-	builder.AddHeader("Accept", "application/json")
-
-	builder.AddQuery("env_id", fmt.Sprint(*getTektonPipelineConfigOptions.EnvID))
-
-	request, err := builder.Build()
-	if err != nil {
-		return
-	}
-
-	var rawResponse map[string]json.RawMessage
-	response, err = openToolchain.Service.Request(request, &rawResponse)
-	if err != nil {
-		return
-	}
-	if rawResponse != nil {
-		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTektonPipeline)
-		if err != nil {
-			return
-		}
-		response.Result = result
-	}
-
-	return
-}
-
 // PatchTektonPipeline : Update tekton pipeline parameters
 func (openToolchain *OpenToolchainV1) PatchTektonPipeline(patchTektonPipelineOptions *PatchTektonPipelineOptions) (result *TektonPipeline, response *core.DetailedResponse, err error) {
 	return openToolchain.PatchTektonPipelineWithContext(context.Background(), patchTektonPipelineOptions)
@@ -1242,44 +1181,6 @@ func UnmarshalEnvProperty(m map[string]json.RawMessage, result interface{}) (err
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
-}
-
-// GetTektonPipelineConfigOptions : The GetTektonPipelineConfig options.
-type GetTektonPipelineConfigOptions struct {
-	// GUID of the pipeline.
-	GUID *string `validate:"required,ne="`
-
-	// Environment ID.
-	EnvID *string `validate:"required"`
-
-	// Allows users to set headers on API requests
-	Headers map[string]string
-}
-
-// NewGetTektonPipelineConfigOptions : Instantiate GetTektonPipelineConfigOptions
-func (*OpenToolchainV1) NewGetTektonPipelineConfigOptions(guid string, envID string) *GetTektonPipelineConfigOptions {
-	return &GetTektonPipelineConfigOptions{
-		GUID:  core.StringPtr(guid),
-		EnvID: core.StringPtr(envID),
-	}
-}
-
-// SetGUID : Allow user to set GUID
-func (options *GetTektonPipelineConfigOptions) SetGUID(guid string) *GetTektonPipelineConfigOptions {
-	options.GUID = core.StringPtr(guid)
-	return options
-}
-
-// SetEnvID : Allow user to set EnvID
-func (options *GetTektonPipelineConfigOptions) SetEnvID(envID string) *GetTektonPipelineConfigOptions {
-	options.EnvID = core.StringPtr(envID)
-	return options
-}
-
-// SetHeaders : Allow user to set Headers
-func (options *GetTektonPipelineConfigOptions) SetHeaders(param map[string]string) *GetTektonPipelineConfigOptions {
-	options.Headers = param
-	return options
 }
 
 // GetTektonPipelineDefinitionOptions : The GetTektonPipelineDefinition options.
