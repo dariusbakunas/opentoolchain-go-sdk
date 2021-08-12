@@ -2019,6 +2019,8 @@ type TektonPipelineTriggerScmSource struct {
 	Type *string `json:"type,omitempty"`
 
 	Branch *string `json:"branch,omitempty"`
+
+	Pattern *string `json:"pattern,omitempty"`
 }
 
 // UnmarshalTektonPipelineTriggerScmSource unmarshals an instance of TektonPipelineTriggerScmSource from the specified map of raw messages.
@@ -2033,6 +2035,10 @@ func UnmarshalTektonPipelineTriggerScmSource(m map[string]json.RawMessage, resul
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "branch", &obj.Branch)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "pattern", &obj.Pattern)
 	if err != nil {
 		return
 	}

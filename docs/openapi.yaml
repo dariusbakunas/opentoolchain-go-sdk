@@ -506,6 +506,8 @@ components:
               type: string
             branch:
               type: string
+            pattern:
+              type: string
 # TODO: this has inconsistent types, it can be string or integer, find workaround
 #            hookId:
 #              type: integer
