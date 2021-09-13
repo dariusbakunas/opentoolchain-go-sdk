@@ -184,6 +184,46 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceInstanceError'
   /devops/service_instances/{guid}:
+    get:
+      security:
+        - iamToken: []
+      summary: 'Returns details about a particular service instance'
+      operationId: getServiceInstance
+      tags:
+        - pipeline
+      parameters:
+        - name: guid
+          in: path
+          description: GUID of the service instance
+          required: true
+          schema:
+            type: string
+        - name: env_id
+          in: query
+          description: Environment ID
+          required: true
+          schema:
+            type: string
+          example: "ibm:yp:us-south"
+        - name: toolchainId
+          in: query
+          description: Toolchain ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Service instance details'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetServiceInstanceResponse'
+        default:
+          description: Internal error occurred.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
     delete:
       operationId: deleteServiceInstance
       security:
@@ -357,7 +397,42 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TektonPipelineDefinition'
+                $ref: '#/components/schemas/GetTektonPipelineDefinitionResponse'
+        '404':
+          description: 'Pipeline does not have definition set'
+    post:
+      security:
+        - iamToken: [ ]
+      summary: 'Create tekton pipeline definition'
+      operationId: createTektonPipelineDefinition
+      tags:
+        - pipeline
+      parameters:
+        - name: guid
+          in: path
+          description: GUID of the pipeline
+          required: true
+          schema:
+            type: string
+        - name: env_id
+          in: query
+          description: Environment ID
+          required: true
+          schema:
+            type: string
+          example: "ibm:yp:us-south"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTektonPipelineDefinitionParams'
+      responses:
+        '200':
+          description: 'Tekton pipeline definition'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateTektonPipelineDefinitionResponse'
         '404':
           description: 'Pipeline does not have definition set'
 components:
@@ -390,6 +465,21 @@ components:
         status:
           type: string
           enum: [error, warning]
+    GetServiceInstanceResponse:
+      type: object
+      properties:
+        serviceInstance:
+          type: object
+          properties:
+            instance_id:
+              type: string
+            dashboard_url:
+              type: string
+            service_id:
+              type: string
+            parameters:
+              type: object
+              additionalProperties: true
     TektonPipeline:
       type: object
       required:
@@ -428,6 +518,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/EnvProperty'
+        inputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/TektonPipelineInput'
         triggers:
           type: array
           items:
@@ -442,7 +536,56 @@ components:
           type: string
         pipelineDefinitionId:
           type: string
-    TektonPipelineDefinition:
+    CreateTektonPipelineDefinitionParams:
+      type: object
+      properties:
+        inputs:
+          type: array
+          items:
+            type: object
+            properties:
+              scmSource:
+                type: object
+                properties:
+                  path:
+                    type: string
+                  url:
+                    type: string
+                  type:
+                    type: string
+                  blindConnection:
+                    type: boolean
+                  branch:
+                    type: string
+              type:
+                type: string
+              serviceInstanceId:
+                type: string
+              shardDefinitionId:
+                type: string
+    CreateTektonPipelineDefinitionResponse:
+      type: object
+      properties:
+        definition:
+          type: object
+          properties:
+            pipelineId:
+              type: string
+            repoUrl:
+              type: string
+            branch:
+              type: string
+            path:
+              type: string
+            sha:
+              type: string
+            id:
+              type: string
+        inputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/TektonPipelineInput'
+    GetTektonPipelineDefinitionResponse:
       type: 'object'
       required:
         - id
@@ -482,6 +625,28 @@ components:
           type: string
         path:
           type: string
+    TektonPipelineInput:
+      type: 'object'
+      properties:
+        type:
+          type: string
+        serviceInstanceId:
+          type: string
+        shardDefinitionId:
+          type: string
+        scmSource:
+          type: object
+          properties:
+            path:
+              type: string
+            url:
+              type: string
+            type:
+              type: string
+            blindConnection:
+              type: boolean
+            branch:
+              type: string
     TektonPipelineTrigger:
       type: 'object'
       required:
@@ -672,10 +837,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/EnvProperty'
+        inputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/TektonPipelineInput'
         triggers:
           type: array
           items:
             $ref: '#/components/schemas/TektonPipelineTrigger'
+        pipelineDefinitionId:
+          type: string
     CreateServiceInstanceParams:
       type: object
       required: [toolchainId, serviceId]

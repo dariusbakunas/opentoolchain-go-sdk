@@ -939,6 +939,234 @@ var _ = Describe(`OpenToolchainV1`, func() {
 			})
 		})
 	})
+	Describe(`GetServiceInstance(getServiceInstanceOptions *GetServiceInstanceOptions) - Operation response error`, func() {
+		getServiceInstancePath := "/devops/service_instances/testString"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getServiceInstancePath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["env_id"]).To(Equal([]string{"ibm:yp:us-south"}))
+					Expect(req.URL.Query()["toolchainId"]).To(Equal([]string{"testString"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetServiceInstance with error: Operation response processing error`, func() {
+				openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1(&opentoolchainv1.OpenToolchainV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(openToolchainService).ToNot(BeNil())
+
+				// Construct an instance of the GetServiceInstanceOptions model
+				getServiceInstanceOptionsModel := new(opentoolchainv1.GetServiceInstanceOptions)
+				getServiceInstanceOptionsModel.GUID = core.StringPtr("testString")
+				getServiceInstanceOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				getServiceInstanceOptionsModel.ToolchainID = core.StringPtr("testString")
+				getServiceInstanceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := openToolchainService.GetServiceInstance(getServiceInstanceOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				openToolchainService.EnableRetries(0, 0)
+				result, response, operationErr = openToolchainService.GetServiceInstance(getServiceInstanceOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetServiceInstance(getServiceInstanceOptions *GetServiceInstanceOptions)`, func() {
+		getServiceInstancePath := "/devops/service_instances/testString"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getServiceInstancePath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["env_id"]).To(Equal([]string{"ibm:yp:us-south"}))
+					Expect(req.URL.Query()["toolchainId"]).To(Equal([]string{"testString"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"serviceInstance": {"instance_id": "InstanceID", "dashboard_url": "DashboardURL", "service_id": "ServiceID", "parameters": {"mapKey": "anyValue"}}}`)
+				}))
+			})
+			It(`Invoke GetServiceInstance successfully with retries`, func() {
+				openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1(&opentoolchainv1.OpenToolchainV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(openToolchainService).ToNot(BeNil())
+				openToolchainService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetServiceInstanceOptions model
+				getServiceInstanceOptionsModel := new(opentoolchainv1.GetServiceInstanceOptions)
+				getServiceInstanceOptionsModel.GUID = core.StringPtr("testString")
+				getServiceInstanceOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				getServiceInstanceOptionsModel.ToolchainID = core.StringPtr("testString")
+				getServiceInstanceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := openToolchainService.GetServiceInstanceWithContext(ctx, getServiceInstanceOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				openToolchainService.DisableRetries()
+				result, response, operationErr := openToolchainService.GetServiceInstance(getServiceInstanceOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = openToolchainService.GetServiceInstanceWithContext(ctx, getServiceInstanceOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getServiceInstancePath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["env_id"]).To(Equal([]string{"ibm:yp:us-south"}))
+					Expect(req.URL.Query()["toolchainId"]).To(Equal([]string{"testString"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"serviceInstance": {"instance_id": "InstanceID", "dashboard_url": "DashboardURL", "service_id": "ServiceID", "parameters": {"mapKey": "anyValue"}}}`)
+				}))
+			})
+			It(`Invoke GetServiceInstance successfully`, func() {
+				openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1(&opentoolchainv1.OpenToolchainV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(openToolchainService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := openToolchainService.GetServiceInstance(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetServiceInstanceOptions model
+				getServiceInstanceOptionsModel := new(opentoolchainv1.GetServiceInstanceOptions)
+				getServiceInstanceOptionsModel.GUID = core.StringPtr("testString")
+				getServiceInstanceOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				getServiceInstanceOptionsModel.ToolchainID = core.StringPtr("testString")
+				getServiceInstanceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = openToolchainService.GetServiceInstance(getServiceInstanceOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke GetServiceInstance with error: Operation validation and request error`, func() {
+				openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1(&opentoolchainv1.OpenToolchainV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(openToolchainService).ToNot(BeNil())
+
+				// Construct an instance of the GetServiceInstanceOptions model
+				getServiceInstanceOptionsModel := new(opentoolchainv1.GetServiceInstanceOptions)
+				getServiceInstanceOptionsModel.GUID = core.StringPtr("testString")
+				getServiceInstanceOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				getServiceInstanceOptionsModel.ToolchainID = core.StringPtr("testString")
+				getServiceInstanceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := openToolchainService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := openToolchainService.GetServiceInstance(getServiceInstanceOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the GetServiceInstanceOptions model with no property values
+				getServiceInstanceOptionsModelNew := new(opentoolchainv1.GetServiceInstanceOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = openToolchainService.GetServiceInstance(getServiceInstanceOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetServiceInstance successfully`, func() {
+				openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1(&opentoolchainv1.OpenToolchainV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(openToolchainService).ToNot(BeNil())
+
+				// Construct an instance of the GetServiceInstanceOptions model
+				getServiceInstanceOptionsModel := new(opentoolchainv1.GetServiceInstanceOptions)
+				getServiceInstanceOptionsModel.GUID = core.StringPtr("testString")
+				getServiceInstanceOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				getServiceInstanceOptionsModel.ToolchainID = core.StringPtr("testString")
+				getServiceInstanceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := openToolchainService.GetServiceInstance(getServiceInstanceOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`GetTektonPipeline(getTektonPipelineOptions *GetTektonPipelineOptions) - Operation response error`, func() {
 		getTektonPipelinePath := "/devops/pipelines/tekton/api/v1/testString"
 		Context(`Using mock server endpoint with invalid JSON response`, func() {
@@ -1004,7 +1232,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "Name", "dashboard_url": "DashboardURL", "resourceGroupId": "ResourceGroupID", "id": "ID", "toolchainId": "ToolchainID", "pipelineOwner": "PipelineOwner", "enabled": false, "type": "Type", "created": "2019-01-01T12:00:00.000Z", "updated_at": "2019-01-01T12:00:00.000Z", "updated_at_timestamp": 18, "created_timestamp": 16, "envProperties": [{"name": "Name", "value": "Value", "type": "Type"}], "triggers": [{"id": "ID", "name": "Name", "eventListener": "EventListener", "disabled": true, "scmSource": {"url": "URL", "type": "Type", "branch": "Branch", "pattern": "Pattern"}, "type": "Type", "events": {"push": true, "pull_request": false, "pull_request_closed": false}, "serviceInstanceId": "ServiceInstanceID"}], "status": "Status", "url": "URL", "runs_url": "RunsURL", "toolchainCRN": "ToolchainCRN", "pipelineDefinitionId": "PipelineDefinitionID"}`)
+					fmt.Fprintf(res, "%s", `{"name": "Name", "dashboard_url": "DashboardURL", "resourceGroupId": "ResourceGroupID", "id": "ID", "toolchainId": "ToolchainID", "pipelineOwner": "PipelineOwner", "enabled": false, "type": "Type", "created": "2019-01-01T12:00:00.000Z", "updated_at": "2019-01-01T12:00:00.000Z", "updated_at_timestamp": 18, "created_timestamp": 16, "envProperties": [{"name": "Name", "value": "Value", "type": "Type"}], "inputs": [{"type": "Type", "serviceInstanceId": "ServiceInstanceID", "shardDefinitionId": "ShardDefinitionID", "scmSource": {"path": "Path", "url": "URL", "type": "Type", "blindConnection": false, "branch": "Branch"}}], "triggers": [{"id": "ID", "name": "Name", "eventListener": "EventListener", "disabled": true, "scmSource": {"url": "URL", "type": "Type", "branch": "Branch", "pattern": "Pattern"}, "type": "Type", "events": {"push": true, "pull_request": false, "pull_request_closed": false}, "serviceInstanceId": "ServiceInstanceID"}], "status": "Status", "url": "URL", "runs_url": "RunsURL", "toolchainCRN": "ToolchainCRN", "pipelineDefinitionId": "PipelineDefinitionID"}`)
 				}))
 			})
 			It(`Invoke GetTektonPipeline successfully with retries`, func() {
@@ -1060,7 +1288,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "Name", "dashboard_url": "DashboardURL", "resourceGroupId": "ResourceGroupID", "id": "ID", "toolchainId": "ToolchainID", "pipelineOwner": "PipelineOwner", "enabled": false, "type": "Type", "created": "2019-01-01T12:00:00.000Z", "updated_at": "2019-01-01T12:00:00.000Z", "updated_at_timestamp": 18, "created_timestamp": 16, "envProperties": [{"name": "Name", "value": "Value", "type": "Type"}], "triggers": [{"id": "ID", "name": "Name", "eventListener": "EventListener", "disabled": true, "scmSource": {"url": "URL", "type": "Type", "branch": "Branch", "pattern": "Pattern"}, "type": "Type", "events": {"push": true, "pull_request": false, "pull_request_closed": false}, "serviceInstanceId": "ServiceInstanceID"}], "status": "Status", "url": "URL", "runs_url": "RunsURL", "toolchainCRN": "ToolchainCRN", "pipelineDefinitionId": "PipelineDefinitionID"}`)
+					fmt.Fprintf(res, "%s", `{"name": "Name", "dashboard_url": "DashboardURL", "resourceGroupId": "ResourceGroupID", "id": "ID", "toolchainId": "ToolchainID", "pipelineOwner": "PipelineOwner", "enabled": false, "type": "Type", "created": "2019-01-01T12:00:00.000Z", "updated_at": "2019-01-01T12:00:00.000Z", "updated_at_timestamp": 18, "created_timestamp": 16, "envProperties": [{"name": "Name", "value": "Value", "type": "Type"}], "inputs": [{"type": "Type", "serviceInstanceId": "ServiceInstanceID", "shardDefinitionId": "ShardDefinitionID", "scmSource": {"path": "Path", "url": "URL", "type": "Type", "blindConnection": false, "branch": "Branch"}}], "triggers": [{"id": "ID", "name": "Name", "eventListener": "EventListener", "disabled": true, "scmSource": {"url": "URL", "type": "Type", "branch": "Branch", "pattern": "Pattern"}, "type": "Type", "events": {"push": true, "pull_request": false, "pull_request_closed": false}, "serviceInstanceId": "ServiceInstanceID"}], "status": "Status", "url": "URL", "runs_url": "RunsURL", "toolchainCRN": "ToolchainCRN", "pipelineDefinitionId": "PipelineDefinitionID"}`)
 				}))
 			})
 			It(`Invoke GetTektonPipeline successfully`, func() {
@@ -1195,6 +1423,21 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				envPropertyModel.Value = core.StringPtr("testString")
 				envPropertyModel.Type = core.StringPtr("testString")
 
+				// Construct an instance of the TektonPipelineInputScmSource model
+				tektonPipelineInputScmSourceModel := new(opentoolchainv1.TektonPipelineInputScmSource)
+				tektonPipelineInputScmSourceModel.Path = core.StringPtr("testString")
+				tektonPipelineInputScmSourceModel.URL = core.StringPtr("testString")
+				tektonPipelineInputScmSourceModel.Type = core.StringPtr("testString")
+				tektonPipelineInputScmSourceModel.BlindConnection = core.BoolPtr(true)
+				tektonPipelineInputScmSourceModel.Branch = core.StringPtr("testString")
+
+				// Construct an instance of the TektonPipelineInput model
+				tektonPipelineInputModel := new(opentoolchainv1.TektonPipelineInput)
+				tektonPipelineInputModel.Type = core.StringPtr("testString")
+				tektonPipelineInputModel.ServiceInstanceID = core.StringPtr("testString")
+				tektonPipelineInputModel.ShardDefinitionID = core.StringPtr("testString")
+				tektonPipelineInputModel.ScmSource = tektonPipelineInputScmSourceModel
+
 				// Construct an instance of the TektonPipelineTriggerScmSource model
 				tektonPipelineTriggerScmSourceModel := new(opentoolchainv1.TektonPipelineTriggerScmSource)
 				tektonPipelineTriggerScmSourceModel.URL = core.StringPtr("testString")
@@ -1225,7 +1468,9 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				patchTektonPipelineOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
 				patchTektonPipelineOptionsModel.Worker = patchTektonPipelineParamsWorkerModel
 				patchTektonPipelineOptionsModel.EnvProperties = []opentoolchainv1.EnvProperty{*envPropertyModel}
+				patchTektonPipelineOptionsModel.Inputs = []opentoolchainv1.TektonPipelineInput{*tektonPipelineInputModel}
 				patchTektonPipelineOptionsModel.Triggers = []opentoolchainv1.TektonPipelineTrigger{*tektonPipelineTriggerModel}
+				patchTektonPipelineOptionsModel.PipelineDefinitionID = core.StringPtr("testString")
 				patchTektonPipelineOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := openToolchainService.PatchTektonPipeline(patchTektonPipelineOptionsModel)
@@ -1279,7 +1524,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "Name", "dashboard_url": "DashboardURL", "resourceGroupId": "ResourceGroupID", "id": "ID", "toolchainId": "ToolchainID", "pipelineOwner": "PipelineOwner", "enabled": false, "type": "Type", "created": "2019-01-01T12:00:00.000Z", "updated_at": "2019-01-01T12:00:00.000Z", "updated_at_timestamp": 18, "created_timestamp": 16, "envProperties": [{"name": "Name", "value": "Value", "type": "Type"}], "triggers": [{"id": "ID", "name": "Name", "eventListener": "EventListener", "disabled": true, "scmSource": {"url": "URL", "type": "Type", "branch": "Branch", "pattern": "Pattern"}, "type": "Type", "events": {"push": true, "pull_request": false, "pull_request_closed": false}, "serviceInstanceId": "ServiceInstanceID"}], "status": "Status", "url": "URL", "runs_url": "RunsURL", "toolchainCRN": "ToolchainCRN", "pipelineDefinitionId": "PipelineDefinitionID"}`)
+					fmt.Fprintf(res, "%s", `{"name": "Name", "dashboard_url": "DashboardURL", "resourceGroupId": "ResourceGroupID", "id": "ID", "toolchainId": "ToolchainID", "pipelineOwner": "PipelineOwner", "enabled": false, "type": "Type", "created": "2019-01-01T12:00:00.000Z", "updated_at": "2019-01-01T12:00:00.000Z", "updated_at_timestamp": 18, "created_timestamp": 16, "envProperties": [{"name": "Name", "value": "Value", "type": "Type"}], "inputs": [{"type": "Type", "serviceInstanceId": "ServiceInstanceID", "shardDefinitionId": "ShardDefinitionID", "scmSource": {"path": "Path", "url": "URL", "type": "Type", "blindConnection": false, "branch": "Branch"}}], "triggers": [{"id": "ID", "name": "Name", "eventListener": "EventListener", "disabled": true, "scmSource": {"url": "URL", "type": "Type", "branch": "Branch", "pattern": "Pattern"}, "type": "Type", "events": {"push": true, "pull_request": false, "pull_request_closed": false}, "serviceInstanceId": "ServiceInstanceID"}], "status": "Status", "url": "URL", "runs_url": "RunsURL", "toolchainCRN": "ToolchainCRN", "pipelineDefinitionId": "PipelineDefinitionID"}`)
 				}))
 			})
 			It(`Invoke PatchTektonPipeline successfully with retries`, func() {
@@ -1302,6 +1547,21 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				envPropertyModel.Name = core.StringPtr("testString")
 				envPropertyModel.Value = core.StringPtr("testString")
 				envPropertyModel.Type = core.StringPtr("testString")
+
+				// Construct an instance of the TektonPipelineInputScmSource model
+				tektonPipelineInputScmSourceModel := new(opentoolchainv1.TektonPipelineInputScmSource)
+				tektonPipelineInputScmSourceModel.Path = core.StringPtr("testString")
+				tektonPipelineInputScmSourceModel.URL = core.StringPtr("testString")
+				tektonPipelineInputScmSourceModel.Type = core.StringPtr("testString")
+				tektonPipelineInputScmSourceModel.BlindConnection = core.BoolPtr(true)
+				tektonPipelineInputScmSourceModel.Branch = core.StringPtr("testString")
+
+				// Construct an instance of the TektonPipelineInput model
+				tektonPipelineInputModel := new(opentoolchainv1.TektonPipelineInput)
+				tektonPipelineInputModel.Type = core.StringPtr("testString")
+				tektonPipelineInputModel.ServiceInstanceID = core.StringPtr("testString")
+				tektonPipelineInputModel.ShardDefinitionID = core.StringPtr("testString")
+				tektonPipelineInputModel.ScmSource = tektonPipelineInputScmSourceModel
 
 				// Construct an instance of the TektonPipelineTriggerScmSource model
 				tektonPipelineTriggerScmSourceModel := new(opentoolchainv1.TektonPipelineTriggerScmSource)
@@ -1333,7 +1593,9 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				patchTektonPipelineOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
 				patchTektonPipelineOptionsModel.Worker = patchTektonPipelineParamsWorkerModel
 				patchTektonPipelineOptionsModel.EnvProperties = []opentoolchainv1.EnvProperty{*envPropertyModel}
+				patchTektonPipelineOptionsModel.Inputs = []opentoolchainv1.TektonPipelineInput{*tektonPipelineInputModel}
 				patchTektonPipelineOptionsModel.Triggers = []opentoolchainv1.TektonPipelineTrigger{*tektonPipelineTriggerModel}
+				patchTektonPipelineOptionsModel.PipelineDefinitionID = core.StringPtr("testString")
 				patchTektonPipelineOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -1390,7 +1652,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "Name", "dashboard_url": "DashboardURL", "resourceGroupId": "ResourceGroupID", "id": "ID", "toolchainId": "ToolchainID", "pipelineOwner": "PipelineOwner", "enabled": false, "type": "Type", "created": "2019-01-01T12:00:00.000Z", "updated_at": "2019-01-01T12:00:00.000Z", "updated_at_timestamp": 18, "created_timestamp": 16, "envProperties": [{"name": "Name", "value": "Value", "type": "Type"}], "triggers": [{"id": "ID", "name": "Name", "eventListener": "EventListener", "disabled": true, "scmSource": {"url": "URL", "type": "Type", "branch": "Branch", "pattern": "Pattern"}, "type": "Type", "events": {"push": true, "pull_request": false, "pull_request_closed": false}, "serviceInstanceId": "ServiceInstanceID"}], "status": "Status", "url": "URL", "runs_url": "RunsURL", "toolchainCRN": "ToolchainCRN", "pipelineDefinitionId": "PipelineDefinitionID"}`)
+					fmt.Fprintf(res, "%s", `{"name": "Name", "dashboard_url": "DashboardURL", "resourceGroupId": "ResourceGroupID", "id": "ID", "toolchainId": "ToolchainID", "pipelineOwner": "PipelineOwner", "enabled": false, "type": "Type", "created": "2019-01-01T12:00:00.000Z", "updated_at": "2019-01-01T12:00:00.000Z", "updated_at_timestamp": 18, "created_timestamp": 16, "envProperties": [{"name": "Name", "value": "Value", "type": "Type"}], "inputs": [{"type": "Type", "serviceInstanceId": "ServiceInstanceID", "shardDefinitionId": "ShardDefinitionID", "scmSource": {"path": "Path", "url": "URL", "type": "Type", "blindConnection": false, "branch": "Branch"}}], "triggers": [{"id": "ID", "name": "Name", "eventListener": "EventListener", "disabled": true, "scmSource": {"url": "URL", "type": "Type", "branch": "Branch", "pattern": "Pattern"}, "type": "Type", "events": {"push": true, "pull_request": false, "pull_request_closed": false}, "serviceInstanceId": "ServiceInstanceID"}], "status": "Status", "url": "URL", "runs_url": "RunsURL", "toolchainCRN": "ToolchainCRN", "pipelineDefinitionId": "PipelineDefinitionID"}`)
 				}))
 			})
 			It(`Invoke PatchTektonPipeline successfully`, func() {
@@ -1418,6 +1680,21 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				envPropertyModel.Name = core.StringPtr("testString")
 				envPropertyModel.Value = core.StringPtr("testString")
 				envPropertyModel.Type = core.StringPtr("testString")
+
+				// Construct an instance of the TektonPipelineInputScmSource model
+				tektonPipelineInputScmSourceModel := new(opentoolchainv1.TektonPipelineInputScmSource)
+				tektonPipelineInputScmSourceModel.Path = core.StringPtr("testString")
+				tektonPipelineInputScmSourceModel.URL = core.StringPtr("testString")
+				tektonPipelineInputScmSourceModel.Type = core.StringPtr("testString")
+				tektonPipelineInputScmSourceModel.BlindConnection = core.BoolPtr(true)
+				tektonPipelineInputScmSourceModel.Branch = core.StringPtr("testString")
+
+				// Construct an instance of the TektonPipelineInput model
+				tektonPipelineInputModel := new(opentoolchainv1.TektonPipelineInput)
+				tektonPipelineInputModel.Type = core.StringPtr("testString")
+				tektonPipelineInputModel.ServiceInstanceID = core.StringPtr("testString")
+				tektonPipelineInputModel.ShardDefinitionID = core.StringPtr("testString")
+				tektonPipelineInputModel.ScmSource = tektonPipelineInputScmSourceModel
 
 				// Construct an instance of the TektonPipelineTriggerScmSource model
 				tektonPipelineTriggerScmSourceModel := new(opentoolchainv1.TektonPipelineTriggerScmSource)
@@ -1449,7 +1726,9 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				patchTektonPipelineOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
 				patchTektonPipelineOptionsModel.Worker = patchTektonPipelineParamsWorkerModel
 				patchTektonPipelineOptionsModel.EnvProperties = []opentoolchainv1.EnvProperty{*envPropertyModel}
+				patchTektonPipelineOptionsModel.Inputs = []opentoolchainv1.TektonPipelineInput{*tektonPipelineInputModel}
 				patchTektonPipelineOptionsModel.Triggers = []opentoolchainv1.TektonPipelineTrigger{*tektonPipelineTriggerModel}
+				patchTektonPipelineOptionsModel.PipelineDefinitionID = core.StringPtr("testString")
 				patchTektonPipelineOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -1479,6 +1758,21 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				envPropertyModel.Value = core.StringPtr("testString")
 				envPropertyModel.Type = core.StringPtr("testString")
 
+				// Construct an instance of the TektonPipelineInputScmSource model
+				tektonPipelineInputScmSourceModel := new(opentoolchainv1.TektonPipelineInputScmSource)
+				tektonPipelineInputScmSourceModel.Path = core.StringPtr("testString")
+				tektonPipelineInputScmSourceModel.URL = core.StringPtr("testString")
+				tektonPipelineInputScmSourceModel.Type = core.StringPtr("testString")
+				tektonPipelineInputScmSourceModel.BlindConnection = core.BoolPtr(true)
+				tektonPipelineInputScmSourceModel.Branch = core.StringPtr("testString")
+
+				// Construct an instance of the TektonPipelineInput model
+				tektonPipelineInputModel := new(opentoolchainv1.TektonPipelineInput)
+				tektonPipelineInputModel.Type = core.StringPtr("testString")
+				tektonPipelineInputModel.ServiceInstanceID = core.StringPtr("testString")
+				tektonPipelineInputModel.ShardDefinitionID = core.StringPtr("testString")
+				tektonPipelineInputModel.ScmSource = tektonPipelineInputScmSourceModel
+
 				// Construct an instance of the TektonPipelineTriggerScmSource model
 				tektonPipelineTriggerScmSourceModel := new(opentoolchainv1.TektonPipelineTriggerScmSource)
 				tektonPipelineTriggerScmSourceModel.URL = core.StringPtr("testString")
@@ -1509,7 +1803,9 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				patchTektonPipelineOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
 				patchTektonPipelineOptionsModel.Worker = patchTektonPipelineParamsWorkerModel
 				patchTektonPipelineOptionsModel.EnvProperties = []opentoolchainv1.EnvProperty{*envPropertyModel}
+				patchTektonPipelineOptionsModel.Inputs = []opentoolchainv1.TektonPipelineInput{*tektonPipelineInputModel}
 				patchTektonPipelineOptionsModel.Triggers = []opentoolchainv1.TektonPipelineTrigger{*tektonPipelineTriggerModel}
+				patchTektonPipelineOptionsModel.PipelineDefinitionID = core.StringPtr("testString")
 				patchTektonPipelineOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := openToolchainService.SetServiceURL("")
@@ -1560,6 +1856,21 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				envPropertyModel.Value = core.StringPtr("testString")
 				envPropertyModel.Type = core.StringPtr("testString")
 
+				// Construct an instance of the TektonPipelineInputScmSource model
+				tektonPipelineInputScmSourceModel := new(opentoolchainv1.TektonPipelineInputScmSource)
+				tektonPipelineInputScmSourceModel.Path = core.StringPtr("testString")
+				tektonPipelineInputScmSourceModel.URL = core.StringPtr("testString")
+				tektonPipelineInputScmSourceModel.Type = core.StringPtr("testString")
+				tektonPipelineInputScmSourceModel.BlindConnection = core.BoolPtr(true)
+				tektonPipelineInputScmSourceModel.Branch = core.StringPtr("testString")
+
+				// Construct an instance of the TektonPipelineInput model
+				tektonPipelineInputModel := new(opentoolchainv1.TektonPipelineInput)
+				tektonPipelineInputModel.Type = core.StringPtr("testString")
+				tektonPipelineInputModel.ServiceInstanceID = core.StringPtr("testString")
+				tektonPipelineInputModel.ShardDefinitionID = core.StringPtr("testString")
+				tektonPipelineInputModel.ScmSource = tektonPipelineInputScmSourceModel
+
 				// Construct an instance of the TektonPipelineTriggerScmSource model
 				tektonPipelineTriggerScmSourceModel := new(opentoolchainv1.TektonPipelineTriggerScmSource)
 				tektonPipelineTriggerScmSourceModel.URL = core.StringPtr("testString")
@@ -1590,7 +1901,9 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				patchTektonPipelineOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
 				patchTektonPipelineOptionsModel.Worker = patchTektonPipelineParamsWorkerModel
 				patchTektonPipelineOptionsModel.EnvProperties = []opentoolchainv1.EnvProperty{*envPropertyModel}
+				patchTektonPipelineOptionsModel.Inputs = []opentoolchainv1.TektonPipelineInput{*tektonPipelineInputModel}
 				patchTektonPipelineOptionsModel.Triggers = []opentoolchainv1.TektonPipelineTrigger{*tektonPipelineTriggerModel}
+				patchTektonPipelineOptionsModel.PipelineDefinitionID = core.StringPtr("testString")
 				patchTektonPipelineOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -1815,6 +2128,338 @@ var _ = Describe(`OpenToolchainV1`, func() {
 
 				// Invoke operation
 				result, response, operationErr := openToolchainService.GetTektonPipelineDefinition(getTektonPipelineDefinitionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`CreateTektonPipelineDefinition(createTektonPipelineDefinitionOptions *CreateTektonPipelineDefinitionOptions) - Operation response error`, func() {
+		createTektonPipelineDefinitionPath := "/devops/pipelines/tekton/api/v1/testString/definition"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createTektonPipelineDefinitionPath))
+					Expect(req.Method).To(Equal("POST"))
+					Expect(req.URL.Query()["env_id"]).To(Equal([]string{"ibm:yp:us-south"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke CreateTektonPipelineDefinition with error: Operation response processing error`, func() {
+				openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1(&opentoolchainv1.OpenToolchainV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(openToolchainService).ToNot(BeNil())
+
+				// Construct an instance of the CreateTektonPipelineDefinitionParamsInputsItemScmSource model
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel := new(opentoolchainv1.CreateTektonPipelineDefinitionParamsInputsItemScmSource)
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel.Path = core.StringPtr("testString")
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel.URL = core.StringPtr("testString")
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel.Type = core.StringPtr("testString")
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel.BlindConnection = core.BoolPtr(true)
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel.Branch = core.StringPtr("testString")
+
+				// Construct an instance of the CreateTektonPipelineDefinitionParamsInputsItem model
+				createTektonPipelineDefinitionParamsInputsItemModel := new(opentoolchainv1.CreateTektonPipelineDefinitionParamsInputsItem)
+				createTektonPipelineDefinitionParamsInputsItemModel.ScmSource = createTektonPipelineDefinitionParamsInputsItemScmSourceModel
+				createTektonPipelineDefinitionParamsInputsItemModel.Type = core.StringPtr("testString")
+				createTektonPipelineDefinitionParamsInputsItemModel.ServiceInstanceID = core.StringPtr("testString")
+				createTektonPipelineDefinitionParamsInputsItemModel.ShardDefinitionID = core.StringPtr("testString")
+
+				// Construct an instance of the CreateTektonPipelineDefinitionOptions model
+				createTektonPipelineDefinitionOptionsModel := new(opentoolchainv1.CreateTektonPipelineDefinitionOptions)
+				createTektonPipelineDefinitionOptionsModel.GUID = core.StringPtr("testString")
+				createTektonPipelineDefinitionOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				createTektonPipelineDefinitionOptionsModel.Inputs = []opentoolchainv1.CreateTektonPipelineDefinitionParamsInputsItem{*createTektonPipelineDefinitionParamsInputsItemModel}
+				createTektonPipelineDefinitionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := openToolchainService.CreateTektonPipelineDefinition(createTektonPipelineDefinitionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				openToolchainService.EnableRetries(0, 0)
+				result, response, operationErr = openToolchainService.CreateTektonPipelineDefinition(createTektonPipelineDefinitionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`CreateTektonPipelineDefinition(createTektonPipelineDefinitionOptions *CreateTektonPipelineDefinitionOptions)`, func() {
+		createTektonPipelineDefinitionPath := "/devops/pipelines/tekton/api/v1/testString/definition"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createTektonPipelineDefinitionPath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.URL.Query()["env_id"]).To(Equal([]string{"ibm:yp:us-south"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"definition": {"pipelineId": "PipelineID", "repoUrl": "RepoURL", "branch": "Branch", "path": "Path", "sha": "Sha", "id": "ID"}, "inputs": [{"type": "Type", "serviceInstanceId": "ServiceInstanceID", "shardDefinitionId": "ShardDefinitionID", "scmSource": {"path": "Path", "url": "URL", "type": "Type", "blindConnection": false, "branch": "Branch"}}]}`)
+				}))
+			})
+			It(`Invoke CreateTektonPipelineDefinition successfully with retries`, func() {
+				openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1(&opentoolchainv1.OpenToolchainV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(openToolchainService).ToNot(BeNil())
+				openToolchainService.EnableRetries(0, 0)
+
+				// Construct an instance of the CreateTektonPipelineDefinitionParamsInputsItemScmSource model
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel := new(opentoolchainv1.CreateTektonPipelineDefinitionParamsInputsItemScmSource)
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel.Path = core.StringPtr("testString")
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel.URL = core.StringPtr("testString")
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel.Type = core.StringPtr("testString")
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel.BlindConnection = core.BoolPtr(true)
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel.Branch = core.StringPtr("testString")
+
+				// Construct an instance of the CreateTektonPipelineDefinitionParamsInputsItem model
+				createTektonPipelineDefinitionParamsInputsItemModel := new(opentoolchainv1.CreateTektonPipelineDefinitionParamsInputsItem)
+				createTektonPipelineDefinitionParamsInputsItemModel.ScmSource = createTektonPipelineDefinitionParamsInputsItemScmSourceModel
+				createTektonPipelineDefinitionParamsInputsItemModel.Type = core.StringPtr("testString")
+				createTektonPipelineDefinitionParamsInputsItemModel.ServiceInstanceID = core.StringPtr("testString")
+				createTektonPipelineDefinitionParamsInputsItemModel.ShardDefinitionID = core.StringPtr("testString")
+
+				// Construct an instance of the CreateTektonPipelineDefinitionOptions model
+				createTektonPipelineDefinitionOptionsModel := new(opentoolchainv1.CreateTektonPipelineDefinitionOptions)
+				createTektonPipelineDefinitionOptionsModel.GUID = core.StringPtr("testString")
+				createTektonPipelineDefinitionOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				createTektonPipelineDefinitionOptionsModel.Inputs = []opentoolchainv1.CreateTektonPipelineDefinitionParamsInputsItem{*createTektonPipelineDefinitionParamsInputsItemModel}
+				createTektonPipelineDefinitionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := openToolchainService.CreateTektonPipelineDefinitionWithContext(ctx, createTektonPipelineDefinitionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				openToolchainService.DisableRetries()
+				result, response, operationErr := openToolchainService.CreateTektonPipelineDefinition(createTektonPipelineDefinitionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = openToolchainService.CreateTektonPipelineDefinitionWithContext(ctx, createTektonPipelineDefinitionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createTektonPipelineDefinitionPath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.URL.Query()["env_id"]).To(Equal([]string{"ibm:yp:us-south"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"definition": {"pipelineId": "PipelineID", "repoUrl": "RepoURL", "branch": "Branch", "path": "Path", "sha": "Sha", "id": "ID"}, "inputs": [{"type": "Type", "serviceInstanceId": "ServiceInstanceID", "shardDefinitionId": "ShardDefinitionID", "scmSource": {"path": "Path", "url": "URL", "type": "Type", "blindConnection": false, "branch": "Branch"}}]}`)
+				}))
+			})
+			It(`Invoke CreateTektonPipelineDefinition successfully`, func() {
+				openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1(&opentoolchainv1.OpenToolchainV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(openToolchainService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := openToolchainService.CreateTektonPipelineDefinition(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the CreateTektonPipelineDefinitionParamsInputsItemScmSource model
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel := new(opentoolchainv1.CreateTektonPipelineDefinitionParamsInputsItemScmSource)
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel.Path = core.StringPtr("testString")
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel.URL = core.StringPtr("testString")
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel.Type = core.StringPtr("testString")
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel.BlindConnection = core.BoolPtr(true)
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel.Branch = core.StringPtr("testString")
+
+				// Construct an instance of the CreateTektonPipelineDefinitionParamsInputsItem model
+				createTektonPipelineDefinitionParamsInputsItemModel := new(opentoolchainv1.CreateTektonPipelineDefinitionParamsInputsItem)
+				createTektonPipelineDefinitionParamsInputsItemModel.ScmSource = createTektonPipelineDefinitionParamsInputsItemScmSourceModel
+				createTektonPipelineDefinitionParamsInputsItemModel.Type = core.StringPtr("testString")
+				createTektonPipelineDefinitionParamsInputsItemModel.ServiceInstanceID = core.StringPtr("testString")
+				createTektonPipelineDefinitionParamsInputsItemModel.ShardDefinitionID = core.StringPtr("testString")
+
+				// Construct an instance of the CreateTektonPipelineDefinitionOptions model
+				createTektonPipelineDefinitionOptionsModel := new(opentoolchainv1.CreateTektonPipelineDefinitionOptions)
+				createTektonPipelineDefinitionOptionsModel.GUID = core.StringPtr("testString")
+				createTektonPipelineDefinitionOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				createTektonPipelineDefinitionOptionsModel.Inputs = []opentoolchainv1.CreateTektonPipelineDefinitionParamsInputsItem{*createTektonPipelineDefinitionParamsInputsItemModel}
+				createTektonPipelineDefinitionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = openToolchainService.CreateTektonPipelineDefinition(createTektonPipelineDefinitionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke CreateTektonPipelineDefinition with error: Operation validation and request error`, func() {
+				openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1(&opentoolchainv1.OpenToolchainV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(openToolchainService).ToNot(BeNil())
+
+				// Construct an instance of the CreateTektonPipelineDefinitionParamsInputsItemScmSource model
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel := new(opentoolchainv1.CreateTektonPipelineDefinitionParamsInputsItemScmSource)
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel.Path = core.StringPtr("testString")
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel.URL = core.StringPtr("testString")
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel.Type = core.StringPtr("testString")
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel.BlindConnection = core.BoolPtr(true)
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel.Branch = core.StringPtr("testString")
+
+				// Construct an instance of the CreateTektonPipelineDefinitionParamsInputsItem model
+				createTektonPipelineDefinitionParamsInputsItemModel := new(opentoolchainv1.CreateTektonPipelineDefinitionParamsInputsItem)
+				createTektonPipelineDefinitionParamsInputsItemModel.ScmSource = createTektonPipelineDefinitionParamsInputsItemScmSourceModel
+				createTektonPipelineDefinitionParamsInputsItemModel.Type = core.StringPtr("testString")
+				createTektonPipelineDefinitionParamsInputsItemModel.ServiceInstanceID = core.StringPtr("testString")
+				createTektonPipelineDefinitionParamsInputsItemModel.ShardDefinitionID = core.StringPtr("testString")
+
+				// Construct an instance of the CreateTektonPipelineDefinitionOptions model
+				createTektonPipelineDefinitionOptionsModel := new(opentoolchainv1.CreateTektonPipelineDefinitionOptions)
+				createTektonPipelineDefinitionOptionsModel.GUID = core.StringPtr("testString")
+				createTektonPipelineDefinitionOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				createTektonPipelineDefinitionOptionsModel.Inputs = []opentoolchainv1.CreateTektonPipelineDefinitionParamsInputsItem{*createTektonPipelineDefinitionParamsInputsItemModel}
+				createTektonPipelineDefinitionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := openToolchainService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := openToolchainService.CreateTektonPipelineDefinition(createTektonPipelineDefinitionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the CreateTektonPipelineDefinitionOptions model with no property values
+				createTektonPipelineDefinitionOptionsModelNew := new(opentoolchainv1.CreateTektonPipelineDefinitionOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = openToolchainService.CreateTektonPipelineDefinition(createTektonPipelineDefinitionOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke CreateTektonPipelineDefinition successfully`, func() {
+				openToolchainService, serviceErr := opentoolchainv1.NewOpenToolchainV1(&opentoolchainv1.OpenToolchainV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(openToolchainService).ToNot(BeNil())
+
+				// Construct an instance of the CreateTektonPipelineDefinitionParamsInputsItemScmSource model
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel := new(opentoolchainv1.CreateTektonPipelineDefinitionParamsInputsItemScmSource)
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel.Path = core.StringPtr("testString")
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel.URL = core.StringPtr("testString")
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel.Type = core.StringPtr("testString")
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel.BlindConnection = core.BoolPtr(true)
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel.Branch = core.StringPtr("testString")
+
+				// Construct an instance of the CreateTektonPipelineDefinitionParamsInputsItem model
+				createTektonPipelineDefinitionParamsInputsItemModel := new(opentoolchainv1.CreateTektonPipelineDefinitionParamsInputsItem)
+				createTektonPipelineDefinitionParamsInputsItemModel.ScmSource = createTektonPipelineDefinitionParamsInputsItemScmSourceModel
+				createTektonPipelineDefinitionParamsInputsItemModel.Type = core.StringPtr("testString")
+				createTektonPipelineDefinitionParamsInputsItemModel.ServiceInstanceID = core.StringPtr("testString")
+				createTektonPipelineDefinitionParamsInputsItemModel.ShardDefinitionID = core.StringPtr("testString")
+
+				// Construct an instance of the CreateTektonPipelineDefinitionOptions model
+				createTektonPipelineDefinitionOptionsModel := new(opentoolchainv1.CreateTektonPipelineDefinitionOptions)
+				createTektonPipelineDefinitionOptionsModel.GUID = core.StringPtr("testString")
+				createTektonPipelineDefinitionOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				createTektonPipelineDefinitionOptionsModel.Inputs = []opentoolchainv1.CreateTektonPipelineDefinitionParamsInputsItem{*createTektonPipelineDefinitionParamsInputsItemModel}
+				createTektonPipelineDefinitionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := openToolchainService.CreateTektonPipelineDefinition(createTektonPipelineDefinitionOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 
@@ -2096,6 +2741,47 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				Expect(createServiceInstanceOptionsModel.Parameters).To(Equal(createServiceInstanceParamsParametersModel))
 				Expect(createServiceInstanceOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewCreateTektonPipelineDefinitionOptions successfully`, func() {
+				// Construct an instance of the CreateTektonPipelineDefinitionParamsInputsItemScmSource model
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel := new(opentoolchainv1.CreateTektonPipelineDefinitionParamsInputsItemScmSource)
+				Expect(createTektonPipelineDefinitionParamsInputsItemScmSourceModel).ToNot(BeNil())
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel.Path = core.StringPtr("testString")
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel.URL = core.StringPtr("testString")
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel.Type = core.StringPtr("testString")
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel.BlindConnection = core.BoolPtr(true)
+				createTektonPipelineDefinitionParamsInputsItemScmSourceModel.Branch = core.StringPtr("testString")
+				Expect(createTektonPipelineDefinitionParamsInputsItemScmSourceModel.Path).To(Equal(core.StringPtr("testString")))
+				Expect(createTektonPipelineDefinitionParamsInputsItemScmSourceModel.URL).To(Equal(core.StringPtr("testString")))
+				Expect(createTektonPipelineDefinitionParamsInputsItemScmSourceModel.Type).To(Equal(core.StringPtr("testString")))
+				Expect(createTektonPipelineDefinitionParamsInputsItemScmSourceModel.BlindConnection).To(Equal(core.BoolPtr(true)))
+				Expect(createTektonPipelineDefinitionParamsInputsItemScmSourceModel.Branch).To(Equal(core.StringPtr("testString")))
+
+				// Construct an instance of the CreateTektonPipelineDefinitionParamsInputsItem model
+				createTektonPipelineDefinitionParamsInputsItemModel := new(opentoolchainv1.CreateTektonPipelineDefinitionParamsInputsItem)
+				Expect(createTektonPipelineDefinitionParamsInputsItemModel).ToNot(BeNil())
+				createTektonPipelineDefinitionParamsInputsItemModel.ScmSource = createTektonPipelineDefinitionParamsInputsItemScmSourceModel
+				createTektonPipelineDefinitionParamsInputsItemModel.Type = core.StringPtr("testString")
+				createTektonPipelineDefinitionParamsInputsItemModel.ServiceInstanceID = core.StringPtr("testString")
+				createTektonPipelineDefinitionParamsInputsItemModel.ShardDefinitionID = core.StringPtr("testString")
+				Expect(createTektonPipelineDefinitionParamsInputsItemModel.ScmSource).To(Equal(createTektonPipelineDefinitionParamsInputsItemScmSourceModel))
+				Expect(createTektonPipelineDefinitionParamsInputsItemModel.Type).To(Equal(core.StringPtr("testString")))
+				Expect(createTektonPipelineDefinitionParamsInputsItemModel.ServiceInstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(createTektonPipelineDefinitionParamsInputsItemModel.ShardDefinitionID).To(Equal(core.StringPtr("testString")))
+
+				// Construct an instance of the CreateTektonPipelineDefinitionOptions model
+				guid := "testString"
+				envID := "ibm:yp:us-south"
+				createTektonPipelineDefinitionOptionsModel := openToolchainService.NewCreateTektonPipelineDefinitionOptions(guid, envID)
+				createTektonPipelineDefinitionOptionsModel.SetGUID("testString")
+				createTektonPipelineDefinitionOptionsModel.SetEnvID("ibm:yp:us-south")
+				createTektonPipelineDefinitionOptionsModel.SetInputs([]opentoolchainv1.CreateTektonPipelineDefinitionParamsInputsItem{*createTektonPipelineDefinitionParamsInputsItemModel})
+				createTektonPipelineDefinitionOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(createTektonPipelineDefinitionOptionsModel).ToNot(BeNil())
+				Expect(createTektonPipelineDefinitionOptionsModel.GUID).To(Equal(core.StringPtr("testString")))
+				Expect(createTektonPipelineDefinitionOptionsModel.EnvID).To(Equal(core.StringPtr("ibm:yp:us-south")))
+				Expect(createTektonPipelineDefinitionOptionsModel.Inputs).To(Equal([]opentoolchainv1.CreateTektonPipelineDefinitionParamsInputsItem{*createTektonPipelineDefinitionParamsInputsItemModel}))
+				Expect(createTektonPipelineDefinitionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewCreateToolchainOptions successfully`, func() {
 				// Construct an instance of the CreateToolchainOptions model
 				envID := "ibm:yp:us-south"
@@ -2152,6 +2838,22 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				model, err := openToolchainService.NewEnvProperty(name, value, typeVar)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewGetServiceInstanceOptions successfully`, func() {
+				// Construct an instance of the GetServiceInstanceOptions model
+				guid := "testString"
+				envID := "ibm:yp:us-south"
+				toolchainID := "testString"
+				getServiceInstanceOptionsModel := openToolchainService.NewGetServiceInstanceOptions(guid, envID, toolchainID)
+				getServiceInstanceOptionsModel.SetGUID("testString")
+				getServiceInstanceOptionsModel.SetEnvID("ibm:yp:us-south")
+				getServiceInstanceOptionsModel.SetToolchainID("testString")
+				getServiceInstanceOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getServiceInstanceOptionsModel).ToNot(BeNil())
+				Expect(getServiceInstanceOptionsModel.GUID).To(Equal(core.StringPtr("testString")))
+				Expect(getServiceInstanceOptionsModel.EnvID).To(Equal(core.StringPtr("ibm:yp:us-south")))
+				Expect(getServiceInstanceOptionsModel.ToolchainID).To(Equal(core.StringPtr("testString")))
+				Expect(getServiceInstanceOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetTektonPipelineDefinitionOptions successfully`, func() {
 				// Construct an instance of the GetTektonPipelineDefinitionOptions model
@@ -2250,6 +2952,32 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				Expect(envPropertyModel.Value).To(Equal(core.StringPtr("testString")))
 				Expect(envPropertyModel.Type).To(Equal(core.StringPtr("testString")))
 
+				// Construct an instance of the TektonPipelineInputScmSource model
+				tektonPipelineInputScmSourceModel := new(opentoolchainv1.TektonPipelineInputScmSource)
+				Expect(tektonPipelineInputScmSourceModel).ToNot(BeNil())
+				tektonPipelineInputScmSourceModel.Path = core.StringPtr("testString")
+				tektonPipelineInputScmSourceModel.URL = core.StringPtr("testString")
+				tektonPipelineInputScmSourceModel.Type = core.StringPtr("testString")
+				tektonPipelineInputScmSourceModel.BlindConnection = core.BoolPtr(true)
+				tektonPipelineInputScmSourceModel.Branch = core.StringPtr("testString")
+				Expect(tektonPipelineInputScmSourceModel.Path).To(Equal(core.StringPtr("testString")))
+				Expect(tektonPipelineInputScmSourceModel.URL).To(Equal(core.StringPtr("testString")))
+				Expect(tektonPipelineInputScmSourceModel.Type).To(Equal(core.StringPtr("testString")))
+				Expect(tektonPipelineInputScmSourceModel.BlindConnection).To(Equal(core.BoolPtr(true)))
+				Expect(tektonPipelineInputScmSourceModel.Branch).To(Equal(core.StringPtr("testString")))
+
+				// Construct an instance of the TektonPipelineInput model
+				tektonPipelineInputModel := new(opentoolchainv1.TektonPipelineInput)
+				Expect(tektonPipelineInputModel).ToNot(BeNil())
+				tektonPipelineInputModel.Type = core.StringPtr("testString")
+				tektonPipelineInputModel.ServiceInstanceID = core.StringPtr("testString")
+				tektonPipelineInputModel.ShardDefinitionID = core.StringPtr("testString")
+				tektonPipelineInputModel.ScmSource = tektonPipelineInputScmSourceModel
+				Expect(tektonPipelineInputModel.Type).To(Equal(core.StringPtr("testString")))
+				Expect(tektonPipelineInputModel.ServiceInstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(tektonPipelineInputModel.ShardDefinitionID).To(Equal(core.StringPtr("testString")))
+				Expect(tektonPipelineInputModel.ScmSource).To(Equal(tektonPipelineInputScmSourceModel))
+
 				// Construct an instance of the TektonPipelineTriggerScmSource model
 				tektonPipelineTriggerScmSourceModel := new(opentoolchainv1.TektonPipelineTriggerScmSource)
 				Expect(tektonPipelineTriggerScmSourceModel).ToNot(BeNil())
@@ -2300,14 +3028,18 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				patchTektonPipelineOptionsModel.SetEnvID("ibm:yp:us-south")
 				patchTektonPipelineOptionsModel.SetWorker(patchTektonPipelineParamsWorkerModel)
 				patchTektonPipelineOptionsModel.SetEnvProperties([]opentoolchainv1.EnvProperty{*envPropertyModel})
+				patchTektonPipelineOptionsModel.SetInputs([]opentoolchainv1.TektonPipelineInput{*tektonPipelineInputModel})
 				patchTektonPipelineOptionsModel.SetTriggers([]opentoolchainv1.TektonPipelineTrigger{*tektonPipelineTriggerModel})
+				patchTektonPipelineOptionsModel.SetPipelineDefinitionID("testString")
 				patchTektonPipelineOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(patchTektonPipelineOptionsModel).ToNot(BeNil())
 				Expect(patchTektonPipelineOptionsModel.GUID).To(Equal(core.StringPtr("testString")))
 				Expect(patchTektonPipelineOptionsModel.EnvID).To(Equal(core.StringPtr("ibm:yp:us-south")))
 				Expect(patchTektonPipelineOptionsModel.Worker).To(Equal(patchTektonPipelineParamsWorkerModel))
 				Expect(patchTektonPipelineOptionsModel.EnvProperties).To(Equal([]opentoolchainv1.EnvProperty{*envPropertyModel}))
+				Expect(patchTektonPipelineOptionsModel.Inputs).To(Equal([]opentoolchainv1.TektonPipelineInput{*tektonPipelineInputModel}))
 				Expect(patchTektonPipelineOptionsModel.Triggers).To(Equal([]opentoolchainv1.TektonPipelineTrigger{*tektonPipelineTriggerModel}))
+				Expect(patchTektonPipelineOptionsModel.PipelineDefinitionID).To(Equal(core.StringPtr("testString")))
 				Expect(patchTektonPipelineOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewPatchToolchainOptions successfully`, func() {
