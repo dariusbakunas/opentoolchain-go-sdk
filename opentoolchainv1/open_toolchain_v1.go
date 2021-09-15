@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.32.0-4c6a3129-20210514-210323
+ * IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-a675267a-20210510-153046
  */
 
 // Package opentoolchainv1 : Operations and models for the OpenToolchainV1 service
@@ -1030,6 +1030,14 @@ type CreateServiceInstanceParamsParameters struct {
 
 	HasIssues *bool `json:"has_issues,omitempty"`
 
+	InstanceName *string `json:"instance-name,omitempty"`
+
+	IntegrationStatus *string `json:"integration-status,omitempty"`
+
+	Region *string `json:"region,omitempty"`
+
+	ResourceGroup *string `json:"resource-group,omitempty"`
+
 	EnableTraceability *bool `json:"enable_traceability,omitempty"`
 
 	Name *string `json:"name,omitempty"`
@@ -1071,6 +1079,22 @@ func UnmarshalCreateServiceInstanceParamsParameters(m map[string]json.RawMessage
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "has_issues", &obj.HasIssues)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "instance-name", &obj.InstanceName)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "integration-status", &obj.IntegrationStatus)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "region", &obj.Region)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource-group", &obj.ResourceGroup)
 	if err != nil {
 		return
 	}
@@ -1860,6 +1884,14 @@ type PatchServiceInstanceParamsParameters struct {
 	HasIssues *bool `json:"has_issues,omitempty"`
 
 	EnableTraceability *bool `json:"enable_traceability,omitempty"`
+
+	InstanceName *string `json:"instance-name,omitempty"`
+
+	IntegrationStatus *string `json:"integration-status,omitempty"`
+
+	Region *string `json:"region,omitempty"`
+
+	ResourceGroup *string `json:"resource-group,omitempty"`
 }
 
 // UnmarshalPatchServiceInstanceParamsParameters unmarshals an instance of PatchServiceInstanceParamsParameters from the specified map of raw messages.
@@ -1890,6 +1922,22 @@ func UnmarshalPatchServiceInstanceParamsParameters(m map[string]json.RawMessage,
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "enable_traceability", &obj.EnableTraceability)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "instance-name", &obj.InstanceName)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "integration-status", &obj.IntegrationStatus)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "region", &obj.Region)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource-group", &obj.ResourceGroup)
 	if err != nil {
 		return
 	}
@@ -2444,7 +2492,7 @@ type TektonPipelineTrigger struct {
 
 	EventListener *string `json:"eventListener" validate:"required"`
 
-	Disabled *bool `json:"disabled" validate:"required"`
+	Disabled *bool `json:"disabled,omitempty"`
 
 	ScmSource *TektonPipelineTriggerScmSource `json:"scmSource,omitempty"`
 
@@ -2456,10 +2504,9 @@ type TektonPipelineTrigger struct {
 }
 
 // NewTektonPipelineTrigger : Instantiate TektonPipelineTrigger (Generic Model Constructor)
-func (*OpenToolchainV1) NewTektonPipelineTrigger(eventListener string, disabled bool, typeVar string) (model *TektonPipelineTrigger, err error) {
+func (*OpenToolchainV1) NewTektonPipelineTrigger(eventListener string, typeVar string) (model *TektonPipelineTrigger, err error) {
 	model = &TektonPipelineTrigger{
 		EventListener: core.StringPtr(eventListener),
-		Disabled:      core.BoolPtr(disabled),
 		Type:          core.StringPtr(typeVar),
 	}
 	err = core.ValidateStruct(model, "required parameters")

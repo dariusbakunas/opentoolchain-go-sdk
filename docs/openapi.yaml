@@ -651,7 +651,6 @@ components:
       type: 'object'
       required:
         - eventListener
-        - disabled
         - type
       properties:
         id:
@@ -874,6 +873,14 @@ components:
               type: boolean
             has_issues:
               type: boolean
+            instance-name:
+              type: string
+            integration-status:
+              type: string
+            region:
+              type: string
+            resource-group:
+              type: string
             enable_traceability:
               type: boolean
             name:
@@ -907,6 +914,14 @@ components:
               type: boolean
             enable_traceability:
               type: boolean
+            instance-name:
+              type: string
+            integration-status:
+              type: string
+            region:
+              type: string
+            resource-group:
+              type: string
     CreateToolchainParams:
       type: object
       required: [repository]
