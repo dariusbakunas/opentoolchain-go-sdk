@@ -859,6 +859,22 @@ components:
           properties:
             authorized:
               type: string
+            channel_name:
+              type: string
+            team_url:
+              type: string
+            pipeline_start:
+              type: boolean
+            pipeline_success:
+              type: boolean
+            pipeline_fail:
+              type: boolean
+            toolchain_bind:
+              type: boolean
+            toolchain_unbind:
+              type: boolean
+            api_token:
+              type: string
             git_id:
               type: string
             api_root_url:
@@ -921,6 +937,22 @@ components:
             region:
               type: string
             resource-group:
+              type: string
+            channel_name:
+              type: string
+            team_url:
+              type: string
+            pipeline_start:
+              type: boolean
+            pipeline_success:
+              type: boolean
+            pipeline_fail:
+              type: boolean
+            toolchain_bind:
+              type: boolean
+            toolchain_unbind:
+              type: boolean
+            api_token:
               type: string
     CreateToolchainParams:
       type: object

@@ -1016,6 +1016,22 @@ func (options *CreateServiceInstanceOptions) SetHeaders(param map[string]string)
 type CreateServiceInstanceParamsParameters struct {
 	Authorized *string `json:"authorized,omitempty"`
 
+	ChannelName *string `json:"channel_name,omitempty"`
+
+	TeamURL *string `json:"team_url,omitempty"`
+
+	PipelineStart *bool `json:"pipeline_start,omitempty"`
+
+	PipelineSuccess *bool `json:"pipeline_success,omitempty"`
+
+	PipelineFail *bool `json:"pipeline_fail,omitempty"`
+
+	ToolchainBind *bool `json:"toolchain_bind,omitempty"`
+
+	ToolchainUnbind *bool `json:"toolchain_unbind,omitempty"`
+
+	APIToken *string `json:"api_token,omitempty"`
+
 	GitID *string `json:"git_id,omitempty"`
 
 	APIRootURL *string `json:"api_root_url,omitempty"`
@@ -1051,6 +1067,38 @@ type CreateServiceInstanceParamsParameters struct {
 func UnmarshalCreateServiceInstanceParamsParameters(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(CreateServiceInstanceParamsParameters)
 	err = core.UnmarshalPrimitive(m, "authorized", &obj.Authorized)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "channel_name", &obj.ChannelName)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "team_url", &obj.TeamURL)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "pipeline_start", &obj.PipelineStart)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "pipeline_success", &obj.PipelineSuccess)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "pipeline_fail", &obj.PipelineFail)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "toolchain_bind", &obj.ToolchainBind)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "toolchain_unbind", &obj.ToolchainUnbind)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "api_token", &obj.APIToken)
 	if err != nil {
 		return
 	}
@@ -1892,6 +1940,22 @@ type PatchServiceInstanceParamsParameters struct {
 	Region *string `json:"region,omitempty"`
 
 	ResourceGroup *string `json:"resource-group,omitempty"`
+
+	ChannelName *string `json:"channel_name,omitempty"`
+
+	TeamURL *string `json:"team_url,omitempty"`
+
+	PipelineStart *bool `json:"pipeline_start,omitempty"`
+
+	PipelineSuccess *bool `json:"pipeline_success,omitempty"`
+
+	PipelineFail *bool `json:"pipeline_fail,omitempty"`
+
+	ToolchainBind *bool `json:"toolchain_bind,omitempty"`
+
+	ToolchainUnbind *bool `json:"toolchain_unbind,omitempty"`
+
+	APIToken *string `json:"api_token,omitempty"`
 }
 
 // UnmarshalPatchServiceInstanceParamsParameters unmarshals an instance of PatchServiceInstanceParamsParameters from the specified map of raw messages.
@@ -1938,6 +2002,38 @@ func UnmarshalPatchServiceInstanceParamsParameters(m map[string]json.RawMessage,
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resource-group", &obj.ResourceGroup)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "channel_name", &obj.ChannelName)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "team_url", &obj.TeamURL)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "pipeline_start", &obj.PipelineStart)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "pipeline_success", &obj.PipelineSuccess)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "pipeline_fail", &obj.PipelineFail)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "toolchain_bind", &obj.ToolchainBind)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "toolchain_unbind", &obj.ToolchainUnbind)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "api_token", &obj.APIToken)
 	if err != nil {
 		return
 	}
