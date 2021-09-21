@@ -1014,6 +1014,22 @@ func (options *CreateServiceInstanceOptions) SetHeaders(param map[string]string)
 
 // CreateServiceInstanceParamsParameters : CreateServiceInstanceParamsParameters struct
 type CreateServiceInstanceParamsParameters struct {
+	APIKey *string `json:"api_key,omitempty"`
+
+	ServiceKey *string `json:"service_key,omitempty"`
+
+	KeyType *string `json:"key_type,omitempty"`
+
+	ServiceID *string `json:"service_id,omitempty"`
+
+	ServiceName *string `json:"service_name,omitempty"`
+
+	ServiceURL *string `json:"service_url,omitempty"`
+
+	UserEmail *string `json:"user_email,omitempty"`
+
+	UserPhone *string `json:"user_phone,omitempty"`
+
 	Authorized *string `json:"authorized,omitempty"`
 
 	ChannelName *string `json:"channel_name,omitempty"`
@@ -1066,6 +1082,38 @@ type CreateServiceInstanceParamsParameters struct {
 // UnmarshalCreateServiceInstanceParamsParameters unmarshals an instance of CreateServiceInstanceParamsParameters from the specified map of raw messages.
 func UnmarshalCreateServiceInstanceParamsParameters(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(CreateServiceInstanceParamsParameters)
+	err = core.UnmarshalPrimitive(m, "api_key", &obj.APIKey)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "service_key", &obj.ServiceKey)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "key_type", &obj.KeyType)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "service_id", &obj.ServiceID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "service_name", &obj.ServiceName)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "service_url", &obj.ServiceURL)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "user_email", &obj.UserEmail)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "user_phone", &obj.UserPhone)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "authorized", &obj.Authorized)
 	if err != nil {
 		return
@@ -1919,6 +1967,22 @@ func (options *PatchServiceInstanceOptions) SetHeaders(param map[string]string) 
 
 // PatchServiceInstanceParamsParameters : PatchServiceInstanceParamsParameters struct
 type PatchServiceInstanceParamsParameters struct {
+	APIKey *string `json:"api_key,omitempty"`
+
+	ServiceKey *string `json:"service_key,omitempty"`
+
+	KeyType *string `json:"key_type,omitempty"`
+
+	ServiceID *string `json:"service_id,omitempty"`
+
+	ServiceName *string `json:"service_name,omitempty"`
+
+	ServiceURL *string `json:"service_url,omitempty"`
+
+	UserEmail *string `json:"user_email,omitempty"`
+
+	UserPhone *string `json:"user_phone,omitempty"`
+
 	Name *string `json:"name,omitempty"`
 
 	Type *string `json:"type,omitempty"`
@@ -1961,6 +2025,38 @@ type PatchServiceInstanceParamsParameters struct {
 // UnmarshalPatchServiceInstanceParamsParameters unmarshals an instance of PatchServiceInstanceParamsParameters from the specified map of raw messages.
 func UnmarshalPatchServiceInstanceParamsParameters(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(PatchServiceInstanceParamsParameters)
+	err = core.UnmarshalPrimitive(m, "api_key", &obj.APIKey)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "service_key", &obj.ServiceKey)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "key_type", &obj.KeyType)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "service_id", &obj.ServiceID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "service_name", &obj.ServiceName)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "service_url", &obj.ServiceURL)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "user_email", &obj.UserEmail)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "user_phone", &obj.UserPhone)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
 		return

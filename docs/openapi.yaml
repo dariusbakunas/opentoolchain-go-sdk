@@ -857,6 +857,22 @@ components:
         parameters:
           type: object
           properties:
+            api_key:
+              type: string
+            service_key:
+              type: string
+            key_type:
+              type: string
+            service_id:
+              type: string
+            service_name:
+              type: string
+            service_url:
+              type: string
+            user_email:
+              type: string
+            user_phone:
+              type: string
             authorized:
               type: string
             channel_name:
@@ -916,6 +932,22 @@ components:
         parameters:
           type: object
           properties:
+            api_key:
+              type: string
+            service_key:
+              type: string
+            key_type:
+              type: string
+            service_id:
+              type: string
+            service_name:
+              type: string
+            service_url:
+              type: string
+            user_email:
+              type: string
+            user_phone:
+              type: string
             name:
               type: string
             type:
