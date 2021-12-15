@@ -11,9 +11,9 @@ info:
   x-acronyms:
     - guid
 servers:
-  - url: 'https://cloud.ibm.com'
+  - url: 'https://'
 paths:
-  /devops/toolchains/{guid}:
+  /devops-api.{region}.devops.cloud.ibm.com/v1/toolchains/{guid}:
     get:
       security:
         - iamToken: []
@@ -22,26 +22,32 @@ paths:
       tags:
         - toolchain
       parameters:
+        - name: region
+          in: path
+          description: Toolchain region
+          required: true
+          schema:
+            type: string
         - name: guid
           in: path
           description: GUID of the toolchain
           required: true
           schema:
             type: string
-        - name: env_id
+        - name: include
           in: query
-          description: Environment ID
-          required: true
+          description: Instructs the API to return the specified content according to the comma-separated list of sections
+          required: false
           schema:
             type: string
-          example: "ibm:yp:us-south"
+          example: "fields,services"
       responses:
         '200':
           description: 'Details about a toolchain'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Toolchain'
+                $ref: '#/components/schemas/ToolchainResponse'
         default:
           description: Internal error occurred.
           content:
@@ -54,19 +60,18 @@ paths:
       operationId: patchToolchain
       summary: 'Update toolchain parameters'
       parameters:
+        - name: region
+          in: path
+          description: Toolchain region
+          required: true
+          schema:
+            type: string
         - name: guid
           in: path
           description: GUID of the toolchain
           required: true
           schema:
             type: string
-        - name: env_id
-          in: query
-          description: Environment ID
-          required: true
-          schema:
-            type: string
-          example: "ibm:yp:us-south"
       requestBody:
         content:
             application/json:
@@ -87,19 +92,23 @@ paths:
         - iamToken: []
       description: Delete existing toolchain
       parameters:
+        - name: region
+          in: path
+          description: Toolchain region
+          required: true
+          schema:
+            type: string
         - name: guid
           in: path
           description: GUID of the toolchain
           required: true
           schema:
             type: string
-        - name: env_id
+        - name: unbind_deprovision_tools
           in: query
-          description: Environment ID
-          required: true
+          description: When enabled, unbinds and deprovisions the tools associated with the toolchain.
           schema:
-            type: string
-          example: "ibm:yp:us-south"
+            type: boolean
       responses:
         '200':
           description: OK
@@ -111,7 +120,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /devops/setup/deploy:
+  /cloud.ibm.com/devops/setup/deploy:
     post:
       security:
         - iamToken: []
@@ -148,7 +157,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /devops/service_instances:
+  /cloud.ibm.com/devops/service_instances:
     post:
       security:
         - iamToken: [ ]
@@ -183,7 +192,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceInstanceError'
-  /devops/service_instances/{guid}:
+  /cloud.ibm.com/devops/service_instances/{guid}:
     get:
       security:
         - iamToken: []
@@ -294,7 +303,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceInstanceError'
-  /devops/pipelines/tekton/api/v1/{guid}:
+  /devops-api.{region}.devops.cloud.ibm.com/v1/tekton-pipelines/{guid}:
     get:
       security:
         - iamToken: []
@@ -309,13 +318,12 @@ paths:
           required: true
           schema:
             type: string
-        - name: env_id
-          in: query
-          description: Environment ID
+        - name: region
+          in: path
+          description: Toolchain region
           required: true
           schema:
             type: string
-          example: "ibm:yp:us-south"
       responses:
         '200':
           description: 'Details about a pipeline'
@@ -329,7 +337,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /devops/pipelines/tekton/api/v1/{guid}/config:
+  /devops-api.{region}.devops.cloud.ibm.com/v1/tekton-pipelines/{guid}/config:
     patch:
       security:
         - iamToken: []
@@ -344,13 +352,12 @@ paths:
           required: true
           schema:
             type: string
-        - name: env_id
-          in: query
-          description: Environment ID
+        - name: region
+          in: path
+          description: Toolchain region
           required: true
           schema:
             type: string
-          example: "ibm:yp:us-south"
       requestBody:
         content:
           application/json:
@@ -369,7 +376,7 @@ paths:
               application/json:
                 schema:
                   $ref: '#/components/schemas/Error'
-  /devops/pipelines/tekton/api/v1/{guid}/definition:
+  /devops-api.{region}.devops.cloud.ibm.com/v1/tekton-pipelines/{guid}/definition:
     get:
       security:
         - iamToken: [ ]
@@ -701,6 +708,15 @@ components:
           type: string
         type:
           type: string
+    ToolchainResponse:
+      type: object
+      properties:
+        total_results:
+          type: number
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Toolchain'
     Toolchain:
       type: object
       required:
@@ -820,6 +836,8 @@ components:
         name:
           type: string
           description: "Toolchain name"
+        description:
+          type: string
     PatchTektonPipelineParams:
       type: object
       properties:

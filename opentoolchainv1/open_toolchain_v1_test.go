@@ -162,7 +162,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 		})
 	})
 	Describe(`PatchToolchain(patchToolchainOptions *PatchToolchainOptions)`, func() {
-		patchToolchainPath := "/devops/toolchains/testString"
+		patchToolchainPath := "/devops-api.testString.devops.cloud.ibm.com/v1/toolchains/testString"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -188,7 +188,6 @@ var _ = Describe(`OpenToolchainV1`, func() {
 					}
 					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
-					Expect(req.URL.Query()["env_id"]).To(Equal([]string{"ibm:yp:us-south"}))
 					res.WriteHeader(204)
 				}))
 			})
@@ -207,9 +206,10 @@ var _ = Describe(`OpenToolchainV1`, func() {
 
 				// Construct an instance of the PatchToolchainOptions model
 				patchToolchainOptionsModel := new(opentoolchainv1.PatchToolchainOptions)
+				patchToolchainOptionsModel.Region = core.StringPtr("testString")
 				patchToolchainOptionsModel.GUID = core.StringPtr("testString")
-				patchToolchainOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
 				patchToolchainOptionsModel.Name = core.StringPtr("testString")
+				patchToolchainOptionsModel.Description = core.StringPtr("testString")
 				patchToolchainOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -227,9 +227,10 @@ var _ = Describe(`OpenToolchainV1`, func() {
 
 				// Construct an instance of the PatchToolchainOptions model
 				patchToolchainOptionsModel := new(opentoolchainv1.PatchToolchainOptions)
+				patchToolchainOptionsModel.Region = core.StringPtr("testString")
 				patchToolchainOptionsModel.GUID = core.StringPtr("testString")
-				patchToolchainOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
 				patchToolchainOptionsModel.Name = core.StringPtr("testString")
+				patchToolchainOptionsModel.Description = core.StringPtr("testString")
 				patchToolchainOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := openToolchainService.SetServiceURL("")
@@ -251,7 +252,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 		})
 	})
 	Describe(`DeleteToolchain(deleteToolchainOptions *DeleteToolchainOptions)`, func() {
-		deleteToolchainPath := "/devops/toolchains/testString"
+		deleteToolchainPath := "/devops-api.testString.devops.cloud.ibm.com/v1/toolchains/testString"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -261,7 +262,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(deleteToolchainPath))
 					Expect(req.Method).To(Equal("DELETE"))
 
-					Expect(req.URL.Query()["env_id"]).To(Equal([]string{"ibm:yp:us-south"}))
+					// TODO: Add check for unbind_deprovision_tools query parameter
 					res.WriteHeader(200)
 				}))
 			})
@@ -280,8 +281,9 @@ var _ = Describe(`OpenToolchainV1`, func() {
 
 				// Construct an instance of the DeleteToolchainOptions model
 				deleteToolchainOptionsModel := new(opentoolchainv1.DeleteToolchainOptions)
+				deleteToolchainOptionsModel.Region = core.StringPtr("testString")
 				deleteToolchainOptionsModel.GUID = core.StringPtr("testString")
-				deleteToolchainOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				deleteToolchainOptionsModel.UnbindDeprovisionTools = core.BoolPtr(true)
 				deleteToolchainOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -299,8 +301,9 @@ var _ = Describe(`OpenToolchainV1`, func() {
 
 				// Construct an instance of the DeleteToolchainOptions model
 				deleteToolchainOptionsModel := new(opentoolchainv1.DeleteToolchainOptions)
+				deleteToolchainOptionsModel.Region = core.StringPtr("testString")
 				deleteToolchainOptionsModel.GUID = core.StringPtr("testString")
-				deleteToolchainOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				deleteToolchainOptionsModel.UnbindDeprovisionTools = core.BoolPtr(true)
 				deleteToolchainOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := openToolchainService.SetServiceURL("")
@@ -322,7 +325,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 		})
 	})
 	Describe(`CreateToolchain(createToolchainOptions *CreateToolchainOptions)`, func() {
-		createToolchainPath := "/devops/setup/deploy"
+		createToolchainPath := "/cloud.ibm.com/devops/setup/deploy"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -401,7 +404,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 		})
 	})
 	Describe(`CreateServiceInstance(createServiceInstanceOptions *CreateServiceInstanceOptions) - Operation response error`, func() {
-		createServiceInstancePath := "/devops/service_instances"
+		createServiceInstancePath := "/cloud.ibm.com/devops/service_instances"
 		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -485,7 +488,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 		})
 	})
 	Describe(`CreateServiceInstance(createServiceInstanceOptions *CreateServiceInstanceOptions)`, func() {
-		createServiceInstancePath := "/devops/service_instances"
+		createServiceInstancePath := "/cloud.ibm.com/devops/service_instances"
 		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -838,7 +841,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 		})
 	})
 	Describe(`DeleteServiceInstance(deleteServiceInstanceOptions *DeleteServiceInstanceOptions)`, func() {
-		deleteServiceInstancePath := "/devops/service_instances/testString"
+		deleteServiceInstancePath := "/cloud.ibm.com/devops/service_instances/testString"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -927,7 +930,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 		})
 	})
 	Describe(`PatchServiceInstance(patchServiceInstanceOptions *PatchServiceInstanceOptions)`, func() {
-		patchServiceInstancePath := "/devops/service_instances/testString"
+		patchServiceInstancePath := "/cloud.ibm.com/devops/service_instances/testString"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -1080,7 +1083,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 		})
 	})
 	Describe(`GetServiceInstance(getServiceInstanceOptions *GetServiceInstanceOptions) - Operation response error`, func() {
-		getServiceInstancePath := "/devops/service_instances/testString"
+		getServiceInstancePath := "/cloud.ibm.com/devops/service_instances/testString"
 		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -1129,7 +1132,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 		})
 	})
 	Describe(`GetServiceInstance(getServiceInstanceOptions *GetServiceInstanceOptions)`, func() {
-		getServiceInstancePath := "/devops/service_instances/testString"
+		getServiceInstancePath := "/cloud.ibm.com/devops/service_instances/testString"
 		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -1308,7 +1311,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 		})
 	})
 	Describe(`GetTektonPipeline(getTektonPipelineOptions *GetTektonPipelineOptions) - Operation response error`, func() {
-		getTektonPipelinePath := "/devops/pipelines/tekton/api/v1/testString"
+		getTektonPipelinePath := "/devops-api.testString.devops.cloud.ibm.com/v1/tekton-pipelines/testString"
 		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -1317,7 +1320,6 @@ var _ = Describe(`OpenToolchainV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(getTektonPipelinePath))
 					Expect(req.Method).To(Equal("GET"))
-					Expect(req.URL.Query()["env_id"]).To(Equal([]string{"ibm:yp:us-south"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
 					fmt.Fprintf(res, `} this is not valid json {`)
@@ -1334,7 +1336,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				// Construct an instance of the GetTektonPipelineOptions model
 				getTektonPipelineOptionsModel := new(opentoolchainv1.GetTektonPipelineOptions)
 				getTektonPipelineOptionsModel.GUID = core.StringPtr("testString")
-				getTektonPipelineOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				getTektonPipelineOptionsModel.Region = core.StringPtr("testString")
 				getTektonPipelineOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := openToolchainService.GetTektonPipeline(getTektonPipelineOptionsModel)
@@ -1355,7 +1357,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 		})
 	})
 	Describe(`GetTektonPipeline(getTektonPipelineOptions *GetTektonPipelineOptions)`, func() {
-		getTektonPipelinePath := "/devops/pipelines/tekton/api/v1/testString"
+		getTektonPipelinePath := "/devops-api.testString.devops.cloud.ibm.com/v1/tekton-pipelines/testString"
 		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -1365,7 +1367,6 @@ var _ = Describe(`OpenToolchainV1`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(getTektonPipelinePath))
 					Expect(req.Method).To(Equal("GET"))
 
-					Expect(req.URL.Query()["env_id"]).To(Equal([]string{"ibm:yp:us-south"}))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
@@ -1387,7 +1388,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				// Construct an instance of the GetTektonPipelineOptions model
 				getTektonPipelineOptionsModel := new(opentoolchainv1.GetTektonPipelineOptions)
 				getTektonPipelineOptionsModel.GUID = core.StringPtr("testString")
-				getTektonPipelineOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				getTektonPipelineOptionsModel.Region = core.StringPtr("testString")
 				getTektonPipelineOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -1424,7 +1425,6 @@ var _ = Describe(`OpenToolchainV1`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(getTektonPipelinePath))
 					Expect(req.Method).To(Equal("GET"))
 
-					Expect(req.URL.Query()["env_id"]).To(Equal([]string{"ibm:yp:us-south"}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -1448,7 +1448,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				// Construct an instance of the GetTektonPipelineOptions model
 				getTektonPipelineOptionsModel := new(opentoolchainv1.GetTektonPipelineOptions)
 				getTektonPipelineOptionsModel.GUID = core.StringPtr("testString")
-				getTektonPipelineOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				getTektonPipelineOptionsModel.Region = core.StringPtr("testString")
 				getTektonPipelineOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -1469,7 +1469,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				// Construct an instance of the GetTektonPipelineOptions model
 				getTektonPipelineOptionsModel := new(opentoolchainv1.GetTektonPipelineOptions)
 				getTektonPipelineOptionsModel.GUID = core.StringPtr("testString")
-				getTektonPipelineOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				getTektonPipelineOptionsModel.Region = core.StringPtr("testString")
 				getTektonPipelineOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := openToolchainService.SetServiceURL("")
@@ -1511,7 +1511,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				// Construct an instance of the GetTektonPipelineOptions model
 				getTektonPipelineOptionsModel := new(opentoolchainv1.GetTektonPipelineOptions)
 				getTektonPipelineOptionsModel.GUID = core.StringPtr("testString")
-				getTektonPipelineOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				getTektonPipelineOptionsModel.Region = core.StringPtr("testString")
 				getTektonPipelineOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -1528,7 +1528,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 		})
 	})
 	Describe(`PatchTektonPipeline(patchTektonPipelineOptions *PatchTektonPipelineOptions) - Operation response error`, func() {
-		patchTektonPipelinePath := "/devops/pipelines/tekton/api/v1/testString/config"
+		patchTektonPipelinePath := "/devops-api.testString.devops.cloud.ibm.com/v1/tekton-pipelines/testString/config"
 		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -1537,7 +1537,6 @@ var _ = Describe(`OpenToolchainV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(patchTektonPipelinePath))
 					Expect(req.Method).To(Equal("PATCH"))
-					Expect(req.URL.Query()["env_id"]).To(Equal([]string{"ibm:yp:us-south"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
 					fmt.Fprintf(res, `} this is not valid json {`)
@@ -1605,7 +1604,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				// Construct an instance of the PatchTektonPipelineOptions model
 				patchTektonPipelineOptionsModel := new(opentoolchainv1.PatchTektonPipelineOptions)
 				patchTektonPipelineOptionsModel.GUID = core.StringPtr("testString")
-				patchTektonPipelineOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				patchTektonPipelineOptionsModel.Region = core.StringPtr("testString")
 				patchTektonPipelineOptionsModel.Worker = patchTektonPipelineParamsWorkerModel
 				patchTektonPipelineOptionsModel.EnvProperties = []opentoolchainv1.EnvProperty{*envPropertyModel}
 				patchTektonPipelineOptionsModel.Inputs = []opentoolchainv1.TektonPipelineInput{*tektonPipelineInputModel}
@@ -1631,7 +1630,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 		})
 	})
 	Describe(`PatchTektonPipeline(patchTektonPipelineOptions *PatchTektonPipelineOptions)`, func() {
-		patchTektonPipelinePath := "/devops/pipelines/tekton/api/v1/testString/config"
+		patchTektonPipelinePath := "/devops-api.testString.devops.cloud.ibm.com/v1/tekton-pipelines/testString/config"
 		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -1657,7 +1656,6 @@ var _ = Describe(`OpenToolchainV1`, func() {
 					}
 					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
-					Expect(req.URL.Query()["env_id"]).To(Equal([]string{"ibm:yp:us-south"}))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
@@ -1730,7 +1728,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				// Construct an instance of the PatchTektonPipelineOptions model
 				patchTektonPipelineOptionsModel := new(opentoolchainv1.PatchTektonPipelineOptions)
 				patchTektonPipelineOptionsModel.GUID = core.StringPtr("testString")
-				patchTektonPipelineOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				patchTektonPipelineOptionsModel.Region = core.StringPtr("testString")
 				patchTektonPipelineOptionsModel.Worker = patchTektonPipelineParamsWorkerModel
 				patchTektonPipelineOptionsModel.EnvProperties = []opentoolchainv1.EnvProperty{*envPropertyModel}
 				patchTektonPipelineOptionsModel.Inputs = []opentoolchainv1.TektonPipelineInput{*tektonPipelineInputModel}
@@ -1788,7 +1786,6 @@ var _ = Describe(`OpenToolchainV1`, func() {
 					}
 					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
-					Expect(req.URL.Query()["env_id"]).To(Equal([]string{"ibm:yp:us-south"}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -1863,7 +1860,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				// Construct an instance of the PatchTektonPipelineOptions model
 				patchTektonPipelineOptionsModel := new(opentoolchainv1.PatchTektonPipelineOptions)
 				patchTektonPipelineOptionsModel.GUID = core.StringPtr("testString")
-				patchTektonPipelineOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				patchTektonPipelineOptionsModel.Region = core.StringPtr("testString")
 				patchTektonPipelineOptionsModel.Worker = patchTektonPipelineParamsWorkerModel
 				patchTektonPipelineOptionsModel.EnvProperties = []opentoolchainv1.EnvProperty{*envPropertyModel}
 				patchTektonPipelineOptionsModel.Inputs = []opentoolchainv1.TektonPipelineInput{*tektonPipelineInputModel}
@@ -1940,7 +1937,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				// Construct an instance of the PatchTektonPipelineOptions model
 				patchTektonPipelineOptionsModel := new(opentoolchainv1.PatchTektonPipelineOptions)
 				patchTektonPipelineOptionsModel.GUID = core.StringPtr("testString")
-				patchTektonPipelineOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				patchTektonPipelineOptionsModel.Region = core.StringPtr("testString")
 				patchTektonPipelineOptionsModel.Worker = patchTektonPipelineParamsWorkerModel
 				patchTektonPipelineOptionsModel.EnvProperties = []opentoolchainv1.EnvProperty{*envPropertyModel}
 				patchTektonPipelineOptionsModel.Inputs = []opentoolchainv1.TektonPipelineInput{*tektonPipelineInputModel}
@@ -2038,7 +2035,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				// Construct an instance of the PatchTektonPipelineOptions model
 				patchTektonPipelineOptionsModel := new(opentoolchainv1.PatchTektonPipelineOptions)
 				patchTektonPipelineOptionsModel.GUID = core.StringPtr("testString")
-				patchTektonPipelineOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				patchTektonPipelineOptionsModel.Region = core.StringPtr("testString")
 				patchTektonPipelineOptionsModel.Worker = patchTektonPipelineParamsWorkerModel
 				patchTektonPipelineOptionsModel.EnvProperties = []opentoolchainv1.EnvProperty{*envPropertyModel}
 				patchTektonPipelineOptionsModel.Inputs = []opentoolchainv1.TektonPipelineInput{*tektonPipelineInputModel}
@@ -2060,7 +2057,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 		})
 	})
 	Describe(`GetTektonPipelineDefinition(getTektonPipelineDefinitionOptions *GetTektonPipelineDefinitionOptions) - Operation response error`, func() {
-		getTektonPipelineDefinitionPath := "/devops/pipelines/tekton/api/v1/testString/definition"
+		getTektonPipelineDefinitionPath := "/devops-api.{region}.devops.cloud.ibm.com/v1/tekton-pipelines/testString/definition"
 		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -2107,7 +2104,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 		})
 	})
 	Describe(`GetTektonPipelineDefinition(getTektonPipelineDefinitionOptions *GetTektonPipelineDefinitionOptions)`, func() {
-		getTektonPipelineDefinitionPath := "/devops/pipelines/tekton/api/v1/testString/definition"
+		getTektonPipelineDefinitionPath := "/devops-api.{region}.devops.cloud.ibm.com/v1/tekton-pipelines/testString/definition"
 		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -2280,7 +2277,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 		})
 	})
 	Describe(`CreateTektonPipelineDefinition(createTektonPipelineDefinitionOptions *CreateTektonPipelineDefinitionOptions) - Operation response error`, func() {
-		createTektonPipelineDefinitionPath := "/devops/pipelines/tekton/api/v1/testString/definition"
+		createTektonPipelineDefinitionPath := "/devops-api.{region}.devops.cloud.ibm.com/v1/tekton-pipelines/testString/definition"
 		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -2343,7 +2340,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 		})
 	})
 	Describe(`CreateTektonPipelineDefinition(createTektonPipelineDefinitionOptions *CreateTektonPipelineDefinitionOptions)`, func() {
-		createTektonPipelineDefinitionPath := "/devops/pipelines/tekton/api/v1/testString/definition"
+		createTektonPipelineDefinitionPath := "/devops-api.{region}.devops.cloud.ibm.com/v1/tekton-pipelines/testString/definition"
 		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -2612,7 +2609,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 		})
 	})
 	Describe(`GetToolchain(getToolchainOptions *GetToolchainOptions) - Operation response error`, func() {
-		getToolchainPath := "/devops/toolchains/testString"
+		getToolchainPath := "/devops-api.testString.devops.cloud.ibm.com/v1/toolchains/testString"
 		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -2621,7 +2618,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(getToolchainPath))
 					Expect(req.Method).To(Equal("GET"))
-					Expect(req.URL.Query()["env_id"]).To(Equal([]string{"ibm:yp:us-south"}))
+					Expect(req.URL.Query()["include"]).To(Equal([]string{"fields,services"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
 					fmt.Fprintf(res, `} this is not valid json {`)
@@ -2637,8 +2634,9 @@ var _ = Describe(`OpenToolchainV1`, func() {
 
 				// Construct an instance of the GetToolchainOptions model
 				getToolchainOptionsModel := new(opentoolchainv1.GetToolchainOptions)
+				getToolchainOptionsModel.Region = core.StringPtr("testString")
 				getToolchainOptionsModel.GUID = core.StringPtr("testString")
-				getToolchainOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				getToolchainOptionsModel.Include = core.StringPtr("fields,services")
 				getToolchainOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := openToolchainService.GetToolchain(getToolchainOptionsModel)
@@ -2659,7 +2657,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 		})
 	})
 	Describe(`GetToolchain(getToolchainOptions *GetToolchainOptions)`, func() {
-		getToolchainPath := "/devops/toolchains/testString"
+		getToolchainPath := "/devops-api.testString.devops.cloud.ibm.com/v1/toolchains/testString"
 		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -2669,14 +2667,14 @@ var _ = Describe(`OpenToolchainV1`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(getToolchainPath))
 					Expect(req.Method).To(Equal("GET"))
 
-					Expect(req.URL.Query()["env_id"]).To(Equal([]string{"ibm:yp:us-south"}))
+					Expect(req.URL.Query()["include"]).To(Equal([]string{"fields,services"}))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"toolchain_guid": "ToolchainGUID", "name": "Name", "description": "Description", "key": "Key", "container": {"guid": "GUID", "type": "Type"}, "crn": "CRN", "created": "2019-01-01T12:00:00.000Z", "updated_at": "2019-01-01T12:00:00.000Z", "creator": "Creator", "generator": "Generator", "template": {"getting_started": "GettingStarted", "services_total": 13, "name": "Name", "type": "Type", "url": "URL", "source": "Source", "locale": "Locale"}, "tags": ["Tags"], "lifecycle_messaging_webhook_id": "LifecycleMessagingWebhookID", "region_id": "RegionID", "services": [{"broker_id": "BrokerID", "service_id": "ServiceID", "container": {"guid": "GUID", "type": "Type"}, "updated_at": "2019-01-01T12:00:00.000Z", "parameters": {"mapKey": "anyValue"}, "status": {"state": "State"}, "dashboard_url": "DashboardURL", "region_id": "RegionID", "instance_id": "InstanceID", "description": "Description", "tags": ["Tags"], "url": "URL", "toolchain_binding": {"status": {"state": "State"}, "name": "Name", "webhook_id": "WebhookID"}}]}`)
+					fmt.Fprintf(res, "%s", `{"total_results": 12, "items": [{"toolchain_guid": "ToolchainGUID", "name": "Name", "description": "Description", "key": "Key", "container": {"guid": "GUID", "type": "Type"}, "crn": "CRN", "created": "2019-01-01T12:00:00.000Z", "updated_at": "2019-01-01T12:00:00.000Z", "creator": "Creator", "generator": "Generator", "template": {"getting_started": "GettingStarted", "services_total": 13, "name": "Name", "type": "Type", "url": "URL", "source": "Source", "locale": "Locale"}, "tags": ["Tags"], "lifecycle_messaging_webhook_id": "LifecycleMessagingWebhookID", "region_id": "RegionID", "services": [{"broker_id": "BrokerID", "service_id": "ServiceID", "container": {"guid": "GUID", "type": "Type"}, "updated_at": "2019-01-01T12:00:00.000Z", "parameters": {"mapKey": "anyValue"}, "status": {"state": "State"}, "dashboard_url": "DashboardURL", "region_id": "RegionID", "instance_id": "InstanceID", "description": "Description", "tags": ["Tags"], "url": "URL", "toolchain_binding": {"status": {"state": "State"}, "name": "Name", "webhook_id": "WebhookID"}}]}]}`)
 				}))
 			})
 			It(`Invoke GetToolchain successfully with retries`, func() {
@@ -2690,8 +2688,9 @@ var _ = Describe(`OpenToolchainV1`, func() {
 
 				// Construct an instance of the GetToolchainOptions model
 				getToolchainOptionsModel := new(opentoolchainv1.GetToolchainOptions)
+				getToolchainOptionsModel.Region = core.StringPtr("testString")
 				getToolchainOptionsModel.GUID = core.StringPtr("testString")
-				getToolchainOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				getToolchainOptionsModel.Include = core.StringPtr("fields,services")
 				getToolchainOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -2728,11 +2727,11 @@ var _ = Describe(`OpenToolchainV1`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(getToolchainPath))
 					Expect(req.Method).To(Equal("GET"))
 
-					Expect(req.URL.Query()["env_id"]).To(Equal([]string{"ibm:yp:us-south"}))
+					Expect(req.URL.Query()["include"]).To(Equal([]string{"fields,services"}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"toolchain_guid": "ToolchainGUID", "name": "Name", "description": "Description", "key": "Key", "container": {"guid": "GUID", "type": "Type"}, "crn": "CRN", "created": "2019-01-01T12:00:00.000Z", "updated_at": "2019-01-01T12:00:00.000Z", "creator": "Creator", "generator": "Generator", "template": {"getting_started": "GettingStarted", "services_total": 13, "name": "Name", "type": "Type", "url": "URL", "source": "Source", "locale": "Locale"}, "tags": ["Tags"], "lifecycle_messaging_webhook_id": "LifecycleMessagingWebhookID", "region_id": "RegionID", "services": [{"broker_id": "BrokerID", "service_id": "ServiceID", "container": {"guid": "GUID", "type": "Type"}, "updated_at": "2019-01-01T12:00:00.000Z", "parameters": {"mapKey": "anyValue"}, "status": {"state": "State"}, "dashboard_url": "DashboardURL", "region_id": "RegionID", "instance_id": "InstanceID", "description": "Description", "tags": ["Tags"], "url": "URL", "toolchain_binding": {"status": {"state": "State"}, "name": "Name", "webhook_id": "WebhookID"}}]}`)
+					fmt.Fprintf(res, "%s", `{"total_results": 12, "items": [{"toolchain_guid": "ToolchainGUID", "name": "Name", "description": "Description", "key": "Key", "container": {"guid": "GUID", "type": "Type"}, "crn": "CRN", "created": "2019-01-01T12:00:00.000Z", "updated_at": "2019-01-01T12:00:00.000Z", "creator": "Creator", "generator": "Generator", "template": {"getting_started": "GettingStarted", "services_total": 13, "name": "Name", "type": "Type", "url": "URL", "source": "Source", "locale": "Locale"}, "tags": ["Tags"], "lifecycle_messaging_webhook_id": "LifecycleMessagingWebhookID", "region_id": "RegionID", "services": [{"broker_id": "BrokerID", "service_id": "ServiceID", "container": {"guid": "GUID", "type": "Type"}, "updated_at": "2019-01-01T12:00:00.000Z", "parameters": {"mapKey": "anyValue"}, "status": {"state": "State"}, "dashboard_url": "DashboardURL", "region_id": "RegionID", "instance_id": "InstanceID", "description": "Description", "tags": ["Tags"], "url": "URL", "toolchain_binding": {"status": {"state": "State"}, "name": "Name", "webhook_id": "WebhookID"}}]}]}`)
 				}))
 			})
 			It(`Invoke GetToolchain successfully`, func() {
@@ -2751,8 +2750,9 @@ var _ = Describe(`OpenToolchainV1`, func() {
 
 				// Construct an instance of the GetToolchainOptions model
 				getToolchainOptionsModel := new(opentoolchainv1.GetToolchainOptions)
+				getToolchainOptionsModel.Region = core.StringPtr("testString")
 				getToolchainOptionsModel.GUID = core.StringPtr("testString")
-				getToolchainOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				getToolchainOptionsModel.Include = core.StringPtr("fields,services")
 				getToolchainOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -2772,8 +2772,9 @@ var _ = Describe(`OpenToolchainV1`, func() {
 
 				// Construct an instance of the GetToolchainOptions model
 				getToolchainOptionsModel := new(opentoolchainv1.GetToolchainOptions)
+				getToolchainOptionsModel.Region = core.StringPtr("testString")
 				getToolchainOptionsModel.GUID = core.StringPtr("testString")
-				getToolchainOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				getToolchainOptionsModel.Include = core.StringPtr("fields,services")
 				getToolchainOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := openToolchainService.SetServiceURL("")
@@ -2814,8 +2815,9 @@ var _ = Describe(`OpenToolchainV1`, func() {
 
 				// Construct an instance of the GetToolchainOptions model
 				getToolchainOptionsModel := new(opentoolchainv1.GetToolchainOptions)
+				getToolchainOptionsModel.Region = core.StringPtr("testString")
 				getToolchainOptionsModel.GUID = core.StringPtr("testString")
-				getToolchainOptionsModel.EnvID = core.StringPtr("ibm:yp:us-south")
+				getToolchainOptionsModel.Include = core.StringPtr("fields,services")
 				getToolchainOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -3000,15 +3002,17 @@ var _ = Describe(`OpenToolchainV1`, func() {
 			})
 			It(`Invoke NewDeleteToolchainOptions successfully`, func() {
 				// Construct an instance of the DeleteToolchainOptions model
+				region := "testString"
 				guid := "testString"
-				envID := "ibm:yp:us-south"
-				deleteToolchainOptionsModel := openToolchainService.NewDeleteToolchainOptions(guid, envID)
+				deleteToolchainOptionsModel := openToolchainService.NewDeleteToolchainOptions(region, guid)
+				deleteToolchainOptionsModel.SetRegion("testString")
 				deleteToolchainOptionsModel.SetGUID("testString")
-				deleteToolchainOptionsModel.SetEnvID("ibm:yp:us-south")
+				deleteToolchainOptionsModel.SetUnbindDeprovisionTools(true)
 				deleteToolchainOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(deleteToolchainOptionsModel).ToNot(BeNil())
+				Expect(deleteToolchainOptionsModel.Region).To(Equal(core.StringPtr("testString")))
 				Expect(deleteToolchainOptionsModel.GUID).To(Equal(core.StringPtr("testString")))
-				Expect(deleteToolchainOptionsModel.EnvID).To(Equal(core.StringPtr("ibm:yp:us-south")))
+				Expect(deleteToolchainOptionsModel.UnbindDeprovisionTools).To(Equal(core.BoolPtr(true)))
 				Expect(deleteToolchainOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewEnvProperty successfully`, func() {
@@ -3051,27 +3055,29 @@ var _ = Describe(`OpenToolchainV1`, func() {
 			It(`Invoke NewGetTektonPipelineOptions successfully`, func() {
 				// Construct an instance of the GetTektonPipelineOptions model
 				guid := "testString"
-				envID := "ibm:yp:us-south"
-				getTektonPipelineOptionsModel := openToolchainService.NewGetTektonPipelineOptions(guid, envID)
+				region := "testString"
+				getTektonPipelineOptionsModel := openToolchainService.NewGetTektonPipelineOptions(guid, region)
 				getTektonPipelineOptionsModel.SetGUID("testString")
-				getTektonPipelineOptionsModel.SetEnvID("ibm:yp:us-south")
+				getTektonPipelineOptionsModel.SetRegion("testString")
 				getTektonPipelineOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getTektonPipelineOptionsModel).ToNot(BeNil())
 				Expect(getTektonPipelineOptionsModel.GUID).To(Equal(core.StringPtr("testString")))
-				Expect(getTektonPipelineOptionsModel.EnvID).To(Equal(core.StringPtr("ibm:yp:us-south")))
+				Expect(getTektonPipelineOptionsModel.Region).To(Equal(core.StringPtr("testString")))
 				Expect(getTektonPipelineOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetToolchainOptions successfully`, func() {
 				// Construct an instance of the GetToolchainOptions model
+				region := "testString"
 				guid := "testString"
-				envID := "ibm:yp:us-south"
-				getToolchainOptionsModel := openToolchainService.NewGetToolchainOptions(guid, envID)
+				getToolchainOptionsModel := openToolchainService.NewGetToolchainOptions(region, guid)
+				getToolchainOptionsModel.SetRegion("testString")
 				getToolchainOptionsModel.SetGUID("testString")
-				getToolchainOptionsModel.SetEnvID("ibm:yp:us-south")
+				getToolchainOptionsModel.SetInclude("fields,services")
 				getToolchainOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getToolchainOptionsModel).ToNot(BeNil())
+				Expect(getToolchainOptionsModel.Region).To(Equal(core.StringPtr("testString")))
 				Expect(getToolchainOptionsModel.GUID).To(Equal(core.StringPtr("testString")))
-				Expect(getToolchainOptionsModel.EnvID).To(Equal(core.StringPtr("ibm:yp:us-south")))
+				Expect(getToolchainOptionsModel.Include).To(Equal(core.StringPtr("fields,services")))
 				Expect(getToolchainOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewPatchServiceInstanceOptions successfully`, func() {
@@ -3242,10 +3248,10 @@ var _ = Describe(`OpenToolchainV1`, func() {
 
 				// Construct an instance of the PatchTektonPipelineOptions model
 				guid := "testString"
-				envID := "ibm:yp:us-south"
-				patchTektonPipelineOptionsModel := openToolchainService.NewPatchTektonPipelineOptions(guid, envID)
+				region := "testString"
+				patchTektonPipelineOptionsModel := openToolchainService.NewPatchTektonPipelineOptions(guid, region)
 				patchTektonPipelineOptionsModel.SetGUID("testString")
-				patchTektonPipelineOptionsModel.SetEnvID("ibm:yp:us-south")
+				patchTektonPipelineOptionsModel.SetRegion("testString")
 				patchTektonPipelineOptionsModel.SetWorker(patchTektonPipelineParamsWorkerModel)
 				patchTektonPipelineOptionsModel.SetEnvProperties([]opentoolchainv1.EnvProperty{*envPropertyModel})
 				patchTektonPipelineOptionsModel.SetInputs([]opentoolchainv1.TektonPipelineInput{*tektonPipelineInputModel})
@@ -3254,7 +3260,7 @@ var _ = Describe(`OpenToolchainV1`, func() {
 				patchTektonPipelineOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(patchTektonPipelineOptionsModel).ToNot(BeNil())
 				Expect(patchTektonPipelineOptionsModel.GUID).To(Equal(core.StringPtr("testString")))
-				Expect(patchTektonPipelineOptionsModel.EnvID).To(Equal(core.StringPtr("ibm:yp:us-south")))
+				Expect(patchTektonPipelineOptionsModel.Region).To(Equal(core.StringPtr("testString")))
 				Expect(patchTektonPipelineOptionsModel.Worker).To(Equal(patchTektonPipelineParamsWorkerModel))
 				Expect(patchTektonPipelineOptionsModel.EnvProperties).To(Equal([]opentoolchainv1.EnvProperty{*envPropertyModel}))
 				Expect(patchTektonPipelineOptionsModel.Inputs).To(Equal([]opentoolchainv1.TektonPipelineInput{*tektonPipelineInputModel}))
@@ -3264,17 +3270,19 @@ var _ = Describe(`OpenToolchainV1`, func() {
 			})
 			It(`Invoke NewPatchToolchainOptions successfully`, func() {
 				// Construct an instance of the PatchToolchainOptions model
+				region := "testString"
 				guid := "testString"
-				envID := "ibm:yp:us-south"
-				patchToolchainOptionsModel := openToolchainService.NewPatchToolchainOptions(guid, envID)
+				patchToolchainOptionsModel := openToolchainService.NewPatchToolchainOptions(region, guid)
+				patchToolchainOptionsModel.SetRegion("testString")
 				patchToolchainOptionsModel.SetGUID("testString")
-				patchToolchainOptionsModel.SetEnvID("ibm:yp:us-south")
 				patchToolchainOptionsModel.SetName("testString")
+				patchToolchainOptionsModel.SetDescription("testString")
 				patchToolchainOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(patchToolchainOptionsModel).ToNot(BeNil())
+				Expect(patchToolchainOptionsModel.Region).To(Equal(core.StringPtr("testString")))
 				Expect(patchToolchainOptionsModel.GUID).To(Equal(core.StringPtr("testString")))
-				Expect(patchToolchainOptionsModel.EnvID).To(Equal(core.StringPtr("ibm:yp:us-south")))
 				Expect(patchToolchainOptionsModel.Name).To(Equal(core.StringPtr("testString")))
+				Expect(patchToolchainOptionsModel.Description).To(Equal(core.StringPtr("testString")))
 				Expect(patchToolchainOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewTektonPipelineTrigger successfully`, func() {
