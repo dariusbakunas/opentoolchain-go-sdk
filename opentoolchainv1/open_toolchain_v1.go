@@ -43,7 +43,7 @@ type OpenToolchainV1 struct {
 }
 
 // DefaultServiceURL is the default URL to make service requests to.
-const DefaultServiceURL = "https://cloud.ibm.com"
+const DefaultServiceURL = "https:"
 
 // DefaultServiceName is the default key used to find external configuration information.
 const DefaultServiceName = "open_toolchain"
@@ -178,13 +178,14 @@ func (openToolchain *OpenToolchainV1) PatchToolchainWithContext(ctx context.Cont
 	}
 
 	pathParamsMap := map[string]string{
-		"guid": *patchToolchainOptions.GUID,
+		"region": *patchToolchainOptions.Region,
+		"guid":   *patchToolchainOptions.GUID,
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = openToolchain.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/devops/toolchains/{guid}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/devops-api.{region}.devops.cloud.ibm.com/v1/toolchains/{guid}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -199,11 +200,12 @@ func (openToolchain *OpenToolchainV1) PatchToolchainWithContext(ctx context.Cont
 	}
 	builder.AddHeader("Content-Type", "application/json")
 
-	builder.AddQuery("env_id", fmt.Sprint(*patchToolchainOptions.EnvID))
-
 	body := make(map[string]interface{})
 	if patchToolchainOptions.Name != nil {
 		body["name"] = patchToolchainOptions.Name
+	}
+	if patchToolchainOptions.Description != nil {
+		body["description"] = patchToolchainOptions.Description
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
@@ -238,13 +240,14 @@ func (openToolchain *OpenToolchainV1) DeleteToolchainWithContext(ctx context.Con
 	}
 
 	pathParamsMap := map[string]string{
-		"guid": *deleteToolchainOptions.GUID,
+		"region": *deleteToolchainOptions.Region,
+		"guid":   *deleteToolchainOptions.GUID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = openToolchain.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/devops/toolchains/{guid}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/devops-api.{region}.devops.cloud.ibm.com/v1/toolchains/{guid}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -258,7 +261,9 @@ func (openToolchain *OpenToolchainV1) DeleteToolchainWithContext(ctx context.Con
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	builder.AddQuery("env_id", fmt.Sprint(*deleteToolchainOptions.EnvID))
+	if deleteToolchainOptions.UnbindDeprovisionTools != nil {
+		builder.AddQuery("unbind_deprovision_tools", fmt.Sprint(*deleteToolchainOptions.UnbindDeprovisionTools))
+	}
 
 	request, err := builder.Build()
 	if err != nil {
@@ -291,7 +296,7 @@ func (openToolchain *OpenToolchainV1) CreateToolchainWithContext(ctx context.Con
 	builder := core.NewRequestBuilder(core.POST)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = openToolchain.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/devops/setup/deploy`, nil)
+	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/cloud.ibm.com/devops/setup/deploy`, nil)
 	if err != nil {
 		return
 	}
@@ -360,7 +365,7 @@ func (openToolchain *OpenToolchainV1) CreateServiceInstanceWithContext(ctx conte
 	builder := core.NewRequestBuilder(core.POST)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = openToolchain.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/devops/service_instances`, nil)
+	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/cloud.ibm.com/devops/service_instances`, nil)
 	if err != nil {
 		return
 	}
@@ -438,7 +443,7 @@ func (openToolchain *OpenToolchainV1) DeleteServiceInstanceWithContext(ctx conte
 	builder := core.NewRequestBuilder(core.DELETE)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = openToolchain.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/devops/service_instances/{guid}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/cloud.ibm.com/devops/service_instances/{guid}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -497,7 +502,7 @@ func (openToolchain *OpenToolchainV1) PatchServiceInstanceWithContext(ctx contex
 	builder := core.NewRequestBuilder(core.PATCH)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = openToolchain.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/devops/service_instances/{guid}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/cloud.ibm.com/devops/service_instances/{guid}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -562,7 +567,7 @@ func (openToolchain *OpenToolchainV1) GetServiceInstanceWithContext(ctx context.
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = openToolchain.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/devops/service_instances/{guid}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/cloud.ibm.com/devops/service_instances/{guid}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -618,13 +623,14 @@ func (openToolchain *OpenToolchainV1) GetTektonPipelineWithContext(ctx context.C
 	}
 
 	pathParamsMap := map[string]string{
-		"guid": *getTektonPipelineOptions.GUID,
+		"guid":   *getTektonPipelineOptions.GUID,
+		"region": *getTektonPipelineOptions.Region,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = openToolchain.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/devops/pipelines/tekton/api/v1/{guid}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/devops-api.{region}.devops.cloud.ibm.com/v1/tekton-pipelines/{guid}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -638,8 +644,6 @@ func (openToolchain *OpenToolchainV1) GetTektonPipelineWithContext(ctx context.C
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
-
-	builder.AddQuery("env_id", fmt.Sprint(*getTektonPipelineOptions.EnvID))
 
 	request, err := builder.Build()
 	if err != nil {
@@ -679,13 +683,14 @@ func (openToolchain *OpenToolchainV1) PatchTektonPipelineWithContext(ctx context
 	}
 
 	pathParamsMap := map[string]string{
-		"guid": *patchTektonPipelineOptions.GUID,
+		"guid":   *patchTektonPipelineOptions.GUID,
+		"region": *patchTektonPipelineOptions.Region,
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = openToolchain.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/devops/pipelines/tekton/api/v1/{guid}/config`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/devops-api.{region}.devops.cloud.ibm.com/v1/tekton-pipelines/{guid}/config`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -700,8 +705,6 @@ func (openToolchain *OpenToolchainV1) PatchTektonPipelineWithContext(ctx context
 	}
 	builder.AddHeader("Accept", "application/json")
 	builder.AddHeader("Content-Type", "application/json")
-
-	builder.AddQuery("env_id", fmt.Sprint(*patchTektonPipelineOptions.EnvID))
 
 	body := make(map[string]interface{})
 	if patchTektonPipelineOptions.Worker != nil {
@@ -768,7 +771,7 @@ func (openToolchain *OpenToolchainV1) GetTektonPipelineDefinitionWithContext(ctx
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = openToolchain.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/devops/pipelines/tekton/api/v1/{guid}/definition`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/devops-api.{region}.devops.cloud.ibm.com/v1/tekton-pipelines/{guid}/definition`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -829,7 +832,7 @@ func (openToolchain *OpenToolchainV1) CreateTektonPipelineDefinitionWithContext(
 	builder := core.NewRequestBuilder(core.POST)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = openToolchain.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/devops/pipelines/tekton/api/v1/{guid}/definition`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/devops-api.{region}.devops.cloud.ibm.com/v1/tekton-pipelines/{guid}/definition`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -878,12 +881,12 @@ func (openToolchain *OpenToolchainV1) CreateTektonPipelineDefinitionWithContext(
 }
 
 // GetToolchain : Returns details about a particular toolchain
-func (openToolchain *OpenToolchainV1) GetToolchain(getToolchainOptions *GetToolchainOptions) (result *Toolchain, response *core.DetailedResponse, err error) {
+func (openToolchain *OpenToolchainV1) GetToolchain(getToolchainOptions *GetToolchainOptions) (result *ToolchainResponse, response *core.DetailedResponse, err error) {
 	return openToolchain.GetToolchainWithContext(context.Background(), getToolchainOptions)
 }
 
 // GetToolchainWithContext is an alternate form of the GetToolchain method which supports a Context parameter
-func (openToolchain *OpenToolchainV1) GetToolchainWithContext(ctx context.Context, getToolchainOptions *GetToolchainOptions) (result *Toolchain, response *core.DetailedResponse, err error) {
+func (openToolchain *OpenToolchainV1) GetToolchainWithContext(ctx context.Context, getToolchainOptions *GetToolchainOptions) (result *ToolchainResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getToolchainOptions, "getToolchainOptions cannot be nil")
 	if err != nil {
 		return
@@ -894,13 +897,14 @@ func (openToolchain *OpenToolchainV1) GetToolchainWithContext(ctx context.Contex
 	}
 
 	pathParamsMap := map[string]string{
-		"guid": *getToolchainOptions.GUID,
+		"region": *getToolchainOptions.Region,
+		"guid":   *getToolchainOptions.GUID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = openToolchain.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/devops/toolchains/{guid}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(openToolchain.Service.Options.URL, `/devops-api.{region}.devops.cloud.ibm.com/v1/toolchains/{guid}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -915,7 +919,9 @@ func (openToolchain *OpenToolchainV1) GetToolchainWithContext(ctx context.Contex
 	}
 	builder.AddHeader("Accept", "application/json")
 
-	builder.AddQuery("env_id", fmt.Sprint(*getToolchainOptions.EnvID))
+	if getToolchainOptions.Include != nil {
+		builder.AddQuery("include", fmt.Sprint(*getToolchainOptions.Include))
+	}
 
 	request, err := builder.Build()
 	if err != nil {
@@ -928,7 +934,7 @@ func (openToolchain *OpenToolchainV1) GetToolchainWithContext(ctx context.Contex
 		return
 	}
 	if rawResponse != nil {
-		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalToolchain)
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalToolchainResponse)
 		if err != nil {
 			return
 		}
@@ -1558,22 +1564,31 @@ func (options *DeleteServiceInstanceOptions) SetHeaders(param map[string]string)
 
 // DeleteToolchainOptions : The DeleteToolchain options.
 type DeleteToolchainOptions struct {
+	// Toolchain region.
+	Region *string `validate:"required,ne="`
+
 	// GUID of the toolchain.
 	GUID *string `validate:"required,ne="`
 
-	// Environment ID.
-	EnvID *string `validate:"required"`
+	// When enabled, unbinds and deprovisions the tools associated with the toolchain.
+	UnbindDeprovisionTools *bool
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
 // NewDeleteToolchainOptions : Instantiate DeleteToolchainOptions
-func (*OpenToolchainV1) NewDeleteToolchainOptions(guid string, envID string) *DeleteToolchainOptions {
+func (*OpenToolchainV1) NewDeleteToolchainOptions(region string, guid string) *DeleteToolchainOptions {
 	return &DeleteToolchainOptions{
-		GUID:  core.StringPtr(guid),
-		EnvID: core.StringPtr(envID),
+		Region: core.StringPtr(region),
+		GUID:   core.StringPtr(guid),
 	}
+}
+
+// SetRegion : Allow user to set Region
+func (options *DeleteToolchainOptions) SetRegion(region string) *DeleteToolchainOptions {
+	options.Region = core.StringPtr(region)
+	return options
 }
 
 // SetGUID : Allow user to set GUID
@@ -1582,9 +1597,9 @@ func (options *DeleteToolchainOptions) SetGUID(guid string) *DeleteToolchainOpti
 	return options
 }
 
-// SetEnvID : Allow user to set EnvID
-func (options *DeleteToolchainOptions) SetEnvID(envID string) *DeleteToolchainOptions {
-	options.EnvID = core.StringPtr(envID)
+// SetUnbindDeprovisionTools : Allow user to set UnbindDeprovisionTools
+func (options *DeleteToolchainOptions) SetUnbindDeprovisionTools(unbindDeprovisionTools bool) *DeleteToolchainOptions {
+	options.UnbindDeprovisionTools = core.BoolPtr(unbindDeprovisionTools)
 	return options
 }
 
@@ -1832,18 +1847,18 @@ type GetTektonPipelineOptions struct {
 	// GUID of the pipeline.
 	GUID *string `validate:"required,ne="`
 
-	// Environment ID.
-	EnvID *string `validate:"required"`
+	// Toolchain region.
+	Region *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
 // NewGetTektonPipelineOptions : Instantiate GetTektonPipelineOptions
-func (*OpenToolchainV1) NewGetTektonPipelineOptions(guid string, envID string) *GetTektonPipelineOptions {
+func (*OpenToolchainV1) NewGetTektonPipelineOptions(guid string, region string) *GetTektonPipelineOptions {
 	return &GetTektonPipelineOptions{
-		GUID:  core.StringPtr(guid),
-		EnvID: core.StringPtr(envID),
+		GUID:   core.StringPtr(guid),
+		Region: core.StringPtr(region),
 	}
 }
 
@@ -1853,9 +1868,9 @@ func (options *GetTektonPipelineOptions) SetGUID(guid string) *GetTektonPipeline
 	return options
 }
 
-// SetEnvID : Allow user to set EnvID
-func (options *GetTektonPipelineOptions) SetEnvID(envID string) *GetTektonPipelineOptions {
-	options.EnvID = core.StringPtr(envID)
+// SetRegion : Allow user to set Region
+func (options *GetTektonPipelineOptions) SetRegion(region string) *GetTektonPipelineOptions {
+	options.Region = core.StringPtr(region)
 	return options
 }
 
@@ -1867,22 +1882,31 @@ func (options *GetTektonPipelineOptions) SetHeaders(param map[string]string) *Ge
 
 // GetToolchainOptions : The GetToolchain options.
 type GetToolchainOptions struct {
+	// Toolchain region.
+	Region *string `validate:"required,ne="`
+
 	// GUID of the toolchain.
 	GUID *string `validate:"required,ne="`
 
-	// Environment ID.
-	EnvID *string `validate:"required"`
+	// Instructs the API to return the specified content according to the comma-separated list of sections.
+	Include *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
 // NewGetToolchainOptions : Instantiate GetToolchainOptions
-func (*OpenToolchainV1) NewGetToolchainOptions(guid string, envID string) *GetToolchainOptions {
+func (*OpenToolchainV1) NewGetToolchainOptions(region string, guid string) *GetToolchainOptions {
 	return &GetToolchainOptions{
-		GUID:  core.StringPtr(guid),
-		EnvID: core.StringPtr(envID),
+		Region: core.StringPtr(region),
+		GUID:   core.StringPtr(guid),
 	}
+}
+
+// SetRegion : Allow user to set Region
+func (options *GetToolchainOptions) SetRegion(region string) *GetToolchainOptions {
+	options.Region = core.StringPtr(region)
+	return options
 }
 
 // SetGUID : Allow user to set GUID
@@ -1891,9 +1915,9 @@ func (options *GetToolchainOptions) SetGUID(guid string) *GetToolchainOptions {
 	return options
 }
 
-// SetEnvID : Allow user to set EnvID
-func (options *GetToolchainOptions) SetEnvID(envID string) *GetToolchainOptions {
-	options.EnvID = core.StringPtr(envID)
+// SetInclude : Allow user to set Include
+func (options *GetToolchainOptions) SetInclude(include string) *GetToolchainOptions {
+	options.Include = core.StringPtr(include)
 	return options
 }
 
@@ -2142,8 +2166,8 @@ type PatchTektonPipelineOptions struct {
 	// GUID of the pipeline.
 	GUID *string `validate:"required,ne="`
 
-	// Environment ID.
-	EnvID *string `validate:"required"`
+	// Toolchain region.
+	Region *string `validate:"required,ne="`
 
 	Worker *PatchTektonPipelineParamsWorker
 
@@ -2160,10 +2184,10 @@ type PatchTektonPipelineOptions struct {
 }
 
 // NewPatchTektonPipelineOptions : Instantiate PatchTektonPipelineOptions
-func (*OpenToolchainV1) NewPatchTektonPipelineOptions(guid string, envID string) *PatchTektonPipelineOptions {
+func (*OpenToolchainV1) NewPatchTektonPipelineOptions(guid string, region string) *PatchTektonPipelineOptions {
 	return &PatchTektonPipelineOptions{
-		GUID:  core.StringPtr(guid),
-		EnvID: core.StringPtr(envID),
+		GUID:   core.StringPtr(guid),
+		Region: core.StringPtr(region),
 	}
 }
 
@@ -2173,9 +2197,9 @@ func (options *PatchTektonPipelineOptions) SetGUID(guid string) *PatchTektonPipe
 	return options
 }
 
-// SetEnvID : Allow user to set EnvID
-func (options *PatchTektonPipelineOptions) SetEnvID(envID string) *PatchTektonPipelineOptions {
-	options.EnvID = core.StringPtr(envID)
+// SetRegion : Allow user to set Region
+func (options *PatchTektonPipelineOptions) SetRegion(region string) *PatchTektonPipelineOptions {
+	options.Region = core.StringPtr(region)
 	return options
 }
 
@@ -2245,25 +2269,33 @@ func UnmarshalPatchTektonPipelineParamsWorker(m map[string]json.RawMessage, resu
 
 // PatchToolchainOptions : The PatchToolchain options.
 type PatchToolchainOptions struct {
+	// Toolchain region.
+	Region *string `validate:"required,ne="`
+
 	// GUID of the toolchain.
 	GUID *string `validate:"required,ne="`
 
-	// Environment ID.
-	EnvID *string `validate:"required"`
-
 	// Toolchain name.
 	Name *string
+
+	Description *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
 // NewPatchToolchainOptions : Instantiate PatchToolchainOptions
-func (*OpenToolchainV1) NewPatchToolchainOptions(guid string, envID string) *PatchToolchainOptions {
+func (*OpenToolchainV1) NewPatchToolchainOptions(region string, guid string) *PatchToolchainOptions {
 	return &PatchToolchainOptions{
-		GUID:  core.StringPtr(guid),
-		EnvID: core.StringPtr(envID),
+		Region: core.StringPtr(region),
+		GUID:   core.StringPtr(guid),
 	}
+}
+
+// SetRegion : Allow user to set Region
+func (options *PatchToolchainOptions) SetRegion(region string) *PatchToolchainOptions {
+	options.Region = core.StringPtr(region)
+	return options
 }
 
 // SetGUID : Allow user to set GUID
@@ -2272,15 +2304,15 @@ func (options *PatchToolchainOptions) SetGUID(guid string) *PatchToolchainOption
 	return options
 }
 
-// SetEnvID : Allow user to set EnvID
-func (options *PatchToolchainOptions) SetEnvID(envID string) *PatchToolchainOptions {
-	options.EnvID = core.StringPtr(envID)
-	return options
-}
-
 // SetName : Allow user to set Name
 func (options *PatchToolchainOptions) SetName(name string) *PatchToolchainOptions {
 	options.Name = core.StringPtr(name)
+	return options
+}
+
+// SetDescription : Allow user to set Description
+func (options *PatchToolchainOptions) SetDescription(description string) *PatchToolchainOptions {
+	options.Description = core.StringPtr(description)
 	return options
 }
 
@@ -2899,6 +2931,28 @@ func UnmarshalToolchain(m map[string]json.RawMessage, result interface{}) (err e
 		return
 	}
 	err = core.UnmarshalModel(m, "services", &obj.Services, UnmarshalService)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// ToolchainResponse : ToolchainResponse struct
+type ToolchainResponse struct {
+	TotalResults *float64 `json:"total_results,omitempty"`
+
+	Items []Toolchain `json:"items,omitempty"`
+}
+
+// UnmarshalToolchainResponse unmarshals an instance of ToolchainResponse from the specified map of raw messages.
+func UnmarshalToolchainResponse(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ToolchainResponse)
+	err = core.UnmarshalPrimitive(m, "total_results", &obj.TotalResults)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "items", &obj.Items, UnmarshalToolchain)
 	if err != nil {
 		return
 	}
